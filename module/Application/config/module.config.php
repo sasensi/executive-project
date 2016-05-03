@@ -9,85 +9,114 @@
 
 namespace Application;
 
-return array(
-    'router' => array(
-        'routes' => array(
-            'home' => array(
-                'type'    => 'Segment',
-                'options' => array(
-                    'route'    => '/[:controller[/:action]]',
-                    'constraints' => array(
+return [
+    'router'          => [
+        'routes' => [
+
+            'home' => [
+                'type'          => 'Segment',
+                'options'       => [
+                    'route'       => '/[:controller]',
+                    'constraints' => [
                         'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                    ),
-                    'defaults' => array(
+                    ],
+                    'defaults'    => [
                         '__NAMESPACE__' => 'Application\Controller',
                         'controller'    => 'Index',
                         'action'        => 'index',
-                    ),
-                ),
+                    ],
+                ],
                 'may_terminate' => true,
 
-                'child_routes' => array(
-                    'id' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/:id',
-                            'constraints' => array(
+                'child_routes' => [
+                    'action' => [
+                        'type'          => 'Segment',
+                        'options'       => [
+                            'route'       => '/:action',
+                            'constraints' => [
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ],
+                        ],
+                        'may_terminate' => true,
+
+                        'child_routes' => [
+                            'id' => [
+                                'type'          => 'Segment',
+                                'options'       => [
+                                    'route'       => '/:id',
+                                    'constraints' => [
+                                        'id' => '[0-9]+',
+                                    ],
+                                ],
+                                'may_terminate' => true,
+                            ],
+                        ],
+                    ],
+
+                    'id' => [
+                        'type'          => 'Segment',
+                        'options'       => [
+                            'route'       => '/:id',
+                            'constraints' => [
                                 'id' => '[0-9]+',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        ),
-    ),
-    'service_manager' => array(
-        'abstract_factories' => array(
+                            ],
+                        ],
+                        'may_terminate' => true,
+                    ],
+                ],
+            ],
+
+
+        ],
+    ],
+    'service_manager' => [
+        'abstract_factories' => [
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
             'Zend\Log\LoggerAbstractServiceFactory',
-        ),
-        'factories' => array(
+        ],
+        'factories'          => [
             'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
-        ),
-    ),
-    'translator' => array(
-        'locale' => 'en_US',
-        'translation_file_patterns' => array(
-            array(
+        ],
+    ],
+    'translator'      => [
+        'locale'                    => 'en_US',
+        'translation_file_patterns' => [
+            [
                 'type'     => 'gettext',
-                'base_dir' => __DIR__ . '/../language',
+                'base_dir' => __DIR__.'/../language',
                 'pattern'  => '%s.mo',
-            ),
-        ),
-    ),
-    'controllers' => array(
-        'invokables' => array(
-            'Application\Controller\Index' => Controller\IndexController::class,
+            ],
+        ],
+    ],
+    'controllers'     => [
+        'invokables' => [
+            'Application\Controller\Index'   => Controller\IndexController::class,
             'Application\Controller\Project' => Controller\ProjectController::class,
-        ),
-    ),
-    'view_manager' => array(
+            'Application\Controller\About'   => Controller\AboutController::class,
+        ],
+    ],
+    'view_manager'    => [
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
         'doctype'                  => 'HTML5',
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
-        'template_map' => array(
-            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
-            'error/404'               => __DIR__ . '/../view/error/404.phtml',
-            'error/index'             => __DIR__ . '/../view/error/index.phtml',
-        ),
-        'template_path_stack' => array(
-            __DIR__ . '/../view',
-        ),
-    ),
+        'template_map'             => [
+            'layout/layout'           => __DIR__.'/../view/layout/layout.phtml',
+            'application/index/index' => __DIR__.'/../view/application/index/index.phtml',
+            'error/404'               => __DIR__.'/../view/error/404.phtml',
+            'error/index'             => __DIR__.'/../view/error/index.phtml',
+        ],
+        'template_path_stack'      => [
+            __DIR__.'/../view',
+        ],
+    ],
     // Placeholder for console routes
-    'console' => array(
-        'router' => array(
-            'routes' => array(
-            ),
-        ),
-    ),
-);
+    'console'         => [
+        'router' => [
+            'routes' => [
+            ],
+        ],
+    ],
+];
