@@ -18,4 +18,49 @@ class ProjectController extends AbstractActionController
 		
 		return new ViewModel();
 	}
+
+	public function detailAction()
+	{
+		return new ViewModel();
+	}
+
+	public function addAction()
+	{
+		return new ViewModel();
+	}
+
+	public function deleteAction()
+	{
+		return new ViewModel();
+	}
+
+	public function analyseAction()
+	{
+		return new ViewModel();
+	}
+
+	public function userAction()
+	{
+		return new ViewModel();
+	}
+	
+	public function userDetailAction()
+	{
+
+	}
+
+	public function userUpdateAction()
+	{
+
+	}
+
+	public function userDeleteAction()
+	{
+
+	}
+
+	public function userPromoteAction()
+	{
+
+	}
 }
