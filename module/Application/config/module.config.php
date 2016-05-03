@@ -94,6 +94,7 @@ return [
             'Application\Controller\Index'   => Controller\IndexController::class,
             'Application\Controller\Project' => Controller\ProjectController::class,
             'Application\Controller\About'   => Controller\AboutController::class,
+            'Application\Controller\Transaction'   => Controller\TransactionController::class,
         ],
     ],
     'view_manager'    => [
