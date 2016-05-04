@@ -2,26 +2,23 @@
 
 namespace Application\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class ProjectController extends AbstractActionController
+class ProjectController extends AbstractActionCustomController
 {
 	public function indexAction()
 	{
-		$request = $this->params()->fromRoute();
-		
-		// debug
-		echo '$request =';
-		var_dump($request);
-		
-		
 		return new ViewModel();
 	}
 
 	public function detailAction()
 	{
-		return new ViewModel();
+		$id      = $this->params()->fromRoute('id');
+		$project = $this->getTable('user')->getOneById($id);
+
+		return new ViewModel([
+			'project' => $project
+		]);
 	}
 
 	public function addAction()
@@ -43,24 +40,20 @@ class ProjectController extends AbstractActionController
 	{
 		return new ViewModel();
 	}
-	
+
 	public function userDetailAction()
 	{
-
 	}
 
 	public function userUpdateAction()
 	{
-
 	}
 
 	public function userDeleteAction()
 	{
-
 	}
 
 	public function userPromoteAction()
 	{
-
 	}
 }

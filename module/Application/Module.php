@@ -9,31 +9,73 @@
 
 namespace Application;
 
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
 class Module
 {
-    public function onBootstrap(MvcEvent $e)
-    {
-        $eventManager        = $e->getApplication()->getEventManager();
-        $moduleRouteListener = new ModuleRouteListener();
-        $moduleRouteListener->attach($eventManager);
-    }
+	public function onBootstrap(MvcEvent $e)
+	{
+		$eventManager        = $e->getApplication()->getEventManager();
+		$moduleRouteListener = new ModuleRouteListener();
+		$moduleRouteListener->attach($eventManager);
+	}
 
-    public function getConfig()
-    {
-        return include __DIR__ . '/config/module.config.php';
-    }
+	public function getConfig()
+	{
+		return include __DIR__.'/config/module.config.php';
+	}
 
-    public function getAutoloaderConfig()
-    {
-        return array(
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
-                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
-                ),
-            ),
-        );
-    }
+	public function getAutoloaderConfig()
+	{
+		return [
+			'Zend\Loader\StandardAutoloader' => [
+				'namespaces' => [
+					__NAMESPACE__ => __DIR__.'/src/'.__NAMESPACE__,
+				],
+			],
+		];
+	}
+
+	public function getServiceConfig()
+	{
+		return [
+			'factories' => $this->getFactoriesConfig(['user']),
+		];
+	}
+
+	/**
+	 * @param array $tableNames
+	 * @return array
+	 */
+	protected function getFactoriesConfig($tableNames)
+	{
+		$config = [];
+
+		foreach ($tableNames as $tableName)
+		{
+			$capTableName = ucfirst($tableName);
+
+			$config[ 'Application\Model\\'.$capTableName.'Table' ] = function ($sm) use ($capTableName)
+			{
+				$className = '\Application\Model\\'.$capTableName.'Table';
+				$tableGateway   = $sm->get($capTableName.'TableGateway');
+				$table          = new $className($tableGateway);
+				return $table;
+			};
+
+			$config[ $capTableName.'TableGateway' ] = function ($sm) use ($capTableName, $tableName)
+			{
+				$className = '\Application\Model\\'.$capTableName;
+				$dbAdapter          = $sm->get('Zend\Db\Adapter\Adapter');
+				$resultSetPrototype = new ResultSet();
+				$resultSetPrototype->setArrayObjectPrototype(new $className());
+				return new TableGateway($tableName, $dbAdapter, null, $resultSetPrototype);
+			};
+		}
+
+		return $config;
+	}
 }
