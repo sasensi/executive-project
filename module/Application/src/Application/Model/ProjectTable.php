@@ -32,7 +32,7 @@ class ProjectTable extends AbstractTable
 				{
 					$where->OR->like('title', "%$keyWord%");
 				}
-				
+
 				if (isset($categoryId))
 				{
 					$select->join('projectcategory', 'projectcategory.project_id = project.id');
@@ -42,5 +42,10 @@ class ProjectTable extends AbstractTable
 		});
 
 		return $resultSet;
+	}
+
+	public function insert(Project $project)
+	{
+
 	}
 }

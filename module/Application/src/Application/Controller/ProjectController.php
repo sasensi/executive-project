@@ -2,6 +2,8 @@
 
 namespace Application\Controller;
 
+use Application\Form\ProjectAddForm;
+use Application\Model\Project;
 use Zend\View\Model\ViewModel;
 
 class ProjectController extends AbstractActionCustomController
@@ -34,7 +36,39 @@ class ProjectController extends AbstractActionCustomController
 
 	public function addAction()
 	{
-		return new ViewModel();
+		$form = new ProjectAddForm();
+
+		/** @var \Zend\Http\PhpEnvironment\Request $request */
+		$request = $this->getRequest();
+
+		if ($request->isPost())
+		{
+			$post = array_merge_recursive(
+				$request->getPost()->toArray(),
+				$request->getFiles()->toArray()
+			);
+
+			$form->setData($post);
+			
+			if ($form->isValid())
+			{
+				$data = $form->getData();
+
+				//$data['dateCreationTrajet'] = date('Y-m-d');
+				//$data['duree'] = 100;
+				//$data['idUtilisateur'] = UtilisateurController::checkIsLogged();
+
+				$project = new Project();
+				$project->exchangeArray($data);
+
+				$this->getProjectTable()->insert($project);
+
+				return $this->redirect()->toRoute('home', ['controller' => 'project']);
+			}
+		}
+		return new ViewModel([
+			'form' => $form
+		]);
 	}
 
 	public function deleteAction()

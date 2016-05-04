@@ -1,1 +1,39 @@
+<?php
+
+/**
+ * @var \Application\Form\ProjectAddForm $form
+ */
+
+$form->setAttribute('action', '/project/add');
+$form->prepare();
+
+$test = $form->get('mainpicture')->getMessages();
+
+// debug
+echo '$test =';
+var_dump($test);
+
+
+?>
+
 <h1>proposer un projet</h1>
+
+<?php
+
+echo $this->form()->openTag($form);
+echo $this->formRow($form->get('title'));
+echo $this->formRow($form->get('subtitle'));
+echo $this->formRow($form->get('description'));
+echo $this->formRow($form->get('mainpicture'));
+echo $this->formRow($form->get('deadline'));
+echo $this->formRow($form->get('goal'));
+echo $this->formSubmit($form->get('submit'));
+echo $this->form()->closeTag($form);
+
+?>
+
+<style>
+	label {
+		display : block;
+	}
+</style>
