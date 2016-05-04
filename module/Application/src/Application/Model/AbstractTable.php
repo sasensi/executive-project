@@ -25,6 +25,6 @@ class AbstractTable
 	public function getOneById($id)
 	{
 		$resultSet = $this->tableGateway->select(['id' => $id]);
-		return $resultSet;
+		return $resultSet->current();
 	}
 }
