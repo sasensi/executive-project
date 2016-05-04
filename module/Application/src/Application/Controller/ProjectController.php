@@ -14,7 +14,7 @@ class ProjectController extends AbstractActionCustomController
 	public function detailAction()
 	{
 		$id      = $this->params()->fromRoute('id');
-		$project = $this->getTable('user')->getOneById($id);
+		$project = $this->getTable('project')->getOneById($id);
 
 		return new ViewModel([
 			'project' => $project

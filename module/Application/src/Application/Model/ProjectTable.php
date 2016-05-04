@@ -2,7 +2,7 @@
 
 namespace Application\Model;
 
-class ProjectUserTable extends AbstractTable
+class ProjectTable extends AbstractTable
 {
 
 }

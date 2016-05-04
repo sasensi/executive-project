@@ -42,7 +42,7 @@ class Module
 	public function getServiceConfig()
 	{
 		return [
-			'factories' => $this->getFactoriesConfig(['user']),
+			'factories' => $this->getFactoriesConfig(['user', 'project']),
 		];
 	}
 
