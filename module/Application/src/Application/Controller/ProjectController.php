@@ -8,7 +8,18 @@ class ProjectController extends AbstractActionCustomController
 {
 	public function indexAction()
 	{
-		return new ViewModel();
+		// todo: get from context
+		//$test = $this->params()->fromQuery();
+		// search params
+		$keyWords = ['dolor', 'cursus'];
+		$categoryId = 1;
+
+
+		$projects = $this->getProjectTable()->getAllFromSearchParams($keyWords, $categoryId);
+
+		return new ViewModel([
+			'projects' => $projects
+		]);
 	}
 
 	public function detailAction()
@@ -38,7 +49,14 @@ class ProjectController extends AbstractActionCustomController
 
 	public function userAction()
 	{
-		return new ViewModel();
+		// todo get real user id from session
+		$userId = 11;
+		
+		$projects = $this->getProjectTable()->getAllFromUserId($userId);
+
+		return new ViewModel([
+			'projects' => $projects
+		]);
 	}
 
 	public function userDetailAction()
@@ -55,5 +73,14 @@ class ProjectController extends AbstractActionCustomController
 
 	public function userPromoteAction()
 	{
+	}
+
+
+	/**
+	 * @return \Application\Model\ProjectTable
+	 */
+	protected function getProjectTable()
+	{
+	    return $this->getTable('project');
 	}
 }

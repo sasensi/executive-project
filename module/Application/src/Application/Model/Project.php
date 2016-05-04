@@ -13,6 +13,7 @@ class Project implements RowInterface
 	public $creationdate;
 	public $deadline;
 	public $goal;
+	public $test;
 
 	public function exchangeArray($data)
 	{
@@ -25,5 +26,6 @@ class Project implements RowInterface
 		$this->creationdate = (!empty($data['creationdate'])) ? $data['creationdate'] : null;
 		$this->deadline     = (!empty($data['deadline'])) ? $data['deadline'] : null;
 		$this->goal         = (!empty($data['goal'])) ? $data['goal'] : null;
+		$this->test         = (!empty($data['test'])) ? $data['test'] : null;
 	}
 }
