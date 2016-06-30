@@ -73,7 +73,13 @@ class ProjectController extends AbstractActionCustomController
 
 	public function deleteAction()
 	{
-		return new ViewModel();
+		$project = $this->getProjectFromRouteId();
+
+		$this->getProjectTable()->delete($project->id);
+
+		return new ViewModel([
+			'project' => $project
+		]);
 	}
 
 	public function analyseAction()
@@ -116,5 +122,15 @@ class ProjectController extends AbstractActionCustomController
 	protected function getProjectTable()
 	{
 	    return $this->getTable('project');
+	}
+
+	/**
+	 * @return Project
+	 */
+	protected function getProjectFromRouteId()
+	{
+		$id = $this->params()->fromRoute('id');
+
+		return $this->getProjectTable()->getOneById($id);
 	}
 }

@@ -11,52 +11,52 @@ class Project implements RowInterface
 	/**
 	 * @var integer
 	 */
-	protected $id;
+	public $id;
 
 	/**
 	 * @var integer
 	 */
-	protected $user_id;
+	public $user_id;
 
 	/**
 	 * @var string
 	 */
-	protected $title;
+	public $title;
 
 	/**
 	 * @var string
 	 */
-	protected $subtitle;
+	public $subtitle;
 
 	/**
 	 * @var string
 	 */
-	protected $description;
+	public $description;
 
 	/**
 	 * @var string
 	 */
-	protected $mainpicture;
+	public $mainpicture;
 
 	/**
 	 * @var string
 	 */
-	protected $creationdate;
+	public $creationdate;
 
 	/**
 	 * @var string
 	 */
-	protected $deadline;
+	public $deadline;
 
 	/**
 	 * @var integer
 	 */
-	protected $goal;
+	public $goal;
 
 	/**
 	 * @var string
 	 */
-	protected $promotionend;
+	public $promotionend;
 
 
 	public function exchangeArray($arr)

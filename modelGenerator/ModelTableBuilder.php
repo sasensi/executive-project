@@ -48,7 +48,7 @@ class ModelTableBuilder
 	/**
 	 * @var {$this->formatType($type)}
 	 */
-	protected \${$columnName};
+	public \${$columnName};
 
 
 PHP;

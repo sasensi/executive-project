@@ -11,17 +11,17 @@ class Favouritecategory implements RowInterface
 	/**
 	 * @var integer
 	 */
-	protected $user_id;
+	public $user_id;
 
 	/**
 	 * @var integer
 	 */
-	protected $category_id;
+	public $category_id;
 
 	/**
 	 * @var integer
 	 */
-	protected $order;
+	public $order;
 
 
 	public function exchangeArray($arr)

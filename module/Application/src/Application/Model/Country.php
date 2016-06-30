@@ -11,12 +11,12 @@ class Country implements RowInterface
 	/**
 	 * @var integer
 	 */
-	protected $id;
+	public $id;
 
 	/**
 	 * @var string
 	 */
-	protected $name;
+	public $name;
 
 
 	public function exchangeArray($arr)

@@ -11,12 +11,12 @@ class Projecttag implements RowInterface
 	/**
 	 * @var integer
 	 */
-	protected $project_id;
+	public $project_id;
 
 	/**
 	 * @var integer
 	 */
-	protected $tag_id;
+	public $tag_id;
 
 
 	public function exchangeArray($arr)

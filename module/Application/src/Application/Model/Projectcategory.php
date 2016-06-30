@@ -11,12 +11,12 @@ class Projectcategory implements RowInterface
 	/**
 	 * @var integer
 	 */
-	protected $project_id;
+	public $project_id;
 
 	/**
 	 * @var integer
 	 */
-	protected $category_id;
+	public $category_id;
 
 
 	public function exchangeArray($arr)

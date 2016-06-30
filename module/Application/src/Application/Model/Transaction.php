@@ -11,37 +11,37 @@ class Transaction implements RowInterface
 	/**
 	 * @var integer
 	 */
-	protected $id;
+	public $id;
 
 	/**
 	 * @var integer
 	 */
-	protected $amount;
+	public $amount;
 
 	/**
 	 * @var string
 	 */
-	protected $paymentdate;
+	public $paymentdate;
 
 	/**
 	 * @var string
 	 */
-	protected $repaymentdate;
+	public $repaymentdate;
 
 	/**
 	 * @var integer
 	 */
-	protected $user_id;
+	public $user_id;
 
 	/**
 	 * @var integer
 	 */
-	protected $project_id;
+	public $project_id;
 
 	/**
 	 * @var integer
 	 */
-	protected $paymentmethod_id;
+	public $paymentmethod_id;
 
 
 	public function exchangeArray($arr)

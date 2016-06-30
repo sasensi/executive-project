@@ -27,4 +27,9 @@ class AbstractTable
 		$resultSet = $this->tableGateway->select(['id' => $id]);
 		return $resultSet->current();
 	}
+
+	public function delete($id)
+	{
+	    $this->tableGateway->delete(['id' => $id]);
+	}
 }

@@ -11,17 +11,17 @@ class Projectview implements RowInterface
 	/**
 	 * @var integer
 	 */
-	protected $user_id;
+	public $user_id;
 
 	/**
 	 * @var integer
 	 */
-	protected $project_id;
+	public $project_id;
 
 	/**
 	 * @var string
 	 */
-	protected $date;
+	public $date;
 
 
 	public function exchangeArray($arr)

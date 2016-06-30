@@ -11,92 +11,92 @@ class User implements RowInterface
 	/**
 	 * @var integer
 	 */
-	protected $id;
+	public $id;
 
 	/**
 	 * @var string
 	 */
-	protected $password;
+	public $password;
 
 	/**
 	 * @var string
 	 */
-	protected $name;
+	public $name;
 
 	/**
 	 * @var string
 	 */
-	protected $firstname;
+	public $firstname;
 
 	/**
 	 * @var string
 	 */
-	protected $birthdate;
+	public $birthdate;
 
 	/**
 	 * @var string
 	 */
-	protected $email;
+	public $email;
 
 	/**
 	 * @var string
 	 */
-	protected $sex;
+	public $sex;
 
 	/**
 	 * @var string
 	 */
-	protected $adress;
+	public $adress;
 
 	/**
 	 * @var integer
 	 */
-	protected $postcode;
+	public $postcode;
 
 	/**
 	 * @var string
 	 */
-	protected $city;
+	public $city;
 
 	/**
 	 * @var integer
 	 */
-	protected $country_id;
+	public $country_id;
 
 	/**
 	 * @var string
 	 */
-	protected $phone;
+	public $phone;
 
 	/**
 	 * @var string
 	 */
-	protected $photo;
+	public $photo;
 
 	/**
 	 * @var string
 	 */
-	protected $facebook;
+	public $facebook;
 
 	/**
 	 * @var string
 	 */
-	protected $subscriptiondate;
+	public $subscriptiondate;
 
 	/**
 	 * @var string
 	 */
-	protected $confirmed;
+	public $confirmed;
 
 	/**
 	 * @var string
 	 */
-	protected $desactivated;
+	public $desactivated;
 
 	/**
 	 * @var integer
 	 */
-	protected $usertype_id;
+	public $usertype_id;
 
 
 	public function exchangeArray($arr)

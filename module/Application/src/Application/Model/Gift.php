@@ -11,27 +11,27 @@ class Gift implements RowInterface
 	/**
 	 * @var integer
 	 */
-	protected $id;
+	public $id;
 
 	/**
 	 * @var string
 	 */
-	protected $title;
+	public $title;
 
 	/**
 	 * @var integer
 	 */
-	protected $minamount;
+	public $minamount;
 
 	/**
 	 * @var string
 	 */
-	protected $description;
+	public $description;
 
 	/**
 	 * @var integer
 	 */
-	protected $project_id;
+	public $project_id;
 
 
 	public function exchangeArray($arr)

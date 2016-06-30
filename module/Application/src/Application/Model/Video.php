@@ -11,17 +11,17 @@ class Video implements RowInterface
 	/**
 	 * @var integer
 	 */
-	protected $id;
+	public $id;
 
 	/**
 	 * @var string
 	 */
-	protected $url;
+	public $url;
 
 	/**
 	 * @var integer
 	 */
-	protected $project_id;
+	public $project_id;
 
 
 	public function exchangeArray($arr)
