@@ -3,6 +3,7 @@
 namespace Application\Controller;
 
 use Application\Form\ProjectAddForm;
+use Application\Model\CategoryTable;
 use Application\Model\Project;
 use Zend\View\Model\ViewModel;
 
@@ -13,7 +14,7 @@ class ProjectController extends AbstractActionCustomController
 		// todo: get from context
 		//$test = $this->params()->fromQuery();
 		// search params
-		$keyWords = ['dolor', 'cursus'];
+		$keyWords   = ['dolor', 'cursus'];
 		$categoryId = 1;
 
 
@@ -26,11 +27,17 @@ class ProjectController extends AbstractActionCustomController
 
 	public function detailAction()
 	{
-		$id      = $this->params()->fromRoute('id');
-		$project = $this->getTable('project')->getOneById($id);
+		$project = $this->getProjectFromRouteId();
+
+		/**
+		 * @var $categoryTable CategoryTable
+		 */
+		$categoryTable = $this->getTable('category');
+		$categories    = $categoryTable->getAllFromProjectId($project->id);
 
 		return new ViewModel([
-			'project' => $project
+			'project'    => $project,
+			'categories' => $categories,
 		]);
 	}
 
@@ -49,7 +56,7 @@ class ProjectController extends AbstractActionCustomController
 			);
 
 			$form->setData($post);
-			
+
 			if ($form->isValid())
 			{
 				$data = $form->getData();
@@ -91,7 +98,7 @@ class ProjectController extends AbstractActionCustomController
 	{
 		// todo get real user id from session
 		$userId = 11;
-		
+
 		$projects = $this->getProjectTable()->getAllFromUserId($userId);
 
 		return new ViewModel([
@@ -121,7 +128,7 @@ class ProjectController extends AbstractActionCustomController
 	 */
 	protected function getProjectTable()
 	{
-	    return $this->getTable('project');
+		return $this->getTable('project');
 	}
 
 	/**

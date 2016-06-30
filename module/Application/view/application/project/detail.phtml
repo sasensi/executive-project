@@ -1,12 +1,20 @@
 <?php
 
 /**
- * @var $project
+ * @var \Application\Model\Project    $project
+ * @var \Application\Model\Category[] $categories
  */
 
 // debug
 echo '$project =';
 var_dump($project);
+
+foreach ($categories as $category)
+{
+	// debug
+	echo '$category =';
+	var_dump($category);
+}
 
 
 ?>
