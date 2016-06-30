@@ -4,7 +4,9 @@ namespace Application\Controller;
 
 use Application\Form\ProjectAddForm;
 use Application\Model\CategoryTable;
+use Application\Model\GiftTable;
 use Application\Model\Project;
+use Application\Model\TagTable;
 use Zend\View\Model\ViewModel;
 
 class ProjectController extends AbstractActionCustomController
@@ -35,9 +37,19 @@ class ProjectController extends AbstractActionCustomController
 		$categoryTable = $this->getTable('category');
 		$categories    = $categoryTable->getAllFromProjectId($project->id);
 
+		/** @var GiftTable $giftTable */
+		$giftTable = $this->getTable('gift');
+		$gifts     = $giftTable->getAllFromProjectId($project->id);
+
+		/** @var TagTable $tagTable */
+		$tagTable = $this->getTable('tag');
+		$tags     = $tagTable->getAllFromProjectId($project->id);
+
 		return new ViewModel([
 			'project'    => $project,
 			'categories' => $categories,
+			'gifts'      => $gifts,
+			'tags'       => $tags,
 		]);
 	}
 

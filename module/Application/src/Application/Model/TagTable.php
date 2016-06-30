@@ -1,6 +1,7 @@
 <?php
 
 namespace Application\Model;
+use Zend\Db\Sql\Select;
 
 /**
  * Automatically generated class from db schema
@@ -8,5 +9,12 @@ namespace Application\Model;
  */
 class TagTable extends AbstractTable
 {
-
+	public function getAllFromProjectId($projectId)
+	{
+		return $this->tableGateway->select(function (Select $select) use ($projectId)
+		{
+			$select->join('projecttag', 'tag.id = projecttag.tag_id');
+			$select->where(['projecttag.project_id' => $projectId]);
+		});
+	}
 }

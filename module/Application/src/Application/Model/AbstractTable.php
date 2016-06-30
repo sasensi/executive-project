@@ -13,6 +13,14 @@ class AbstractTable
 		$this->tableGateway = $tableGateway;
 	}
 
+	/**
+	 * @return \Zend\Db\TableGateway\TableGateway
+	 */
+	public function getTableGateway()
+	{
+		return $this->tableGateway;
+	}
+
 	public function getAll()
 	{
 		$resultSet = $this->tableGateway->select();

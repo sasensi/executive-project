@@ -3,12 +3,14 @@
 /**
  * @var \Application\Model\Project    $project
  * @var \Application\Model\Category[] $categories
+ * @var \Application\Model\Gift[]     $gifts
  */
 
 // debug
 echo '$project =';
 var_dump($project);
 
+echo "categories:";
 foreach ($categories as $category)
 {
 	// debug
@@ -16,6 +18,21 @@ foreach ($categories as $category)
 	var_dump($category);
 }
 
+echo "gifts:";
+foreach ($gifts as $gift)
+{
+	// debug
+	echo '$gift =';
+	var_dump($gift);
+}
+
+echo "tags:";
+foreach ($tags as $tag)
+{
+	// debug
+	echo '$tag =';
+	var_dump($tag);
+}
 
 ?>
 
