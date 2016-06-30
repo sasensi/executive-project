@@ -37,6 +37,21 @@ class UserController extends AbstractActionController
 		return new ViewModel();
 	}
 
+	public function updateAvatarAction()
+	{
+		return new ViewModel();
+	}
+
+	public function updateDetailsAction()
+	{
+		return new ViewModel();
+	}
+
+	public function updatePreferencesAction()
+	{
+		return new ViewModel();
+	}
+
 	public function deleteAction()
 	{
 		return new ViewModel();
