@@ -2,46 +2,123 @@
 
 namespace Application\Model;
 
+/**
+ * Automatically generated class from db schema
+ * Date: 30/06/2016
+ */
 class User implements RowInterface
 {
-	public $id;
-	public $password;
-	public $name;
-	public $firstname;
-	public $birthdate;
-	public $email;
-	public $sex;
-	public $adress;
-	public $postcode;
-	public $city;
-	public $country_id;
-	public $phone;
-	public $photo;
-	public $facebook;
-	public $subscriptiondate;
-	public $confirmed;
-	public $desactivated;
-	public $usertype_id;
+	/**
+	 * @var integer
+	 */
+	protected $id;
 
-	public function exchangeArray($data)
+	/**
+	 * @var string
+	 */
+	protected $password;
+
+	/**
+	 * @var string
+	 */
+	protected $name;
+
+	/**
+	 * @var string
+	 */
+	protected $firstname;
+
+	/**
+	 * @var string
+	 */
+	protected $birthdate;
+
+	/**
+	 * @var string
+	 */
+	protected $email;
+
+	/**
+	 * @var string
+	 */
+	protected $sex;
+
+	/**
+	 * @var string
+	 */
+	protected $adress;
+
+	/**
+	 * @var integer
+	 */
+	protected $postcode;
+
+	/**
+	 * @var string
+	 */
+	protected $city;
+
+	/**
+	 * @var integer
+	 */
+	protected $country_id;
+
+	/**
+	 * @var string
+	 */
+	protected $phone;
+
+	/**
+	 * @var string
+	 */
+	protected $photo;
+
+	/**
+	 * @var string
+	 */
+	protected $facebook;
+
+	/**
+	 * @var string
+	 */
+	protected $subscriptiondate;
+
+	/**
+	 * @var string
+	 */
+	protected $confirmed;
+
+	/**
+	 * @var string
+	 */
+	protected $desactivated;
+
+	/**
+	 * @var integer
+	 */
+	protected $usertype_id;
+
+
+	public function exchangeArray($arr)
 	{
-		$this->id               = (!empty($data['id'])) ? $data['id'] : null;
-		$this->password         = (!empty($data['password'])) ? $data['password'] : null;
-		$this->name             = (!empty($data['name'])) ? $data['name'] : null;
-		$this->firstname        = (!empty($data['firstname'])) ? $data['firstname'] : null;
-		$this->birthdate        = (!empty($data['birthdate'])) ? $data['birthdate'] : null;
-		$this->email            = (!empty($data['email'])) ? $data['email'] : null;
-		$this->sex              = (!empty($data['sex'])) ? $data['sex'] : null;
-		$this->adress           = (!empty($data['adress'])) ? $data['adress'] : null;
-		$this->postcode         = (!empty($data['postcode'])) ? $data['postcode'] : null;
-		$this->city             = (!empty($data['city'])) ? $data['city'] : null;
-		$this->country_id       = (!empty($data['country_id'])) ? $data['country_id'] : null;
-		$this->phone            = (!empty($data['phone'])) ? $data['phone'] : null;
-		$this->photo            = (!empty($data['photo'])) ? $data['photo'] : null;
-		$this->facebook         = (!empty($data['facebook'])) ? $data['facebook'] : null;
-		$this->subscriptiondate = (!empty($data['subscriptiondate'])) ? $data['subscriptiondate'] : null;
-		$this->confirmed        = (!empty($data['confirmed'])) ? $data['confirmed'] : null;
-		$this->desactivated     = (!empty($data['desactivated'])) ? $data['desactivated'] : null;
-		$this->usertype_id      = (!empty($data['usertype_id'])) ? $data['usertype_id'] : null;
+		$this->id = (isset($arr['id'])) ? $arr['id'] : null;
+		$this->password = (isset($arr['password'])) ? $arr['password'] : null;
+		$this->name = (isset($arr['name'])) ? $arr['name'] : null;
+		$this->firstname = (isset($arr['firstname'])) ? $arr['firstname'] : null;
+		$this->birthdate = (isset($arr['birthdate'])) ? $arr['birthdate'] : null;
+		$this->email = (isset($arr['email'])) ? $arr['email'] : null;
+		$this->sex = (isset($arr['sex'])) ? $arr['sex'] : null;
+		$this->adress = (isset($arr['adress'])) ? $arr['adress'] : null;
+		$this->postcode = (isset($arr['postcode'])) ? $arr['postcode'] : null;
+		$this->city = (isset($arr['city'])) ? $arr['city'] : null;
+		$this->country_id = (isset($arr['country_id'])) ? $arr['country_id'] : null;
+		$this->phone = (isset($arr['phone'])) ? $arr['phone'] : null;
+		$this->photo = (isset($arr['photo'])) ? $arr['photo'] : null;
+		$this->facebook = (isset($arr['facebook'])) ? $arr['facebook'] : null;
+		$this->subscriptiondate = (isset($arr['subscriptiondate'])) ? $arr['subscriptiondate'] : null;
+		$this->confirmed = (isset($arr['confirmed'])) ? $arr['confirmed'] : null;
+		$this->desactivated = (isset($arr['desactivated'])) ? $arr['desactivated'] : null;
+		$this->usertype_id = (isset($arr['usertype_id'])) ? $arr['usertype_id'] : null;
+
 	}
 }

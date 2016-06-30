@@ -10,7 +10,7 @@ require 'ModelBuilderConfig.php';
 require 'Modelbuilder.php';
 
 $config             = new ModelBuilderConfig();
-$config->renderDir  = './render/';
+$config->renderDir  = '../module/Application/src/Application/Model/';
 $config->dbName     = 'crowdfunding';
 $config->dbUser     = 'root';
 $config->dbPassword = '';

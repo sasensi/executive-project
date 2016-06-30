@@ -50,13 +50,13 @@ class Modelbuilder
 		foreach ($this->tables as $tableName => $modelTableBuilder)
 		{
 			// row
-			$fileName = 'ModelRow'.ucfirst($tableName).'.php';
+			$fileName = ucfirst($tableName).'.php';
 			$file     = fopen($this->config->renderDir.$fileName, 'w');
 			fwrite($file, $modelTableBuilder->buildRowClass());
 			fclose($file);
 
 			// table
-			$fileName = 'ModelTable'.ucfirst($tableName).'.php';
+			$fileName = ucfirst($tableName).'Table.php';
 			$file     = fopen($this->config->renderDir.$fileName, 'w');
 			fwrite($file, $modelTableBuilder->buildtableclass());
 			fclose($file);

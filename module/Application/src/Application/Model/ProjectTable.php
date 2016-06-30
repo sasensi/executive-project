@@ -5,6 +5,10 @@ namespace Application\Model;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 
+/**
+ * Automatically generated class from db schema
+ * Date: 30/06/2016
+ */
 class ProjectTable extends AbstractTable
 {
 	/**

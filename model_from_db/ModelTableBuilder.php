@@ -77,11 +77,13 @@ PHP;
 		return <<<PHP
 <?php
 
+namespace Application\Model;
+
 /**
  * Automatically generated class from db schema
  * Date: {$date}
  */
-class ModelRow{$capitalizedTableName}
+class {$capitalizedTableName} implements RowInterface
 {
 {$this->buildRowProperties()}
 	public function exchangeArray(\$arr)
@@ -101,11 +103,13 @@ PHP;
 		return <<<PHP
 <?php
 
+namespace Application\Model;
+
 /**
  * Automatically generated class from db schema
  * Date: {$date}
  */
-class ModelTable{$capitalizedTableName} extends ModelTable
+class {$capitalizedTableName}Table extends AbstractTable
 {
 
 }
