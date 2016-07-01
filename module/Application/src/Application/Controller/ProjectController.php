@@ -165,11 +165,12 @@ class ProjectController extends AbstractActionCustomController
 
 		/** @var UserTable $userTable */
 		$userTable = $this->getTable('user');
-		$users = $userTable->getAllForProject($project->id);
+		$users     = $userTable->getAllForProject($project->id);
 
 		return new ViewModel([
+			'project'      => $project,
 			'transactions' => $transactions,
-			'users' => $users,
+			'users'        => $users,
 		]);
 	}
 
