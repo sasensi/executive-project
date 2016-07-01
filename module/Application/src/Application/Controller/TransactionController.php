@@ -2,14 +2,22 @@
 
 namespace Application\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
+use Application\Model\TransactionTable;
 use Zend\View\Model\ViewModel;
 
-class TransactionController extends AbstractActionController
+class TransactionController extends AbstractActionCustomController
 {
 	public function indexAction()
 	{
-		return new ViewModel();
+		$user = UserController::getLoggedUser();
+
+		/** @var TransactionTable $transactionTable */
+		$transactionTable = $this->getTable('transaction');
+		$transactions     = $transactionTable->getAllFromUserId($user->id);
+
+		return new ViewModel([
+			'transactions' => $transactions
+		]);
 	}
 
 	public function detailAction()

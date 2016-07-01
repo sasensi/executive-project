@@ -8,5 +8,8 @@ namespace Application\Model;
  */
 class TransactionTable extends AbstractTable
 {
-
+	public function getAllFromUserId($userId)
+	{
+	    return $this->tableGateway->select(['user_id' => $userId]);
+	}
 }

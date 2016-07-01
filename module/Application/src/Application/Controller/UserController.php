@@ -2,6 +2,7 @@
 
 namespace Application\Controller;
 
+use Application\Model\User;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -60,6 +61,20 @@ class UserController extends AbstractActionController
 	public function exportAction()
 	{
 		return new ViewModel();
+	}
+
+	/**
+	 * @return User
+	 */
+	public static function getLoggedUser()
+	{
+		// todo: get real user data
+		$user = new User();
+		$user->exchangeArray([
+			'id'   => 2,
+			'name' => 'test name'
+		]);
+		return $user;
 	}
 
 }
