@@ -8,5 +8,9 @@ namespace Application\Model;
  */
 class ProjectviewTable extends AbstractTable
 {
-
+	public function getCountFromProjectId($projectId)
+	{
+		$result = $this->tableGateway->select(['project_id' => $projectId]);
+		return $result->count();
+	}
 }

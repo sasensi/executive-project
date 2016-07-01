@@ -6,6 +6,7 @@ use Application\Form\ProjectAddForm;
 use Application\Model\CategoryTable;
 use Application\Model\GiftTable;
 use Application\Model\Project;
+use Application\Model\ProjectviewTable;
 use Application\Model\TagTable;
 use Zend\View\Model\ViewModel;
 
@@ -45,11 +46,16 @@ class ProjectController extends AbstractActionCustomController
 		$tagTable = $this->getTable('tag');
 		$tags     = $tagTable->getAllFromProjectId($project->id);
 
+		/** @var ProjectviewTable $projectViewTable */
+		$projectViewTable = $this->getTable('projectview');
+		$viewsCount       = $projectViewTable->getCountFromProjectId($project->id);
+
 		return new ViewModel([
 			'project'    => $project,
 			'categories' => $categories,
 			'gifts'      => $gifts,
 			'tags'       => $tags,
+		    'viewsCount' => $viewsCount,
 		]);
 	}
 

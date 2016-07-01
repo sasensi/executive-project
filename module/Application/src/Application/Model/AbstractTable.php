@@ -13,6 +13,11 @@ class AbstractTable
 		$this->tableGateway = $tableGateway;
 	}
 
+	public function execute($sql)
+	{
+
+	}
+
 	/**
 	 * @return \Zend\Db\TableGateway\TableGateway
 	 */
