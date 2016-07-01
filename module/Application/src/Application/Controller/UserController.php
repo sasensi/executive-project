@@ -58,11 +58,6 @@ class UserController extends AbstractActionController
 		return new ViewModel();
 	}
 
-	public function exportAction()
-	{
-		return new ViewModel();
-	}
-
 	/**
 	 * @return User
 	 */

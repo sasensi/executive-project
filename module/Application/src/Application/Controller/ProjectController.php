@@ -135,18 +135,27 @@ class ProjectController extends AbstractActionCustomController
 
 	public function userDetailAction()
 	{
+		return new ViewModel();
 	}
 
 	public function userUpdateAction()
 	{
+		return new ViewModel();
 	}
 
 	public function userDeleteAction()
 	{
+		return new ViewModel();
 	}
 
 	public function userPromoteAction()
 	{
+		return new ViewModel();
+	}
+
+	public function exportAction()
+	{
+		return new ViewModel();
 	}
 
 
