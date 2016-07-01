@@ -5,6 +5,7 @@ namespace Application\Controller;
 use Application\Form\ProjectAddForm;
 use Application\Model\CategoryTable;
 use Application\Model\GiftTable;
+use Application\Model\PictureTable;
 use Application\Model\Project;
 use Application\Model\ProjectviewTable;
 use Application\Model\TagTable;
@@ -53,6 +54,10 @@ class ProjectController extends AbstractActionCustomController
 		$videoTable = $this->getTable('video');
 		$videos     = $videoTable->getAllFromProjectId($project->id);
 
+		/** @var PictureTable $pictureTable */
+		$pictureTable = $this->getTable('picture');
+		$pictures     = $pictureTable->getAllFromProjectId($project->id);
+
 		return new ViewModel([
 			'project'    => $project,
 			'categories' => $categories,
@@ -60,6 +65,7 @@ class ProjectController extends AbstractActionCustomController
 			'tags'       => $tags,
 			'viewsCount' => $viewsCount,
 			'videos'     => $videos,
+			'pictures'   => $pictures,
 		]);
 	}
 

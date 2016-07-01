@@ -8,5 +8,8 @@ namespace Application\Model;
  */
 class PictureTable extends AbstractTable
 {
-
+	public function getAllFromProjectId($projectId)
+	{
+	    return $this->tableGateway->select(['project_id' => $projectId]);
+	}
 }

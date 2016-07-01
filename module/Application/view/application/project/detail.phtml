@@ -1,11 +1,12 @@
 <?php
 
 /**
- * @var \Application\Model\Project    $project
- * @var \Application\Model\Category[] $categories
- * @var \Application\Model\Gift[]     $gifts
- * @var integer                       $viewsCount
- * @var \Application\Model\VideoTable $videos
+ * @var \Application\Model\Project      $project
+ * @var \Application\Model\Category[]   $categories
+ * @var \Application\Model\Gift[]       $gifts
+ * @var integer                         $viewsCount
+ * @var \Application\Model\VideoTable   $videos
+ * @var \Application\Model\PictureTable $pictures
  */
 
 // debug
@@ -46,7 +47,14 @@ foreach ($videos as $video)
 	// debug
 	echo '$video =';
 	var_dump($video);
-	
+}
+
+echo '$pictures:';
+foreach ($pictures as $picture)
+{
+	// debug
+	echo '$picture =';
+	var_dump($picture);
 }
 
 ?>
