@@ -5,6 +5,7 @@
  * @var \Application\Model\Category[] $categories
  * @var \Application\Model\Gift[]     $gifts
  * @var integer                       $viewsCount
+ * @var \Application\Model\VideoTable $videos
  */
 
 // debug
@@ -39,6 +40,14 @@ foreach ($tags as $tag)
 echo '$viewsCount =';
 var_dump($viewsCount);
 
+echo '$videos:';
+foreach ($videos as $video)
+{
+	// debug
+	echo '$video =';
+	var_dump($video);
+	
+}
 
 ?>
 

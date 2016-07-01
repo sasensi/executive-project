@@ -8,6 +8,7 @@ use Application\Model\GiftTable;
 use Application\Model\Project;
 use Application\Model\ProjectviewTable;
 use Application\Model\TagTable;
+use Application\Model\VideoTable;
 use Zend\View\Model\ViewModel;
 
 class ProjectController extends AbstractActionCustomController
@@ -32,9 +33,7 @@ class ProjectController extends AbstractActionCustomController
 	{
 		$project = $this->getProjectFromRouteId();
 
-		/**
-		 * @var $categoryTable CategoryTable
-		 */
+		/** @var $categoryTable CategoryTable */
 		$categoryTable = $this->getTable('category');
 		$categories    = $categoryTable->getAllFromProjectId($project->id);
 
@@ -50,12 +49,17 @@ class ProjectController extends AbstractActionCustomController
 		$projectViewTable = $this->getTable('projectview');
 		$viewsCount       = $projectViewTable->getCountFromProjectId($project->id);
 
+		/** @var VideoTable $videoTable */
+		$videoTable = $this->getTable('video');
+		$videos     = $videoTable->getAllFromProjectId($project->id);
+
 		return new ViewModel([
 			'project'    => $project,
 			'categories' => $categories,
 			'gifts'      => $gifts,
 			'tags'       => $tags,
-		    'viewsCount' => $viewsCount,
+			'viewsCount' => $viewsCount,
+			'videos'     => $videos,
 		]);
 	}
 
