@@ -33,4 +33,15 @@ class UserTable extends AbstractTable
 		}
 		return $arr;
 	}
+
+	public function desactivate($id)
+	{
+		$this->tableGateway->update([
+			'desactivated' => true
+		], [
+			'id' => $id
+		]);
+	}
+
+
 }

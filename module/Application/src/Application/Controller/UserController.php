@@ -3,14 +3,18 @@
 namespace Application\Controller;
 
 use Application\Model\User;
-use Zend\Mvc\Controller\AbstractActionController;
+use Application\Model\UserTable;
 use Zend\View\Model\ViewModel;
 
-class UserController extends AbstractActionController
+class UserController extends AbstractActionCustomController
 {
 	public function indexAction()
 	{
-		return new ViewModel();
+		$user = self::getLoggedUser();
+		
+		return new ViewModel([
+			'user' => $user
+		]);
 	}
 
 	public function signinAction()
@@ -55,7 +59,15 @@ class UserController extends AbstractActionController
 
 	public function deleteAction()
 	{
-		return new ViewModel();
+		$user = self::getLoggedUser();
+
+		/** @var UserTable $userTable */
+		$userTable = $this->getTable('user');
+		$userTable->desactivate($user->id);
+
+		return new ViewModel([
+			'user' => $user
+		]);
 	}
 
 	/**
