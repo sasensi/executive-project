@@ -97,7 +97,7 @@ class ProjectController extends AbstractActionCustomController
 
 				$this->getProjectTable()->insert($project);
 
-				return $this->redirect()->toRoute('home', ['controller' => 'project']);
+				return $this->redirect()->toRoute('home', ['controller' => 'project', 'action' => 'user']);
 			}
 		}
 		return new ViewModel([
