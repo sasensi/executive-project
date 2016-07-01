@@ -72,6 +72,7 @@ class ProjectController extends AbstractActionCustomController
 	public function addAction()
 	{
 		$form = new ProjectAddForm();
+		$user = UserController::getLoggedUser();
 
 		/** @var \Zend\Http\PhpEnvironment\Request $request */
 		$request = $this->getRequest();
@@ -89,12 +90,10 @@ class ProjectController extends AbstractActionCustomController
 			{
 				$data = $form->getData();
 
-				//$data['dateCreationTrajet'] = date('Y-m-d');
-				//$data['duree'] = 100;
-				//$data['idUtilisateur'] = UtilisateurController::checkIsLogged();
-
 				$project = new Project();
 				$project->exchangeArray($data);
+				$project->creationdate = date('Y-m-d');
+				$project->user_id      = $user->id;
 
 				$this->getProjectTable()->insert($project);
 
