@@ -12,4 +12,9 @@ class TransactionTable extends AbstractTable
 	{
 	    return $this->tableGateway->select(['user_id' => $userId]);
 	}
+
+	public function getAllFromProjectId($projectId)
+	{
+	    return $this->tableGateway->select(['project_id' => $projectId]);
+	}
 }

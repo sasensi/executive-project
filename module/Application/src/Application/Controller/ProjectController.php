@@ -9,6 +9,8 @@ use Application\Model\PictureTable;
 use Application\Model\Project;
 use Application\Model\ProjectviewTable;
 use Application\Model\TagTable;
+use Application\Model\TransactionTable;
+use Application\Model\UserTable;
 use Application\Model\VideoTable;
 use Zend\View\Model\ViewModel;
 
@@ -155,7 +157,20 @@ class ProjectController extends AbstractActionCustomController
 
 	public function exportAction()
 	{
-		return new ViewModel();
+		$project = $this->getProjectFromRouteId();
+
+		/** @var TransactionTable $transactionTable */
+		$transactionTable = $this->getTable('transaction');
+		$transactions     = $transactionTable->getAllFromProjectId($project->id);
+
+		/** @var UserTable $userTable */
+		$userTable = $this->getTable('user');
+		$users = $userTable->getAllForProject($project->id);
+
+		return new ViewModel([
+			'transactions' => $transactions,
+			'users' => $users,
+		]);
 	}
 
 

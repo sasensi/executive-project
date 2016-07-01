@@ -1,1 +1,26 @@
+<?php
+
+/**
+ * @var \Application\Model\Transaction[] $transactions
+ * @var \Application\Model\User[]        $users
+ */
+
+echo "transactions:\n";
+foreach ($transactions as $transaction)
+{
+	// debug
+	echo '$transaction =';
+	var_dump($transaction);
+}
+
+echo "users:\n";
+foreach ($users as $transactionId => $user)
+{
+	// debug
+	echo '$transactionId, $user =';
+	var_dump($transactionId, $user);
+}
+
+?>
+
 <h1>exporter les informations des financeurs</h1>
