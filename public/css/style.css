@@ -3,7 +3,6 @@
 }
 
 body {
-    padding-bottom : 40px;
 }
 
 .zf-green {
@@ -40,12 +39,15 @@ div.container a.brand {
 }
 
 nav {
-    padding     : 10px;
-    font-weight : 500;
-    height: 30px;
-    position    : relative;
-    border-bottom: 3px solid blue;
-    box-sizing: content-box;
+    padding       : 10px;
+    font-weight   : 500;
+    height: 53px;
+    border-bottom : 3px solid blue;
+    /* box-sizing    : content-box; */
+    position      : fixed;
+    top           : 0;
+    width         : 100%;
+    background    : white;
 }
 
 nav > .row {
@@ -80,13 +82,38 @@ nav li a:hover {
     text-decoration : none;
 }
 
-#logo > img {
+#logo img {
     height : 40px;
 }
 
 nav li img {
-    height       : 30px;
+    height : 30px;
     /*margin-right : 10px;*/
+}
+
+footer {
+    background: #3d3e42;
+    text-align : center;
+    color      : white;
+    padding-bottom: 50px;
+}
+
+footer > img {
+    display : block;
+    margin  : auto;
+}
+
+footer > img:first-child {
+    height : 50px;
+}
+
+footer > img:nth-child(2) {
+    height : 30px;
+}
+
+footer > p {
+    margin-top: .7em;
+    font-size: 1.5em;
 }
 
 /* RESPONSIVE */
@@ -101,14 +128,14 @@ nav li img {
         bottom   : 0;
     }
 
-    #logo > img {
+    #logo img {
         margin : auto;
     }
 
     nav li {
-        margin: 0 7%;
+        margin : 0 7%;
     }
-    
+
     nav li:first-child,
     nav li:nth-child(2) {
         float : left;
@@ -117,7 +144,6 @@ nav li img {
 
 /* > XS */
 @media (min-width : 768px) {
-
 
 }
 
@@ -129,11 +155,11 @@ nav li img {
 /* > MD */
 @media (min-width : 992px) {
     nav li span {
-        display : inline-block;
+        display     : inline-block;
         margin-left : 10px;
     }
 
-    #logo > img {
+    #logo img {
         height : 30px;
     }
 }

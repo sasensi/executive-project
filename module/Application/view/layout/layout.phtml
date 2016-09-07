@@ -36,32 +36,34 @@
 	<nav>
 		<div class="row">
 			<div class="col-xs-2" id="logo">
-				<img src="<?= $this->basePath('img/logo_md.png') ?>" alt="logo" class="visible-md visible-lg">
-				<img src="<?= $this->basePath('img/logo_sm.png') ?>" alt="logo" class="visible-sm">
-				<img src="<?= $this->basePath('img/logo_xs.png') ?>" alt="logo" class="visible-xs">
+				<a href="<?= $this->url('home') ?>">
+					<img src="<?= $this->basePath('img/logo_md.png') ?>" alt="logo" class="visible-md visible-lg">
+					<img src="<?= $this->basePath('img/logo_sm.png') ?>" alt="logo" class="visible-sm">
+					<img src="<?= $this->basePath('img/logo_xs.png') ?>" alt="logo" class="visible-xs">
+				</a>
 			</div>
 			<div class="col-xs-12 col-sm-10">
 				<ul class="list-unstyled">
 					<li>
-						<a href="<?= $this->basePath('#') ?>">
+						<a href="<?= $this->url('home/action', ['controller' => 'project', 'action' => 'add']) ?>">
 							<img src="<?= $this->basePath('img/icon/nav_plus.png') ?>" alt="icône">
 							<span>proposer une idée</span>
 						</a>
 					</li>
 					<li>
-						<a href="<?= $this->basePath('#') ?>">
+						<a href="<?= $this->url('home/action', ['controller' => 'about', 'action' => 'index']) ?>">
 							<img src="<?= $this->basePath('img/icon/nav_about.png') ?>" alt="icône">
 							<span>à propos</span>
 						</a>
 					</li>
 					<li>
-						<a href="<?= $this->basePath('#') ?>">
+						<a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'index']) ?>">
 							<img src="<?= $this->basePath('img/icon/nav_user.png') ?>" alt="icône">
 							<span>mon compte</span>
 						</a>
 					</li>
 					<li>
-						<a href="<?= $this->basePath('#') ?>">
+						<a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'logout']) ?>">
 							<img src="<?= $this->basePath('img/icon/nav_disconnect.png') ?>" alt="icône">
 							<span>se déconnecter</span>
 						</a>
@@ -74,10 +76,12 @@
 	<div id="content">
 		<?php echo $this->content; ?>
 	</div>
-	<footer>
-		<p>&copy; 2016 - IDÉES À PORTER</p>
-	</footer>
 </div> <!-- /container -->
+<footer>
+	<img src="<?= $this->basePath('/img/logo_footer_reverse.png') ?>" alt="">
+	<img src="<?= $this->basePath('/img/logo_footer.png') ?>" alt="">
+	<p>&copy; 2016</p>
+</footer>
 <?php echo $this->inlineScript() ?>
 </body>
 </html>
