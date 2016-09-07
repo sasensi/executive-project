@@ -1,21 +1,24 @@
+* {
+    font-family : "Myriad Pro", sans-serif;
+}
+
 body {
-    padding-top: 60px;
-    padding-bottom: 40px;
+    padding-bottom : 40px;
 }
 
 .zf-green {
-    color: #68b604;
+    color : #68B604;
 }
 
 .btn-success {
-  background-color: #57a900;
-  background-image: -moz-linear-gradient(top, #70d900, #57a900);
-  background-image: -ms-linear-gradient(top, #70d900, #57a900);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#70d900), to(#57a900));
-  background-image: -webkit-linear-gradient(top, #70d900, #57a900);
-  background-image: -o-linear-gradient(top, #70d900, #57a900);
-  background-image: linear-gradient(top, #70d900, #57a900);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#70d900', endColorstr='#57a900', GradientType=0);
+    background-color : #57A900;
+    background-image : -moz-linear-gradient(top, #70D900, #57A900);
+    background-image : -ms-linear-gradient(top, #70D900, #57A900);
+    background-image : -webkit-gradient(linear, 0 0, 0 100%, from(#70D900), to(#57A900));
+    background-image : -webkit-linear-gradient(top, #70D900, #57A900);
+    background-image : -o-linear-gradient(top, #70D900, #57A900);
+    background-image : linear-gradient(top, #70D900, #57A900);
+    filter           : progid:DXImageTransform.Microsoft.gradient(startColorstr='#70d900', endColorstr='#57a900', GradientType=0);
 }
 
 .btn-success:hover,
@@ -23,15 +26,114 @@ body {
 .btn-success.active,
 .btn-success.disabled,
 .btn-success[disabled] {
-  background-color: #57a900;
+    background-color : #57A900;
 }
 
 .btn-success:active, .btn-success.active {
-  background-color: #57a900;
+    background-color : #57A900;
 }
 
 div.container a.brand {
-    background: url("../img/zf2-logo.png") no-repeat scroll 0 10px transparent;
-    margin-left: 0;
-    padding: 8px 20px 12px 40px;
+    background  : url("../img/zf2-logo.png") no-repeat scroll 0 10px transparent;
+    margin-left : 0;
+    padding     : 8px 20px 12px 40px;
+}
+
+nav {
+    padding     : 10px;
+    font-weight : 500;
+    height: 30px;
+    position    : relative;
+    border-bottom: 3px solid blue;
+    box-sizing: content-box;
+}
+
+nav > .row {
+}
+
+nav ul {
+    margin-bottom : 0;
+    line-height   : 30px;
+    height        : 30px;
+    text-align    : right;
+}
+
+nav li {
+    display     : inline-block;
+    margin-left : 50px;
+}
+
+nav li:first-child {
+}
+
+nav li span {
+    display : none;
+}
+
+nav li a {
+    display : block;
+    color   : inherit;
+}
+
+nav li a:hover {
+    color           : inherit;
+    text-decoration : none;
+}
+
+#logo > img {
+    height : 40px;
+}
+
+nav li img {
+    height       : 30px;
+    /*margin-right : 10px;*/
+}
+
+/* RESPONSIVE */
+
+/* XS ONLY */
+@media (max-width : 767px) {
+
+    #logo {
+        display  : block;
+        position : absolute;
+        width    : 100%;
+        bottom   : 0;
+    }
+
+    #logo > img {
+        margin : auto;
+    }
+
+    nav li {
+        margin: 0 7%;
+    }
+    
+    nav li:first-child,
+    nav li:nth-child(2) {
+        float : left;
+    }
+}
+
+/* > XS */
+@media (min-width : 768px) {
+
+
+}
+
+/* SM ONLY */
+@media (min-width : 768px) and (max-width : 991px) {
+
+}
+
+/* > MD */
+@media (min-width : 992px) {
+    nav li span {
+        display : inline-block;
+        margin-left : 10px;
+    }
+
+    #logo > img {
+        height : 30px;
+    }
 }
