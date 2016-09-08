@@ -43,6 +43,8 @@ class ProjectTable extends AbstractTable
 					$where->AND->equalTo('projectcategory.category_id', $categoryId);
 				}
 			});
+
+			$select->group('project.id');
 		});
 
 		return $resultSet;
