@@ -58,6 +58,11 @@ class Project implements RowInterface
 	 */
 	public $promotionend;
 
+	/**
+	 * @var integer
+	 */
+	public $transactionsum;
+
 
 	public function exchangeArray($arr)
 	{
@@ -71,6 +76,6 @@ class Project implements RowInterface
 		$this->deadline = (isset($arr['deadline'])) ? $arr['deadline'] : null;
 		$this->goal = (isset($arr['goal'])) ? $arr['goal'] : null;
 		$this->promotionend = (isset($arr['promotionend'])) ? $arr['promotionend'] : null;
-
+		$this->transactionsum = (isset($arr['transactionsum'])) ? $arr['transactionsum'] : null;
 	}
 }
