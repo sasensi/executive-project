@@ -1,16 +1,82 @@
 <?php
 
 /**
- * @var \Application\Model\Project[] $projects
+ * @var \Application\Model\Project[]          $projects
+ * @var \Application\Form\ProjectSearchFilter $searchFilter
+ * @var \Zend\View\Renderer\PhpRenderer       $this
  */
 
 // debug
-foreach ($projects as $project)
-{
-	echo '$project =';
-	var_dump($project);
-}
+//foreach ($projects as $project)
+//{
+//	echo '$project =';
+//	var_dump($project);
+//}
 
 ?>
 
-<h1>Projets</h1>
+<div id="search">
+	<div class="row">
+		<div class="col-xs-12 col-md-5">
+			<div class="row">
+				<div class="col-xs-8 col-sm-10 col-md-10">
+					<input type="text" name="keywords" placeholder="mots-clés">
+				</div>
+				<div class="col-xs-4 col-sm-2 col-md-2">
+					<img src="<?= $this->basePath('img/icon/search.png') ?>" alt="icône recherche" id="searchBtn">
+					<div id="aditionalFilterBtn" class="hidden-md hidden-lg">
+						<img src="<?= $this->basePath('img/icon/down.png') ?>" alt="icône menu">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-md-7" id="aditionalFilterWrapper">
+			<div class="row">
+				<div class="col-sm-2 visible-sm" id="filterLabelColumn">
+					<span>filtres:</span>
+				</div>
+				<div class="col-sm-4 col-md-6" id="filterColumn">
+					<div class="row">
+						<div class="col-md-6">
+							<select name="category">
+								<option>catégorie</option>
+								<?php foreach ($searchFilter->getCategories() as $category): ?>
+									<option value="<?= $category->id ?>" <?= ($searchFilter->getSelectedCategory() === $category->id)
+										? 'selected' : null ?>>
+										<?= $category->name ?>
+									</option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+						<div class="col-md-6">
+							<select name="status">
+								<option>statut</option>
+								<?php foreach ($searchFilter->getStatuses() as $key => $value): ?>
+									<option value="<?= $key ?>" <?= ($searchFilter->getSelectedStatus() === $key)
+										? 'selected'
+										: null ?>>
+										<?= $value ?>
+									</option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-3 col-sm-2 col-md-3" id="orderColumn">
+					<span>trier par:</span>
+				</div>
+				<div class="col-xs-9 col-sm-4 col-md-3">
+					<select name="order">
+						<?php foreach ($searchFilter->getOrders() as $key => $value): ?>
+							<option value="<?= $key ?>" <?= ($searchFilter->getSelectedOrder() === $key)
+								? 'selected'
+								: null ?>>
+								<?= $value ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

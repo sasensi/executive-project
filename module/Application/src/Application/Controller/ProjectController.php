@@ -3,6 +3,8 @@
 namespace Application\Controller;
 
 use Application\Form\ProjectAddForm;
+use Application\Form\ProjectSearchFilter;
+use Application\Model\Category;
 use Application\Model\CategoryTable;
 use Application\Model\GiftTable;
 use Application\Model\PictureTable;
@@ -12,6 +14,7 @@ use Application\Model\TagTable;
 use Application\Model\TransactionTable;
 use Application\Model\UserTable;
 use Application\Model\VideoTable;
+use Zend\View\Helper\HeadLink;
 use Zend\View\Model\ViewModel;
 
 class ProjectController extends AbstractActionCustomController
@@ -24,11 +27,21 @@ class ProjectController extends AbstractActionCustomController
 		$keyWords   = ['dolor', 'cursus'];
 		$categoryId = 1;
 
+		$projects   = $this->getProjectTable()->getAllFromSearchParams($keyWords, $categoryId);
+		/** @var Category[] $categories */
+		$categories = $this->getTable('category')->getAll();
 
-		$projects = $this->getProjectTable()->getAllFromSearchParams($keyWords, $categoryId);
+		//Set Action specific Styles and Scripts
+		$renderer = $this->serviceLocator->get('Zend\View\Renderer\RendererInterface');
+		/** @var HeadLink $headLinkHelper */
+		$headLinkHelper = $this->getServiceLocator()->get('ViewHelperManager')->get('HeadLink');
+		$headLinkHelper->appendStylesheet($renderer->basePath('css/project/index.css'));
+
+		$searchFilter = new ProjectSearchFilter($categories);
 
 		return new ViewModel([
-			'projects' => $projects
+			'projects'   => $projects,
+			'searchFilter' => $searchFilter
 		]);
 	}
 

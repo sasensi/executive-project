@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @var \Zend\View\Renderer\PhpRenderer   $this
+ *
+ * @var \Application\Model\RowInterface[] $options
+ */
+
+?>
+
+	<select name="category">
+		<option value="">catégorie</option>
+		<option disabled></option>
+		<?php foreach ($options as $option): ?>
+			<option value="<?= $option->id ?>"><?= $option->name ?></option>
+		<?php endforeach; ?>
+	</select>
+
+<?= $this->partial('/partial/form/select.phtml', ['options' => $categories, 'name' => 'category', 'label' => 'catégorie', 'value' => null]) ?>

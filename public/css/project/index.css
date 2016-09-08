@@ -1,0 +1,130 @@
+#search {
+    background : blue;
+    color      : white;
+    padding    : 5px 15px 8px 15px;
+    position   : fixed;
+    top        : 53px;
+    left       : 0;
+    width      : 100%;
+}
+
+#search input[type="text"] {
+    background    : inherit;
+    border        : none;
+    border-bottom : 2px solid;
+    color         : inherit;
+    width         : 100%;
+    padding-left  : 5px;
+}
+
+input[type="text"]:focus {
+    outline : none;
+}
+
+/* placeholder color fix */
+#search input[type="text"]::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color : white;
+}
+
+#search input[type="text"]:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color   : white;
+    opacity : 1;
+}
+
+#search input[type="text"]::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color   : white;
+    opacity : 1;
+}
+
+#search input[type="text"]:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color : white;
+}
+
+#search select {
+    background     : blue;
+    color          : inherit;
+    border         : none;
+    border-bottom  : 2px solid;
+    padding-bottom : 2px;
+    width          : 100%;
+    padding-left   : 2px;
+}
+
+#search select:focus {
+    outline : none;
+}
+
+#searchBtn {
+    height     : 20px;
+    margin-top : 2px;
+    cursor     : pointer;
+}
+
+#orderColumn {
+    text-align : right;
+}
+
+#aditionalFilterBtn {
+    width       : 56%;
+    height      : 25px;
+    border-left : 2px solid;
+    float       : right;
+    text-align  : center;
+    line-height : 25px;
+    cursor      : pointer;
+    padding-left: 15px;
+}
+
+#aditionalFilterBtn > img {
+    width: 20px;
+}
+
+#aditionalFilterBtn > div {
+    display           : inline-block;
+    transform: rotate(225deg);
+    border            : 7px solid;
+    border-left-color : blue;
+    border-top-color  : blue;
+}
+
+#filterLabelColumn {
+    display    : none;
+    text-align : right;
+}
+
+/* <= SM */
+@media (max-width : 991px) {
+    #aditionalFilterWrapper,
+    #search select {
+        background : #01ADFF;
+    }
+
+    #aditionalFilterWrapper {
+        margin-top     : 7px;
+        padding-top    : 6px;
+        padding-bottom : 9px;
+    }
+
+    #search {
+        padding-bottom : 0;
+    }
+
+    #aditionalFilterWrapper > .row > div:last-child {
+        padding-bottom : 10px;
+    }
+
+    #filterColumn > .row > div:last-child {
+        margin-top : 10px;
+    }
+}
+
+/* XS */
+@media (max-width : 767px) {
+    #filterColumn {
+        margin-bottom : 10px;
+    }
+
+    #aditionalFilterWrapper {
+        padding-bottom : 0;
+    }
+}
