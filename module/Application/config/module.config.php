@@ -33,7 +33,7 @@ return [
 					'action' => [
 						'type'          => 'Segment',
 						'options'       => [
-							'route'       => '/:action',
+							'route'       => '/[:action]',
 							'constraints' => [
 								'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
 							],
