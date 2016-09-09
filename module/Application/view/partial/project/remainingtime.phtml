@@ -1,0 +1,29 @@
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Application\Model\Project      $project
+ */
+
+$remainingDays = $project->getRemainingDaysCount();
+
+if ($remainingDays < 15)
+{
+	$imgIndex = 1;
+}
+elseif ($remainingDays < 30)
+{
+	$imgIndex = 2;
+}
+elseif ($remainingDays < 45)
+{
+	$imgIndex = 3;
+}
+else
+{
+	$imgIndex = 4;
+}
+
+?>
+
+<img src="<?= $this->basePath("img/icon/time_{$imgIndex}.png") ?>" alt="">
+

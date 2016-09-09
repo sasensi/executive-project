@@ -15,6 +15,7 @@ use Application\Model\TransactionTable;
 use Application\Model\UserTable;
 use Application\Model\VideoTable;
 use Zend\View\Helper\HeadLink;
+use Zend\View\Helper\HeadScript;
 use Zend\View\Model\ViewModel;
 
 class ProjectController extends AbstractActionCustomController
@@ -35,10 +36,14 @@ class ProjectController extends AbstractActionCustomController
 		$categories = $this->getTable('category')->getAll();
 
 		//Set Action specific Styles and Scripts
-		$renderer = $this->serviceLocator->get('Zend\View\Renderer\RendererInterface');
+		$renderer = $this->getServiceLocator()->get('Zend\View\Renderer\RendererInterface');
 		/** @var HeadLink $headLinkHelper */
 		$headLinkHelper = $this->getServiceLocator()->get('ViewHelperManager')->get('HeadLink');
 		$headLinkHelper->appendStylesheet($renderer->basePath('css/project/index.css'));
+
+		/** @var HeadScript $scriptHelper */
+		$scriptHelper = $this->getServiceLocator()->get('ViewHelperManager')->get('HeadScript');
+		$scriptHelper->appendFile($renderer->basePath('js/project/index.js'));
 
 		$searchFilter = new ProjectSearchFilter($categories);
 
