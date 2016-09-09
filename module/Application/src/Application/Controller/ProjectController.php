@@ -22,18 +22,33 @@ class ProjectController extends AbstractActionCustomController
 {
 	public function indexAction()
 	{
-		// todo: get from context
-		//$test = $this->params()->fromQuery();
-		// search params
-		$keyWords   = ['dolor', 'cursus'];
-		$categoryId = 1;
+		// handle search filters
 
-		$keyWords = [];
-		$categoryId = null;
-
-		$projects   = $this->getProjectTable()->getAllFromSearchParams($keyWords, $categoryId);
 		/** @var Category[] $categories */
 		$categories = $this->getTable('category')->getAll();
+
+		$searchFilter = new ProjectSearchFilter($categories);
+
+		/** @var \Zend\Http\PhpEnvironment\Request $request */
+		$request = $this->getRequest();
+		if ($request->isGet())
+		{
+			$filterdata = $request->getQuery()->toArray();
+			if (!empty($filterdata))
+			{
+				if (!empty($filterdata['keywords']))
+				{
+					$keyWords = preg_split('/[^a-zA-Z]+/', $filterdata['keywords'], -1, PREG_SPLIT_NO_EMPTY);
+					$searchFilter->setSelectedKeyWords($keyWords);
+				}
+				if (!empty($filterdata['category'])) $searchFilter->setSelectedCategory($filterdata['category']);
+				if (!empty($filterdata['order'])) $searchFilter->setSelectedOrder($filterdata['order']);
+				if (!empty($filterdata['status'])) $searchFilter->setSelectedStatus($filterdata['status']);
+			}
+		}
+
+		$projects = $this->getProjectTable()->getAllFromSearchFilters($searchFilter);
+
 
 		//Set Action specific Styles and Scripts
 		$renderer = $this->getServiceLocator()->get('Zend\View\Renderer\RendererInterface');
@@ -45,10 +60,8 @@ class ProjectController extends AbstractActionCustomController
 		$scriptHelper = $this->getServiceLocator()->get('ViewHelperManager')->get('HeadScript');
 		$scriptHelper->appendFile($renderer->basePath('js/project/index.js'));
 
-		$searchFilter = new ProjectSearchFilter($categories);
-
 		return new ViewModel([
-			'projects'   => $projects,
+			'projects'     => $projects,
 			'searchFilter' => $searchFilter
 		]);
 	}

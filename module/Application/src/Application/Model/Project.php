@@ -89,6 +89,7 @@ class Project implements RowInterface
 		$currentDate = new DateTime('now', $timeZone);
 
 		$remainingTime = $currentDate->diff($endDate);
-		return $remainingTime->days;
+
+		return $remainingTime->invert ? 0 : $remainingTime->days;
 	}
 }

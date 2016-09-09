@@ -41,8 +41,9 @@ class ProjectSearchFilter
 	 */
 	public function __construct($categories)
 	{
-		$this->categories    = $categories;
-		$this->selectedOrder = self::ORDER_DATE_DESC;
+		$this->categories       = $categories;
+		$this->selectedOrder    = self::ORDER_DATE_DESC;
+		$this->selectedKeyWords = [];
 	}
 
 	/**
