@@ -27,6 +27,9 @@ class ProjectController extends AbstractActionCustomController
 		$keyWords   = ['dolor', 'cursus'];
 		$categoryId = 1;
 
+		$keyWords = [];
+		$categoryId = null;
+
 		$projects   = $this->getProjectTable()->getAllFromSearchParams($keyWords, $categoryId);
 		/** @var Category[] $categories */
 		$categories = $this->getTable('category')->getAll();

@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Application\Model\Project $project
+ */
+
+$ratio = (int) $project->transactionsum / (int) $project->goal;
+if ($ratio < 1 / 4)
+{
+	$imgIndex = 1;
+}
+elseif ($ratio < 2 / 4)
+{
+	$imgIndex = 2;
+}
+elseif ($ratio < 3 / 4)
+{
+	$imgIndex = 3;
+}
+elseif ($ratio < 4 / 4)
+{
+	$imgIndex = 4;
+}
+
+?>
+
+<img src="<?= $this->basePath("img/icon/goal_{$imgIndex}.png") ?>" alt="">

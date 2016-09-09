@@ -15,6 +15,7 @@
 
 ?>
 
+<!-- search bar -->
 <div id="search">
 	<div class="row">
 		<div class="col-xs-12 col-md-5">
@@ -78,5 +79,47 @@
 				</div>
 			</div>
 		</div>
+	</div>
+</div>
+
+<!-- projects list -->
+<div id="projectsWrapper">
+	<div class="row">
+		<?php foreach ($projects as $project): ?>
+			<a href="<?= $this->url('home/action/id', ['controller' => 'project', 'action' => 'detail', 'id' => $project->id]) ?>" class="col-xs-12 col-sm-6 col-md-4 project">
+				<div class="projectThumbnail">
+					<?php
+					// todo: replace with url from db
+					$project->mainpicture = $this->basePath('img/placeholder_main.jpg');
+					?>
+					<img src="<?= $project->mainpicture ?>" alt="<?= $project->title ?>" class="img-responsive">
+				</div>
+				<h1><?= $project->title ?></h1>
+				<h2><?= $project->subtitle ?></h2>
+				<div class="row">
+					<div class="col-xs-6 projectInfo projectGoal">
+						<?= $this->partial('/partial/project/goal.phtml', ['project' => $project]) ?>
+						<span><?= $project->goal ?> €</span>
+					</div>
+					<div class="col-xs-6 projectInfo projectRemainingTime">
+						<?= $this->partial('/partial/project/remainingTime.phtml', ['project' => $project]) ?>
+						<span>
+							<?php
+							$remainingDaysCount = $project->getRemainingDaysCount();
+							if ($remainingDaysCount > 0)
+							{
+								echo 'J - '.$remainingDaysCount;
+							}
+							else
+							{
+								echo 'terminé';
+							}
+							?>
+						</span>
+					</div>
+				</div>
+				<hr class="horizontalSeparator">
+			</a>
+		<?php endforeach; ?>
 	</div>
 </div>
