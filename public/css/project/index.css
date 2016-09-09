@@ -143,6 +143,10 @@ input[type="text"]:focus {
     #aditionalFilterWrapper {
         padding-bottom : 0;
     }
+
+#aditionalFilterWrapper.active {
+    height: 116px;
+}
 }
 
 /* PROJECTS */
