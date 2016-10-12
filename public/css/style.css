@@ -82,21 +82,25 @@ nav li a {
     height : 40px;
 }
 
-nav li img {
-    height : 30px;
-    /*margin-right : 10px;*/
+nav li i {
+    font-size: 1.8em;
+    vertical-align: middle;
 }
 
 /* SUBNAV */
 .subNav {
     background : blue;
     color      : white;
-    padding: 5px 15px 7px 15px;
+    padding    : 5px 15px 7px 15px;
     position   : fixed;
     top        : 53px;
     left       : 0;
     width      : 100%;
     z-index    : 1;
+}
+
+.offsetContainer {
+    margin-top: 90px;
 }
 
 /* FOOTER */

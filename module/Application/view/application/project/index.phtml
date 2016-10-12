@@ -87,7 +87,7 @@
 </div>
 
 <!-- projects list -->
-<div id="projectsWrapper">
+<div id="projectsWrapper" class="offsetContainer">
 	<div class="row">
 		<?php foreach ($projects as $project): ?>
 			<a href="<?= $this->url('home/action/id', ['controller' => 'project', 'action' => 'detail', 'id' => $project->id]) ?>" class="col-xs-12 col-sm-6 col-md-4 project">

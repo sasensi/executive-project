@@ -54,7 +54,7 @@
     }
 
     .subNav li {
-        margin-left : 41px;
+        margin-left: 43px;
     }
 }
 
@@ -66,5 +66,13 @@
 
     .subNav li {
         margin : 0 calc(12.5% - 17px);
+    }
+}
+
+/* >= MD */
+@media (min-width : 992px) {
+    .subNav ul > li:nth-child(4)
+    {
+        display : none;
     }
 }
