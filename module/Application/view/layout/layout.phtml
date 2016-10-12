@@ -17,13 +17,14 @@
 	                ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
 	?>
 
-	<!-- Le styles -->
+	<!-- styles -->
 	<?php echo $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath().'/img/favicon.ico'])
+	                ->prependStylesheet($this->basePath('fonts/icomoon/style.css'))
 	                ->prependStylesheet($this->basePath('css/style.css'))
 	                ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
 	                ->prependStylesheet($this->basePath('css/bootstrap.min.css')) ?>
 
-	<!-- Scripts -->
+	<!-- scripts -->
 	<?php echo $this->headScript()
 	                ->prependFile($this->basePath('js/bootstrap.min.js'))
 	                ->prependFile($this->basePath('js/jquery.min.js'))

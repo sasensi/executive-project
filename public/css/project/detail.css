@@ -1,0 +1,70 @@
+.subNav ul {
+    text-align    : right;
+    margin-bottom : 0;
+}
+
+.subNav li {
+    display     : inline-block;
+    margin-left : 50px;
+    padding     : 0;
+    color       : lightgray;
+}
+
+.subNav h1 {
+    font-size   : 1.2em;
+    margin      : 0;
+    padding     : 0;
+    font-weight : 600;
+}
+
+.subNav img {
+    width : 30px;
+}
+
+.subNav img, .subNav span {
+    display        : inline-block;
+    vertical-align : middle;
+}
+
+.subNav span {
+    margin-left : 10px;
+}
+
+.subNav a:focus {
+    color           : inherit;
+    outline         : none;
+    text-decoration : none;
+}
+
+.subNav i {
+    font-size      : 1.5em;
+    vertical-align : middle;
+}
+
+.subNav .icon_dots {
+    font-size: .65em;
+}
+
+/* RESPONSIVE */
+
+/* <= SM */
+@media (max-width : 991px) {
+    .subNav span {
+        display : none;
+    }
+
+    .subNav li {
+        margin-left : 41px;
+    }
+}
+
+/* XS */
+@media (max-width : 767px) {
+    .subNav ul {
+        text-align : center;
+    }
+
+    .subNav li {
+        margin : 0 calc(12.5% - 17px);
+    }
+}

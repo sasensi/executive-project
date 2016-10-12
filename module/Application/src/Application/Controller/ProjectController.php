@@ -49,16 +49,8 @@ class ProjectController extends AbstractActionCustomController
 
 		$projects = $this->getProjectTable()->getAllFromSearchFilters($searchFilter);
 
-
-		//Set Action specific Styles and Scripts
-		$renderer = $this->getServiceLocator()->get('Zend\View\Renderer\RendererInterface');
-		/** @var HeadLink $headLinkHelper */
-		$headLinkHelper = $this->getServiceLocator()->get('ViewHelperManager')->get('HeadLink');
-		$headLinkHelper->appendStylesheet($renderer->basePath('css/project/index.css'));
-
-		/** @var HeadScript $scriptHelper */
-		$scriptHelper = $this->getServiceLocator()->get('ViewHelperManager')->get('HeadScript');
-		$scriptHelper->appendFile($renderer->basePath('js/project/index.js'));
+		$this->addCssDependency('css/project/index.css');
+		$this->addJsDependency('js/project/index.js');
 
 		return new ViewModel([
 			'projects'     => $projects,
@@ -93,6 +85,8 @@ class ProjectController extends AbstractActionCustomController
 		/** @var PictureTable $pictureTable */
 		$pictureTable = $this->getTable('picture');
 		$pictures     = $pictureTable->getAllFromProjectId($project->id);
+
+		$this->addCssDependency('css/project/detail.css');
 
 		return new ViewModel([
 			'project'    => $project,

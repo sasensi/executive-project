@@ -7,56 +7,93 @@
  * @var integer                         $viewsCount
  * @var \Application\Model\VideoTable   $videos
  * @var \Application\Model\PictureTable $pictures
+ * @var \Zend\View\Renderer\PhpRenderer $this
  */
 
 // debug
-echo '$project =';
-var_dump($project);
-
-echo "categories:";
-foreach ($categories as $category)
-{
-	// debug
-	echo '$category =';
-	var_dump($category);
-}
-
-echo "gifts:";
-foreach ($gifts as $gift)
-{
-	// debug
-	echo '$gift =';
-	var_dump($gift);
-}
-
-echo "tags:";
-foreach ($tags as $tag)
-{
-	// debug
-	echo '$tag =';
-	var_dump($tag);
-}
-
-// debug
-echo '$viewsCount =';
-var_dump($viewsCount);
-
-echo '$videos:';
-foreach ($videos as $video)
-{
-	// debug
-	echo '$video =';
-	var_dump($video);
-}
-
-echo '$pictures:';
-foreach ($pictures as $picture)
-{
-	// debug
-	echo '$picture =';
-	var_dump($picture);
-}
+//echo '$project =';
+//var_dump($project);
+//
+//echo "categories:";
+//foreach ($categories as $category)
+//{
+//	// debug
+//	echo '$category =';
+//	var_dump($category);
+//}
+//
+//echo "gifts:";
+//foreach ($gifts as $gift)
+//{
+//	// debug
+//	echo '$gift =';
+//	var_dump($gift);
+//}
+//
+//echo "tags:";
+//foreach ($tags as $tag)
+//{
+//	// debug
+//	echo '$tag =';
+//	var_dump($tag);
+//}
+//
+//// debug
+//echo '$viewsCount =';
+//var_dump($viewsCount);
+//
+//echo '$videos:';
+//foreach ($videos as $video)
+//{
+//	// debug
+//	echo '$video =';
+//	var_dump($video);
+//}
+//
+//echo '$pictures:';
+//foreach ($pictures as $picture)
+//{
+//	// debug
+//	echo '$picture =';
+//	var_dump($picture);
+//}
 
 ?>
+
+<div class="subNav">
+	<div class="row">
+		<div class="col-xs-2 hidden-xs">
+			<h1><?= $project->title ?></h1>
+		</div>
+		<div class="col-xs-12 col-sm-10">
+			<ul class="list-inline">
+				<li>
+					<a href="#abstract">
+						<i class="icomoon icon_pie"></i>
+						<span>Résumé</span>
+					</a>
+				</li>
+				<li>
+					<a href="#description">
+						<i class="icomoon icon_dots"></i>
+						<span>Description</span>
+					</a>
+				</li>
+				<li>
+					<a href="#medias">
+						<i class="icomoon icon_pictures"></i>
+						<span>Images</span>
+					</a>
+				</li>
+				<li>
+					<a href="#gifts">
+						<i class="icomoon icon_gift"></i>
+						<span>Contreparties</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
 
 <h1>Projet</h1>

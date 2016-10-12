@@ -1,14 +1,7 @@
 /* SEARCH */
 
 #search {
-    background : blue;
-    color      : white;
-    padding    : 5px 15px 0 15px;
-    position   : fixed;
-    top        : 53px;
-    left       : 0;
-    width      : 100%;
-    z-index    : 1;
+    padding-bottom : 0;
 }
 
 #search input[type="text"] {
@@ -59,21 +52,21 @@ input[type="text"]:focus {
 }
 
 #searchBtn {
-    width: 20px;
+    width      : 20px;
     cursor     : pointer;
-    margin: 0;
-    margin-top: 2px;
-    padding: 0;
-    background: inherit;
-    border: none;
+    margin     : 0;
+    margin-top : 2px;
+    padding    : 0;
+    background : inherit;
+    border     : none;
 }
 
 #searchBtn:focus {
-    outline: none;
+    outline : none;
 }
 
 #searchBtn > img {
-    width: 100%;
+    width : 100%;
 }
 
 #orderColumn {
@@ -93,12 +86,12 @@ input[type="text"]:focus {
 
 #aditionalFilterBtn > img {
     width      : 20px;
-    transform: rotate(0deg);
+    transform  : rotate(0deg);
     transition : transform .7s;
 }
 
 #aditionalFilterBtn.active > img {
-    transform: rotate(-180deg);
+    transform : rotate(-180deg);
 }
 
 #aditionalFilterBtn > div {
@@ -156,9 +149,9 @@ input[type="text"]:focus {
         padding-bottom : 0;
     }
 
-#aditionalFilterWrapper.active {
-    height: 116px;
-}
+    #aditionalFilterWrapper.active {
+        height : 116px;
+    }
 }
 
 /* PROJECTS */
