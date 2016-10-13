@@ -1,6 +1,6 @@
 /* GLOBAL */
 
-* {
+body {
     font-family : "Myriad Pro", sans-serif;
 }
 
@@ -83,8 +83,8 @@ nav li a {
 }
 
 nav li i {
-    font-size: 1.8em;
-    vertical-align: middle;
+    font-size      : 1.8em;
+    vertical-align : middle;
 }
 
 /* SUBNAV */
@@ -100,7 +100,9 @@ nav li i {
 }
 
 .offsetContainer {
-    margin-top: 90px;
+    margin-top : 90px;
+    position   : relative;
+    padding    : 15px;
 }
 
 /* FOOTER */

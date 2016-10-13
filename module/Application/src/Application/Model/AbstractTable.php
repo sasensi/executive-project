@@ -6,6 +6,8 @@ use Zend\Db\TableGateway\TableGateway;
 
 class AbstractTable
 {
+	const DATE_FORMAT = 'Y-m-d';
+
 	protected $tableGateway;
 
 	public function __construct(TableGateway $tableGateway)

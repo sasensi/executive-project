@@ -157,7 +157,7 @@ input[type="text"]:focus {
 /* PROJECTS */
 
 #projectsWrapper {
-    padding    : 15px;
+    /* padding    : 15px; */
 }
 
 .project {
@@ -189,18 +189,14 @@ input[type="text"]:focus {
     width : 100%;
 }
 
-.projectInfo > * {
-    display        : inline-block;
-    vertical-align : middle;
-}
-
 .projectInfo > span {
-    margin-left : 2px;
+    /* margin-left : 2px; */
 }
 
-.projectInfo > img {
-    height     : 1.3em;
-    margin-top : -3px;
+.projectInfo > i {
+    font-size: 1.3em;
+    vertical-align: middle;
+    margin-top: -.05em;
 }
 
 .projectGoal {

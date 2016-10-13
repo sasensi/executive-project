@@ -1,0 +1,16 @@
+.icomoon {
+  display : inline-flex;
+  vertical-align: middle;
+}
+
+.icomoon * {
+  font-style : normal;
+}
+
+.icon_idea_1 {
+  color: rgb(200, 200, 200);
+}
+.icon_idea_4 {
+  color: rgb(50, 0, 255);
+}
+

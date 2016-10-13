@@ -8,22 +8,25 @@ $remainingDays = $project->getRemainingDaysCount();
 
 if ($remainingDays < 15)
 {
-	$imgIndex = 1;
+	$index = 1;
 }
 elseif ($remainingDays < 30)
 {
-	$imgIndex = 2;
+	$index = 2;
 }
 elseif ($remainingDays < 45)
 {
-	$imgIndex = 3;
+	$index = 3;
 }
 else
 {
-	$imgIndex = 4;
+	$index = 4;
 }
 
 ?>
 
-<img src="<?= $this->basePath("img/icon/time_{$imgIndex}.png") ?>" alt="">
-
+<i class="icomoon icon_time_3">
+	<i class="path1"></i>
+	<i class="path2"></i>
+	<i class="path3"></i>
+</i>

@@ -8,21 +8,21 @@
 $ratio = (int) $project->transactionsum / (int) $project->goal;
 if ($ratio < 1 / 4)
 {
-	$imgIndex = 1;
+	$index = 1;
 }
 elseif ($ratio < 2 / 4)
 {
-	$imgIndex = 2;
+	$index = 2;
 }
 elseif ($ratio < 3 / 4)
 {
-	$imgIndex = 3;
+	$index = 3;
 }
-elseif ($ratio < 4 / 4)
+else
 {
-	$imgIndex = 4;
+	$index = 4;
 }
 
 ?>
 
-<img src="<?= $this->basePath("img/icon/goal_{$imgIndex}.png") ?>" alt="">
+<i class="icomoon icon_idea_<?= $index ?>"></i>

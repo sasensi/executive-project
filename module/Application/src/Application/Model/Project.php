@@ -92,4 +92,14 @@ class Project implements RowInterface
 
 		return $remainingTime->invert ? 0 : $remainingTime->days;
 	}
+
+	public function getFormattedDeadLine()
+	{
+		$date = DateTime::createFromFormat(AbstractTable::DATE_FORMAT, $this->deadline);
+		if ($date)
+		{
+			return $date->format('d / m / Y');
+		}
+		return null;
+	}
 }

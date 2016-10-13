@@ -1,3 +1,4 @@
+/* NAV */
 .subNav ul {
     text-align    : right;
     margin-bottom : 0;
@@ -31,7 +32,7 @@
 }
 
 .subNav a:focus {
-    color           : inherit;
+    /* color           : inherit; */
     outline         : none;
     text-decoration : none;
 }
@@ -42,7 +43,69 @@
 }
 
 .subNav .icon_dots {
-    font-size: .65em;
+    font-size : .65em;
+}
+
+.subNav .active {
+    color : white;
+}
+
+/* CONTENT */
+#mainPicture img {
+    width : 100%;
+}
+
+h2 {
+    font-size     : inherit;
+    font-style    : italic;
+    text-align    : center;
+    font-weight   : 600;
+    margin-bottom : 2em;
+}
+
+.iconWrapper {
+    display        : inline-block;
+    vertical-align : middle;
+}
+
+.iconWrapper > i {
+    font-size      : 2em;
+    vertical-align : middle;
+    margin-right   : .25em;
+    margin-top     : -.05em;
+}
+
+#stats > .row > div {
+    margin-bottom : 1em;
+    text-align    : center;
+}
+
+#stats span {
+    font-size : 1.2em;
+}
+
+/* GIFTS */
+.minAmount {
+    color: blue;
+}
+
+.gift > h3 {
+    margin-top: 0;
+    font-size: inherit;
+    font-weight: 600;
+}
+
+.gift > .description {
+    margin-bottom: 2em;
+}
+
+.gift:last-child > .description {
+    margin-bottom: 0;
+}
+
+.minAmount > i {
+    font-size: 1.2em;
+    margin-top: -4px;
 }
 
 /* RESPONSIVE */
@@ -54,7 +117,7 @@
     }
 
     .subNav li {
-        margin-left: 43px;
+        margin-left : 43px;
     }
 }
 
@@ -71,8 +134,34 @@
 
 /* >= MD */
 @media (min-width : 992px) {
-    .subNav ul > li:nth-child(4)
-    {
+    .subNav ul > li:nth-child(4) {
         display : none;
+    }
+
+    #stats, #gifts {
+        position : absolute;
+        right: 0;
+        top      : 1em;
+    }
+
+    #stats {
+        height : 8em;
+    }
+
+    #gifts {
+        margin-top: 9em;
+        width: calc(33.33333333333333% - 15px);
+        border-left: 3px solid blue;
+        padding-top: .5em;
+        padding-bottom: .5em;
+    }
+
+    #stats > .row > div {
+        text-align : left;
+    }
+
+    .iconWrapper {
+        width      : 3em;
+        text-align : center;
     }
 }

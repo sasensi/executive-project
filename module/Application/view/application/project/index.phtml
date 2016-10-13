@@ -92,10 +92,6 @@
 		<?php foreach ($projects as $project): ?>
 			<a href="<?= $this->url('home/action/id', ['controller' => 'project', 'action' => 'detail', 'id' => $project->id]) ?>" class="col-xs-12 col-sm-6 col-md-4 project">
 				<div class="projectThumbnail">
-					<?php
-					// todo: replace with url from db
-					$project->mainpicture = $this->basePath('img/placeholder_main.jpg');
-					?>
 					<img src="<?= $project->mainpicture ?>" alt="<?= $project->title ?>" class="img-responsive">
 				</div>
 				<h1><?= $project->title ?></h1>

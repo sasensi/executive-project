@@ -9,6 +9,7 @@ use Application\Model\CategoryTable;
 use Application\Model\GiftTable;
 use Application\Model\PictureTable;
 use Application\Model\Project;
+use Application\Model\ProjectTable;
 use Application\Model\ProjectviewTable;
 use Application\Model\TagTable;
 use Application\Model\TransactionTable;
@@ -86,7 +87,12 @@ class ProjectController extends AbstractActionCustomController
 		$pictureTable = $this->getTable('picture');
 		$pictures     = $pictureTable->getAllFromProjectId($project->id);
 
+		/** @var UserTable $userTable */
+		$userTable = $this->getTable('user');
+		$financers = $userTable->getAllForProject($project->id);
+
 		$this->addCssDependency('css/project/detail.css');
+		$this->addJsDependency('js/project/detail.js');
 
 		return new ViewModel([
 			'project'    => $project,
@@ -96,6 +102,7 @@ class ProjectController extends AbstractActionCustomController
 			'viewsCount' => $viewsCount,
 			'videos'     => $videos,
 			'pictures'   => $pictures,
+			'financers'  => $financers,
 		]);
 	}
 

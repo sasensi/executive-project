@@ -1,0 +1,1 @@
+ALTER TABLE project MODIFY mainpicture VARCHAR(255) NOT NULL;

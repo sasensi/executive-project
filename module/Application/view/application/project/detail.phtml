@@ -5,9 +5,10 @@
  * @var \Application\Model\Category[]   $categories
  * @var \Application\Model\Gift[]       $gifts
  * @var integer                         $viewsCount
- * @var \Application\Model\VideoTable   $videos
- * @var \Application\Model\PictureTable $pictures
+ * @var \Application\Model\Video[]      $videos
+ * @var \Application\Model\Picture[]    $pictures
  * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Application\Model\User[]       $financers
  */
 
 // debug
@@ -58,6 +59,10 @@
 //	var_dump($picture);
 //}
 
+$remainingDaysCount = $project->getRemainingDaysCount();
+
+$timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLine() : 'terminé';
+
 ?>
 
 <div class="subNav">
@@ -68,7 +73,7 @@
 		<div class="col-xs-12 col-sm-10">
 			<ul class="list-inline">
 				<li>
-					<a href="#abstract">
+					<a href="#mainPicture" class="active">
 						<i class="icomoon icon_pie"></i>
 						<span>Résumé</span>
 					</a>
@@ -80,7 +85,7 @@
 					</a>
 				</li>
 				<li>
-					<a href="#medias">
+					<a href="#movies">
 						<i class="icomoon icon_pictures"></i>
 						<span>Images</span>
 					</a>
@@ -96,6 +101,58 @@
 	</div>
 </div>
 
-<div class="offsetContainer">
-	<h1>Projet</h1>
+<div class="row offsetContainer">
+	<div id="mainPicture" class="col-xs-12 col-md-8">
+		<img class="img-responsive" src="<?= $project->mainpicture ?>" alt="Image principale - <?= $project->title ?>">
+	</div>
+	<div class="col-xs-12 col-md-8">
+		<h2><?= $project->subtitle ?></h2>
+	</div>
+	<div id="stats" class="col-xs-12 col-md-4">
+		<div class="row">
+			<div class="col-xs-4 col-md-12">
+				<div class="iconWrapper"><?= $this->partial('/partial/project/goal.phtml', ['project' => $project]) ?></div>
+				<span><?= $project->transactionsum ?> / <?= $project->goal ?> €</span>
+			</div>
+			<div class="col-xs-4 col-md-12">
+				<div class="iconWrapper"><?= $this->partial('/partial/project/remainingTime.phtml', ['project' => $project]) ?></div>
+				<span><?= $timeLabel ?></span>
+			</div>
+			<div class="col-xs-4 col-md-12">
+				<div class="iconWrapper">
+					<i class="icomoon icon_people"></i>
+				</div>
+				<span><?= count($financers) ?></span>
+			</div>
+		</div>
+	</div>
+	<div id="description" class="col-xs-12 col-md-8">
+		<?= $project->description ?>
+	</div>
+	<div id="movies" class="col-xs-12 col-md-8">
+		<?php foreach ($videos as $video): ?>
+			<video src="<?= $video->url ?>"></video>
+		<?php endforeach; ?>
+	</div>
+	<div id="pictures" class="col-xs-12 col-md-8">
+		<?php foreach ($pictures as $picture): ?>
+			<div class="picture">
+				<img src="<?= $picture->url ?>">
+			</div>
+		<?php endforeach; ?>
+	</div>
+	<div id="gifts" class="col-xs-12 col-md-4">
+		<?php foreach ($gifts as $gift): ?>
+			<div class="gift">
+				<p class="minAmount">
+					<i class="icomoon icon_payment"></i>
+					<span>&#62; <?= $gift->minamount ?> €</span>
+				</p>
+				<h3><?= $gift->title ?></h3>
+				<p class="description">
+					<?= $gift->description ?>
+				</p>
+			</div>
+		<?php endforeach; ?>
+	</div>
 </div>
