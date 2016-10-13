@@ -44,6 +44,7 @@
 //var_dump($viewsCount);
 //
 //echo '$videos:';
+//var_dump($videos);
 //foreach ($videos as $video)
 //{
 //	// debug
@@ -130,9 +131,38 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 		<?= $project->description ?>
 	</div>
 	<div id="movies" class="col-xs-12 col-md-8">
-		<?php foreach ($videos as $video): ?>
-			<video src="<?= $video->url ?>"></video>
-		<?php endforeach; ?>
+		<?php if (count($videos) > 0): ?>
+			<div id="my_carousel" class="carousel slide" data-ride="carousel">
+				<!-- Bulles -->
+				<ol class="carousel-indicators">
+					<?php for ($i=0; $i<count($videos); $i++): ?>
+						<li data-target="#my_carousel" data-slide-to="<?= $i ?>" class="<?= $i === 0 ? 'active' : '' ?>"></li>
+					<?php endfor; ?>
+				</ol>
+				<!-- Slides -->
+				<div class="carousel-inner">
+					<?php foreach ($videos as $i => $video): ?>
+						<div class="item <?= $i === 0 ? 'active' : '' ?>">
+							<div class="carousel-page">
+								<video src="<?= $video->url ?>"></video>
+							</div>
+							<!--<div class="carousel-caption">Page 2 de présentation</div>-->
+						</div>
+					<?php endforeach; ?>
+				</div>
+				<!-- Contrôles -->
+				<a class="left carousel-control" href="#my_carousel" data-slide="prev">
+					<span class="glyphicon glyphicon-chevron-left"></span>
+				</a>
+				<a class="right carousel-control" href="#my_carousel" data-slide="next">
+					<span class="glyphicon glyphicon-chevron-right"></span>
+				</a>
+			</div>
+		<?php else: ?>
+			<?php foreach ($videos as $i => $video): ?>
+				<video src="<?= $video->url ?>"></video>
+			<?php endforeach; ?>
+		<?php endif; ?>
 	</div>
 	<div id="pictures" class="col-xs-12 col-md-8">
 		<?php foreach ($pictures as $picture): ?>
