@@ -112,7 +112,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 		<div class="row">
 			<div class="col-xs-4 col-md-12">
 				<div class="iconWrapper"><?= $this->partial('/partial/project/goal.phtml', ['project' => $project]) ?></div>
-				<span><?= $project->transactionsum ?> / <?= $project->goal ?> €</span>
+				<span><?= $project->transactionsum ?>&nbsp;/&nbsp;<?= $project->goal ?>&nbsp;€</span>
 			</div>
 			<div class="col-xs-4 col-md-12">
 				<div class="iconWrapper"><?= $this->partial('/partial/project/remainingTime.phtml', ['project' => $project]) ?></div>

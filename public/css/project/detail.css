@@ -84,6 +84,14 @@ h2 {
     font-size : 1.2em;
 }
 
+
+/* MOVIES */
+#movies video, .picture, .picture img {
+    width : 100%;
+    background-color: lightgray;
+}
+
+
 /* GIFTS */
 .minAmount {
     color: blue;
@@ -112,6 +120,14 @@ h2 {
 
 /* <= SM */
 @media (max-width : 991px) {
+    .offsetContainer {
+        padding-top : 0;
+    }
+
+    #mainPicture {
+        padding : 0;
+    }
+
     .subNav span {
         display : none;
     }

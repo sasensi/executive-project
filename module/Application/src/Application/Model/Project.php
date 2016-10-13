@@ -98,7 +98,9 @@ class Project implements RowInterface
 		$date = DateTime::createFromFormat(AbstractTable::DATE_FORMAT, $this->deadline);
 		if ($date)
 		{
-			return $date->format('d / m / Y');
+			$formattedDate = $date->format('d / m / Y');
+			// prevent date line breaking
+			return str_replace(' ', '&nbsp;', $formattedDate);
 		}
 		return null;
 	}
