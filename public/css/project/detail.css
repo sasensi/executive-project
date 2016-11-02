@@ -242,6 +242,19 @@ h2 {
     background-color : blue;
 }
 
+/* CATEGORIES*/
+#categories {
+    text-align : center;
+}
+
+#categories li {
+    border        : 1px solid blue;
+    border-radius : 3px;
+    padding: .125em .25em;
+    margin: .25em;
+    cursor: pointer;
+}
+
 /* PAYMENT */
 #payButton {
     position         : fixed;
@@ -263,15 +276,15 @@ h2 {
     background-color : lightcoral;
     height           : calc(100vh - 55px);
     width            : 100%;
-    top: 100%;
+    top              : 100%;
     z-index          : 100;
     padding          : 1em;
     text-align       : center;
-    transition: top 1s;
+    transition       : top 1s;
 }
 
 #payment.active {
-    top: 55px;
+    top : 55px;
 }
 
 /* wrapper */
@@ -320,10 +333,10 @@ h2 {
 }
 
 #payment section {
-    height: 6em;
-    top: 50%;
-    margin-top: -4em;
-    position: relative;
+    height     : 6em;
+    top        : 50%;
+    margin-top : -4em;
+    position   : relative;
 }
 
 #price {
@@ -339,15 +352,15 @@ h2 {
 }
 
 #gift {
-    font-size  : 1.2em;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    opacity: .5;
+    font-size : 1.2em;
+    position  : absolute;
+    bottom    : 0;
+    width     : 100%;
+    opacity   : .5;
 }
 
 #gift.active {
-    opacity: 1;
+    opacity : 1;
 }
 
 #gift i {

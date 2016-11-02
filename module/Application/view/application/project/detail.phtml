@@ -207,6 +207,18 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 					</p>
 				</div>
 			<?php endforeach; ?>
+			<div class="separator hidden-md hidden-lg"></div>
+		</div>
+		<div id="categories">
+			<ul class="list-inline">
+				<?php foreach ($categories as $category): ?>
+					<li>
+						<a href="<?= $this->url('home/action', ['controller' => 'project', 'action' => 'index']).'?category='.$category->id ?>">
+							<?= $category->name ?>
+						</a>
+					</li>
+				<?php endforeach; ?>
+			</ul>
 		</div>
 
 		<!-- PAYMENT -->
