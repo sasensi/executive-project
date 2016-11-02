@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?1hqa5a');
-  src:  url('fonts/icomoon.eot?1hqa5a#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?1hqa5a') format('truetype'),
-    url('fonts/icomoon.woff?1hqa5a') format('woff'),
-    url('fonts/icomoon.svg?1hqa5a#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?9k6s72');
+  src:  url('fonts/icomoon.eot?9k6s72#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?9k6s72') format('truetype'),
+    url('fonts/icomoon.woff?9k6s72') format('woff'),
+    url('fonts/icomoon.svg?9k6s72#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -12,6 +12,7 @@
 .icomoon {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
+  speak: none;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -23,6 +24,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon_arrow_filled_left:before {
+  content: "\e935";
+}
+.icon_arrow_filled_right:before {
+  content: "\e936";
+}
+.icon_pause:before {
+  content: "\e934";
+}
 .icon_time_1 .path1:before {
   content: "\e92a";
   color: rgb(0, 0, 0);

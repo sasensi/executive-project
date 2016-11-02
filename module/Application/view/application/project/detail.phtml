@@ -66,12 +66,13 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 
 ?>
 
+<!-- NAV -->
 <div class="subNav">
 	<div class="row">
-		<div class="col-xs-2 hidden-xs">
+		<div class="col-xs-6 hidden-xs">
 			<h1><?= $project->title ?></h1>
 		</div>
-		<div class="col-xs-12 col-sm-10">
+		<div class="col-xs-12 col-sm-6">
 			<ul class="list-inline">
 				<li>
 					<a href="#mainPicture" class="active">
@@ -102,6 +103,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 	</div>
 </div>
 
+<!-- CONTENT -->
 <div class="row offsetContainer">
 	<div id="mainPicture" class="col-xs-12 col-md-8">
 		<img class="img-responsive" src="<?= $project->mainpicture ?>" alt="Image principale - <?= $project->title ?>">
@@ -126,36 +128,38 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 				<span><?= count($financers) ?></span>
 			</div>
 		</div>
+		<div class="separator hidden-md hidden-lg"></div>
 	</div>
 	<div id="description" class="col-xs-12 col-md-8">
 		<?= $project->description ?>
+		<div class="separator"></div>
 	</div>
 	<div id="movies" class="col-xs-12 col-md-8">
 		<?php if (count($videos) > 0): ?>
-			<div id="my_carousel" class="carousel slide" data-ride="carousel">
-				<!-- Bulles -->
-				<ol class="carousel-indicators">
-					<?php for ($i=0; $i<count($videos); $i++): ?>
-						<li data-target="#my_carousel" data-slide-to="<?= $i ?>" class="<?= $i === 0 ? 'active' : '' ?>"></li>
-					<?php endfor; ?>
-				</ol>
+			<div id="moviesCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
 				<!-- Slides -->
 				<div class="carousel-inner">
 					<?php foreach ($videos as $i => $video): ?>
 						<div class="item <?= $i === 0 ? 'active' : '' ?>">
-							<div class="carousel-page">
-								<video src="<?= $video->url ?>"></video>
-							</div>
-							<!--<div class="carousel-caption">Page 2 de présentation</div>-->
+							<video src="<?= $video->url ?>"></video>
 						</div>
 					<?php endforeach; ?>
 				</div>
-				<!-- Contrôles -->
-				<a class="left carousel-control" href="#my_carousel" data-slide="prev">
-					<span class="glyphicon glyphicon-chevron-left"></span>
+				<!-- Controls -->
+				<ol class="carousel-indicators">
+					<?php for ($i=0; $i<count($videos); $i++): ?>
+						<li data-target="#moviesCarousel" data-slide-to="<?= $i ?>" class="<?= $i === 0 ? 'active' : '' ?>"></li>
+					<?php endfor; ?>
+				</ol>
+				<div id="overlay">
+					<i id="playButton" class="icomoon icon_play"></i>
+					<i id="pauseButton" class="icomoon icon_pause"></i>
+				</div>
+				<a class="left carousel-control" href="#moviesCarousel" data-slide="prev">
+					<i class="icomoon icon_arrow_left"></i>
 				</a>
-				<a class="right carousel-control" href="#my_carousel" data-slide="next">
-					<span class="glyphicon glyphicon-chevron-right"></span>
+				<a class="right carousel-control" href="#moviesCarousel" data-slide="next">
+					<i class="icomoon icon_arrow_right"></i>
 				</a>
 			</div>
 		<?php else: ?>
@@ -165,11 +169,29 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 		<?php endif; ?>
 	</div>
 	<div id="pictures" class="col-xs-12 col-md-8">
-		<?php foreach ($pictures as $picture): ?>
-			<div class="picture">
-				<img src="<?= $picture->url ?>">
+		<div id="picturesCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+			<!-- Slides -->
+			<div class="carousel-inner">
+				<?php foreach ($pictures as $i => $picture): ?>
+					<div class="item <?= $i === 0 ? 'active' : '' ?>">
+						<img src="<?= $picture->url ?>">
+					</div>
+				<?php endforeach; ?>
 			</div>
-		<?php endforeach; ?>
+			<!-- Controls -->
+			<ol class="carousel-indicators">
+				<?php for ($i=0; $i<count($pictures); $i++): ?>
+					<li data-target="#picturesCarousel" data-slide-to="<?= $i ?>" class="<?= $i === 0 ? 'active' : '' ?>"></li>
+				<?php endfor; ?>
+			</ol>
+			<a class="left carousel-control" href="#picturesCarousel" data-slide="prev">
+				<i class="icomoon icon_arrow_filled_left"></i>
+			</a>
+			<a class="right carousel-control" href="#picturesCarousel" data-slide="next">
+				<i class="icomoon icon_arrow_filled_right"></i>
+			</a>
+		</div>
+		<div class="separator hidden-md hidden-lg"></div>
 	</div>
 	<div id="gifts" class="col-xs-12 col-md-4">
 		<?php foreach ($gifts as $gift): ?>
@@ -178,7 +200,11 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 					<i class="icomoon icon_payment"></i>
 					<span>&#62; <?= $gift->minamount ?> €</span>
 				</p>
-				<h3><?= $gift->title ?></h3>
+				<p class="title">
+					<i class="icomoon icon_gift"></i>
+					<span><?= $gift->title ?></span>
+				</p>
+
 				<p class="description">
 					<?= $gift->description ?>
 				</p>

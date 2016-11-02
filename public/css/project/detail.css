@@ -76,44 +76,168 @@ h2 {
 }
 
 #stats > .row > div {
-    margin-bottom : 1em;
-    text-align    : center;
+    /* margin-bottom : 1em; */
+    text-align : center;
 }
 
 #stats span {
     font-size : 1.2em;
 }
 
-
 /* MOVIES */
 #movies video, .picture, .picture img {
-    width : 100%;
-    background-color: lightgray;
+    width            : 100%;
+    background-color : lightgray;
 }
-
 
 /* GIFTS */
-.minAmount {
-    color: blue;
+.gift .title, .gift .minAmount {
+    font-weight : 600;
 }
 
-.gift > h3 {
-    margin-top: 0;
-    font-size: inherit;
-    font-weight: 600;
+.gift .minAmount {
+    color : blue;
+}
+
+.gift i {
+    font-size  : 1.2em;
+    margin-top : -4px;
+}
+
+.gift .title i {
+    margin-right : .15em;
 }
 
 .gift > .description {
-    margin-bottom: 2em;
+    margin-bottom : 2em;
 }
 
 .gift:last-child > .description {
-    margin-bottom: 0;
+    margin-bottom : 0;
 }
 
-.minAmount > i {
-    font-size: 1.2em;
-    margin-top: -4px;
+/* MOVIES */
+#movies {
+    margin-bottom : 1em;
+}
+
+#overlay {
+    background-color : rgba(0, 0, 255, 0.25);
+    width            : 100%;
+    color            : white;
+    height           : 100%;
+    position         : absolute;
+    top              : 0;
+    left             : 0;
+    text-align       : center;
+    line-height      : 100%;
+    font-size        : 2em;
+    cursor           : pointer;
+}
+
+#overlay i {
+    opacity : .5;
+}
+
+#overlay:hover i {
+    opacity : 1;
+}
+
+#pauseButton {
+    display : none;
+}
+
+/* playing state */
+#moviesCarousel #overlay,
+#moviesCarousel .carousel-control,
+#moviesCarousel .carousel-indicators li {
+    transition : opacity .5s
+}
+
+#moviesCarousel.playing #overlay,
+#moviesCarousel.playing .carousel-control,
+#moviesCarousel.playing .carousel-indicators li {
+    opacity : 0;
+}
+
+#moviesCarousel .carousel-indicators li,
+#moviesCarousel.playing:hover .carousel-control,
+#moviesCarousel.playing:hover .carousel-indicators li {
+    opacity : .5;
+}
+
+#moviesCarousel.playing:hover #overlay,
+#moviesCarousel .carousel-indicators li:hover,
+#moviesCarousel.playing .carousel-control:hover,
+#moviesCarousel.playing .carousel-indicators li:hover {
+    opacity : 1;
+}
+
+/* vertical align hack */
+#overlay:before,
+#moviesCarousel .left:before,
+#moviesCarousel .right:before {
+    content        : '';
+    display        : inline-block;
+    height         : 100%;
+    vertical-align : middle;
+    margin-right   : -0.25em;
+}
+
+/* PICTURES */
+#picturesCarousel {
+    padding       : 0 1em;
+    margin-bottom : 2em;
+}
+
+#pictures .arrow {
+    width        : 2em;
+    height       : 2em;
+    /* background-color : blue; */
+    position     : absolute;
+    top          : 50%;
+    margin-top   : -1em;
+    transform    : rotate(45deg);
+    border-right : 1em solid blue;
+}
+
+#pictures .carousel-control.left,
+#pictures .carousel-control.right {
+    width      : 50%;
+    color      : blue;
+    opacity    : 1;
+    background : none;
+    font-size  : 2em;
+}
+
+#pictures .carousel-control i {
+    position   : absolute;
+    top        : 50%;
+    margin-top : -.5em;
+}
+#pictures .carousel-control.left i {
+    left : 0;
+}
+#pictures .carousel-control.right i {
+    right : 0;
+}
+
+#pictures img {
+    width : 100%;
+}
+
+#pictures .carousel-indicators {
+    bottom        : -2em;
+    margin-bottom : 0;
+}
+
+#pictures .carousel-indicators li {
+    /* background-color : blue; */
+    border-color : blue;
+}
+
+#pictures .carousel-indicators li.active {
+    background-color : blue;
 }
 
 /* RESPONSIVE */
@@ -124,7 +248,8 @@ h2 {
         padding-top : 0;
     }
 
-    #mainPicture {
+    #mainPicture,
+    #movies {
         padding : 0;
     }
 
@@ -134,6 +259,17 @@ h2 {
 
     .subNav li {
         margin-left : 43px;
+    }
+
+    #picturesCarousel {
+        padding : 0;
+    }
+
+    #pictures .carousel-control.left i {
+        left: -.5em;
+    }
+    #pictures .carousel-control.right i {
+        right: -.5em;
     }
 }
 
@@ -156,7 +292,7 @@ h2 {
 
     #stats, #gifts {
         position : absolute;
-        right: 0;
+        right    : 0;
         top      : 1em;
     }
 
@@ -165,15 +301,16 @@ h2 {
     }
 
     #gifts {
-        margin-top: 9em;
-        width: calc(33.33333333333333% - 15px);
-        border-left: 3px solid blue;
-        padding-top: .5em;
-        padding-bottom: .5em;
+        margin-top     : 9em;
+        width          : calc(33.33333333333333% - 15px);
+        border-left    : 3px solid blue;
+        padding-top    : .5em;
+        padding-bottom : .5em;
     }
 
     #stats > .row > div {
-        text-align : left;
+        text-align    : left;
+        margin-bottom : 1em;
     }
 
     .iconWrapper {

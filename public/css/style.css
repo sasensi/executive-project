@@ -37,6 +37,12 @@ div.container a.brand {
     width         : 90%;
 }
 
+.separator {
+    height           : 2px;
+    background-color : blue;
+    margin           : 1em;
+}
+
 /* NAV */
 
 nav {
@@ -100,7 +106,7 @@ nav li i {
 }
 
 .offsetContainer {
-    margin-top: 89px;
+    margin-top : 89px;
     position   : relative;
     padding    : 15px;
 }
