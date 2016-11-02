@@ -56,4 +56,18 @@ $(document).ready(function ()
         $playButton.show();
         $video.get(0).pause();
     }
+
+    //
+    // PAYMENT
+    //
+
+    var $payment = $('#payment');
+    $('#payButton').click(function ()
+    {
+        $payment.addClass('active');
+    });
+    $('#closebutton').click(function ()
+    {
+        $payment.removeClass('active');
+    });
 });

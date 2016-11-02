@@ -104,111 +104,147 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 </div>
 
 <!-- CONTENT -->
-<div class="row offsetContainer">
-	<div id="mainPicture" class="col-xs-12 col-md-8">
-		<img class="img-responsive" src="<?= $project->mainpicture ?>" alt="Image principale - <?= $project->title ?>">
-	</div>
-	<div class="col-xs-12 col-md-8">
-		<h2><?= $project->subtitle ?></h2>
-	</div>
-	<div id="stats" class="col-xs-12 col-md-4">
-		<div class="row">
-			<div class="col-xs-4 col-md-12">
-				<div class="iconWrapper"><?= $this->partial('/partial/project/goal.phtml', ['project' => $project]) ?></div>
-				<span><?= $project->transactionsum ?>&nbsp;/&nbsp;<?= $project->goal ?>&nbsp;€</span>
-			</div>
-			<div class="col-xs-4 col-md-12">
-				<div class="iconWrapper"><?= $this->partial('/partial/project/remainingTime.phtml', ['project' => $project]) ?></div>
-				<span><?= $timeLabel ?></span>
-			</div>
-			<div class="col-xs-4 col-md-12">
-				<div class="iconWrapper">
-					<i class="icomoon icon_people"></i>
-				</div>
-				<span><?= count($financers) ?></span>
-			</div>
+<div class="offsetContainer">
+	<div class="row">
+		<div id="mainPicture" class="col-xs-12 col-md-8">
+			<img class="img-responsive" src="<?= $project->mainpicture ?>" alt="Image principale - <?= $project->title ?>">
 		</div>
-		<div class="separator hidden-md hidden-lg"></div>
-	</div>
-	<div id="description" class="col-xs-12 col-md-8">
-		<?= $project->description ?>
-		<div class="separator"></div>
-	</div>
-	<div id="movies" class="col-xs-12 col-md-8">
-		<?php if (count($videos) > 0): ?>
-			<div id="moviesCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+		<div class="col-xs-12 col-md-8">
+			<h2><?= $project->subtitle ?></h2>
+		</div>
+		<div id="stats" class="col-xs-12 col-md-4">
+			<div class="row">
+				<div class="col-xs-4 col-md-12">
+					<div class="iconWrapper"><?= $this->partial('/partial/project/goal.phtml', ['project' => $project]) ?></div>
+					<span><?= $project->transactionsum ?>&nbsp;/&nbsp;<?= $project->goal ?>&nbsp;€</span>
+				</div>
+				<div class="col-xs-4 col-md-12">
+					<div class="iconWrapper"><?= $this->partial('/partial/project/remainingTime.phtml', ['project' => $project]) ?></div>
+					<span><?= $timeLabel ?></span>
+				</div>
+				<div class="col-xs-4 col-md-12">
+					<div class="iconWrapper">
+						<i class="icomoon icon_people"></i>
+					</div>
+					<span><?= count($financers) ?></span>
+				</div>
+			</div>
+			<div class="separator hidden-md hidden-lg"></div>
+		</div>
+		<div id="description" class="col-xs-12 col-md-8">
+			<?= $project->description ?>
+			<div class="separator"></div>
+		</div>
+		<div id="movies" class="col-xs-12 col-md-8">
+			<?php if (count($videos) > 0): ?>
+				<div id="moviesCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+					<!-- Slides -->
+					<div class="carousel-inner">
+						<?php foreach ($videos as $i => $video): ?>
+							<div class="item <?= $i === 0 ? 'active' : '' ?>">
+								<video src="<?= $video->url ?>"></video>
+							</div>
+						<?php endforeach; ?>
+					</div>
+					<!-- Controls -->
+					<ol class="carousel-indicators">
+						<?php for ($i = 0; $i < count($videos); $i++): ?>
+							<li data-target="#moviesCarousel" data-slide-to="<?= $i ?>" class="<?= $i === 0 ? 'active' : '' ?>"></li>
+						<?php endfor; ?>
+					</ol>
+					<div id="overlay">
+						<i id="playButton" class="icomoon icon_play"></i>
+						<i id="pauseButton" class="icomoon icon_pause"></i>
+					</div>
+					<a class="left carousel-control" href="#moviesCarousel" data-slide="prev">
+						<i class="icomoon icon_arrow_left"></i>
+					</a> <a class="right carousel-control" href="#moviesCarousel" data-slide="next">
+						<i class="icomoon icon_arrow_right"></i>
+					</a>
+				</div>
+			<?php else: ?><?php foreach ($videos as $i => $video): ?>
+				<video src="<?= $video->url ?>"></video>
+			<?php endforeach; ?><?php endif; ?>
+		</div>
+		<div id="pictures" class="col-xs-12 col-md-8">
+			<div id="picturesCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
 				<!-- Slides -->
 				<div class="carousel-inner">
-					<?php foreach ($videos as $i => $video): ?>
+					<?php foreach ($pictures as $i => $picture): ?>
 						<div class="item <?= $i === 0 ? 'active' : '' ?>">
-							<video src="<?= $video->url ?>"></video>
+							<img src="<?= $picture->url ?>">
 						</div>
 					<?php endforeach; ?>
 				</div>
 				<!-- Controls -->
 				<ol class="carousel-indicators">
-					<?php for ($i=0; $i<count($videos); $i++): ?>
-						<li data-target="#moviesCarousel" data-slide-to="<?= $i ?>" class="<?= $i === 0 ? 'active' : '' ?>"></li>
+					<?php for ($i = 0; $i < count($pictures); $i++): ?>
+						<li data-target="#picturesCarousel" data-slide-to="<?= $i ?>" class="<?= $i === 0 ? 'active' : '' ?>"></li>
 					<?php endfor; ?>
 				</ol>
-				<div id="overlay">
-					<i id="playButton" class="icomoon icon_play"></i>
-					<i id="pauseButton" class="icomoon icon_pause"></i>
-				</div>
-				<a class="left carousel-control" href="#moviesCarousel" data-slide="prev">
-					<i class="icomoon icon_arrow_left"></i>
-				</a>
-				<a class="right carousel-control" href="#moviesCarousel" data-slide="next">
-					<i class="icomoon icon_arrow_right"></i>
+				<a class="left carousel-control" href="#picturesCarousel" data-slide="prev">
+					<i class="icomoon icon_arrow_filled_left"></i>
+				</a> <a class="right carousel-control" href="#picturesCarousel" data-slide="next">
+					<i class="icomoon icon_arrow_filled_right"></i>
 				</a>
 			</div>
-		<?php else: ?>
-			<?php foreach ($videos as $i => $video): ?>
-				<video src="<?= $video->url ?>"></video>
-			<?php endforeach; ?>
-		<?php endif; ?>
-	</div>
-	<div id="pictures" class="col-xs-12 col-md-8">
-		<div id="picturesCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
-			<!-- Slides -->
-			<div class="carousel-inner">
-				<?php foreach ($pictures as $i => $picture): ?>
-					<div class="item <?= $i === 0 ? 'active' : '' ?>">
-						<img src="<?= $picture->url ?>">
-					</div>
-				<?php endforeach; ?>
-			</div>
-			<!-- Controls -->
-			<ol class="carousel-indicators">
-				<?php for ($i=0; $i<count($pictures); $i++): ?>
-					<li data-target="#picturesCarousel" data-slide-to="<?= $i ?>" class="<?= $i === 0 ? 'active' : '' ?>"></li>
-				<?php endfor; ?>
-			</ol>
-			<a class="left carousel-control" href="#picturesCarousel" data-slide="prev">
-				<i class="icomoon icon_arrow_filled_left"></i>
-			</a>
-			<a class="right carousel-control" href="#picturesCarousel" data-slide="next">
-				<i class="icomoon icon_arrow_filled_right"></i>
-			</a>
+			<div class="separator hidden-md hidden-lg"></div>
 		</div>
-		<div class="separator hidden-md hidden-lg"></div>
-	</div>
-	<div id="gifts" class="col-xs-12 col-md-4">
-		<?php foreach ($gifts as $gift): ?>
-			<div class="gift">
-				<p class="minAmount">
-					<i class="icomoon icon_payment"></i>
-					<span>&#62; <?= $gift->minamount ?> €</span>
-				</p>
-				<p class="title">
-					<i class="icomoon icon_gift"></i>
-					<span><?= $gift->title ?></span>
-				</p>
+		<div id="gifts" class="col-xs-12 col-md-4">
+			<?php foreach ($gifts as $gift): ?>
+				<div class="gift">
+					<p class="minAmount">
+						<i class="icomoon icon_payment"></i>
+						<span>&#62; <?= $gift->minamount ?> €</span>
+					</p>
+					<p class="title">
+						<i class="icomoon icon_gift"></i>
+						<span><?= $gift->title ?></span>
+					</p>
 
-				<p class="description">
-					<?= $gift->description ?>
-				</p>
+					<p class="description">
+						<?= $gift->description ?>
+					</p>
+				</div>
+			<?php endforeach; ?>
+		</div>
+
+		<!-- PAYMENT -->
+		<div id="payButton">
+			<i class="icomoon icon_payment"></i>
+		</div>
+		<div id="payment">
+			<div>
+				<div id="closebutton">
+					<div class="crossBar"></div>
+					<div class="crossBar"></div>
+				</div>
+
+				<h1><?= $project->title ?></h1>
+
+				<section>
+					<div id="price">
+						<input type="number">
+						<span>€</span>
+					</div>
+					<div id="gift">
+						<i class="icomoon icon_gift"></i>
+						<span>placeholder</span>
+					</div>
+				</section>
+
+				<div id="buttons">
+					<div id="paypalButton">
+						<i class="icomoon icon_paypal"></i>
+					</div>
+					<div id="creditCardButton">
+						<i class="icomoon icon_credit_card"></i>
+					</div>
+					<div id="bitcoinButton">
+						<i class="icomoon icon_bitcoin"></i>
+					</div>
+				</div>
 			</div>
-		<?php endforeach; ?>
+		</div>
 	</div>
 </div>

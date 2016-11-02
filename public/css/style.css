@@ -109,6 +109,24 @@ nav li i {
     margin-top : 89px;
     position   : relative;
     padding    : 15px;
+    width: 100%;
+}
+
+/* FORM */
+input[type="text"],
+input[type="number"] {
+    background    : inherit;
+    border        : none;
+    border-bottom : 2px solid;
+    color         : inherit;
+    width         : 100%;
+    padding       : 0 5px;
+    margin-bottom : 5px;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    outline : none;
 }
 
 /* FOOTER */
