@@ -1,10 +1,11 @@
 <?php
 
 /**
+ * @var \Zend\View\Renderer\PhpRenderer $this
  * @var \Application\Form\ProjectAddForm $form
  */
 
-$form->setAttribute('action', '/project/add');
+$form->setAttribute('action', $this->url('home/action', ['controller' => 'project', 'action' => 'add']));
 $form->prepare();
 
 $test = $form->get('mainpicture')->getMessages();

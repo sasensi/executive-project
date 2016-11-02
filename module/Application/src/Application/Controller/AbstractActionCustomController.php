@@ -6,6 +6,7 @@ use Application\Model\AbstractTable;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Helper\HeadLink;
 use Zend\View\Helper\HeadScript;
+use Zend\View\Renderer\PhpRenderer;
 
 class AbstractActionCustomController extends AbstractActionController
 {
@@ -39,6 +40,9 @@ class AbstractActionCustomController extends AbstractActionController
 		$scriptHelper->appendFile($this->getRenderer()->basePath($pathFromBase));
 	}
 
+	/**
+	 * @return PhpRenderer
+	 */
 	protected function getRenderer()
 	{
 		return $this->getServiceLocator()->get('Zend\View\Renderer\RendererInterface');

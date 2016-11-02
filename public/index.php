@@ -23,6 +23,8 @@ if (php_sapi_name() === 'cli-server') {
     unset($path);
 }
 
+define('PUBLIC_DIR', __DIR__);
+
 // Setup autoloading
 require 'init_autoloader.php';
 

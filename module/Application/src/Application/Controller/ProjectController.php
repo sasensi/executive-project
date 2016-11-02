@@ -127,14 +127,33 @@ class ProjectController extends AbstractActionCustomController
 			{
 				$data = $form->getData();
 
+				var_dump($data);
+
 				$project = new Project();
 				$project->exchangeArray($data);
-				$project->creationdate = date('Y-m-d');
-				$project->user_id      = $user->id;
+				$project->creationdate   = date('Y-m-d');
+				$project->user_id        = $user->id;
+				$project->transactionsum = 0;
+				$project->mainpicture    = '';
 
-				$this->getProjectTable()->insert($project);
 
-				return $this->redirect()->toRoute('home', ['controller' => 'project', 'action' => 'user']);
+				$newProjectId = $this->getProjectTable()->insert($project);
+
+				// rename image
+				$dirFromRoot = '/img/'.$newProjectId.'/';
+				$fileDir     = PUBLIC_DIR.$dirFromRoot;
+				$filePath    = $fileDir.$data['mainpicture']['name'];
+				$fileUrl     = $this->getRenderer()->basePath().$dirFromRoot.$data['mainpicture']['name'];
+
+				if (!file_exists($fileDir))
+				{
+					mkdir($fileDir);
+				}
+				rename($data['mainpicture']['tmp_name'], $filePath);
+
+				$this->getProjectTable()->getTableGateway()->update(['mainpicture' => $fileUrl], ['id' => $newProjectId]);
+
+				return $this->redirect()->toRoute('home/action', ['controller' => 'project', 'action' => 'user']);
 			}
 		}
 		return new ViewModel([

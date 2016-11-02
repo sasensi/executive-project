@@ -80,5 +80,19 @@ class ProjectTable extends AbstractTable
 
 	public function insert(Project $project)
 	{
+		$this->tableGateway->insert([
+			'user_id'        => $project->user_id,
+			'title'          => $project->title,
+			'subtitle'       => $project->subtitle,
+			'description'    => $project->description,
+			'mainpicture'    => $project->mainpicture,
+			'creationdate'   => $project->creationdate,
+			'deadline'       => $project->deadline,
+			'goal'           => $project->goal,
+			'promotionend'   => $project->promotionend,
+			'transactionsum' => $project->transactionsum,
+		]);
+
+		return $this->tableGateway->getLastInsertValue();
 	}
 }
