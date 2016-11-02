@@ -28,7 +28,13 @@ echo $this->formRow($form->get('description'));
 echo $this->formRow($form->get('mainpicture'));
 echo $this->formRow($form->get('deadline'));
 echo $this->formRow($form->get('goal'));
+echo $this->formRow($form->get('category_ids'));
 echo $this->formSubmit($form->get('submit'));
+?>
+
+<p>* Champs obligatoires</p>
+
+<?php
 echo $this->form()->closeTag($form);
 
 ?>

@@ -108,7 +108,9 @@ class ProjectController extends AbstractActionCustomController
 
 	public function addAction()
 	{
-		$form = new ProjectAddForm();
+		$categories = $this->getTable('category')->getAll();
+		$form       = new ProjectAddForm('projectform', $categories);
+
 		$user = UserController::getLoggedUser();
 
 		/** @var \Zend\Http\PhpEnvironment\Request $request */
@@ -129,6 +131,7 @@ class ProjectController extends AbstractActionCustomController
 
 				var_dump($data);
 
+
 				$project = new Project();
 				$project->exchangeArray($data);
 				$project->creationdate   = date('Y-m-d');
@@ -136,7 +139,7 @@ class ProjectController extends AbstractActionCustomController
 				$project->transactionsum = 0;
 				$project->mainpicture    = '';
 
-
+				// create row
 				$newProjectId = $this->getProjectTable()->insert($project);
 
 				// rename image
@@ -151,10 +154,22 @@ class ProjectController extends AbstractActionCustomController
 				}
 				rename($data['mainpicture']['tmp_name'], $filePath);
 
+				// update image name
 				$this->getProjectTable()->getTableGateway()->update(['mainpicture' => $fileUrl], ['id' => $newProjectId]);
+
+				// create categories links
+				foreach ($data['category_ids'] as $categoryId)
+				{
+					$this->getTable('projectcategory')->getTableGateway()->insert([
+						'project_id'  => $newProjectId,
+						'category_id' => $categoryId
+					]);
+				}
 
 				return $this->redirect()->toRoute('home/action', ['controller' => 'project', 'action' => 'user']);
 			}
+
+			var_dump($form->getData());
 		}
 		return new ViewModel([
 			'form' => $form

@@ -2,6 +2,8 @@
 
 namespace Application\Form;
 
+use Application\Model\Category;
+use Zend\Form\Element\Select;
 use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
@@ -13,7 +15,13 @@ use Zend\Validator\StringLength;
 
 class ProjectAddForm extends Form implements InputFilterAwareInterface
 {
-	public function __construct($name = null)
+	/**
+	 * ProjectAddForm constructor.
+	 *
+	 * @param null  $name
+	 * @param Category[] $categories all avaiable categories
+	 */
+	public function __construct($name = null, $categories = [])
 	{
 		parent::__construct('projectAddForm');
 
@@ -21,7 +29,7 @@ class ProjectAddForm extends Form implements InputFilterAwareInterface
 			'name'    => 'title',
 			'type'    => 'Text',
 			'options' => [
-				'label' => 'Titre'
+				'label' => 'Titre*'
 			]
 		]);
 
@@ -29,7 +37,7 @@ class ProjectAddForm extends Form implements InputFilterAwareInterface
 			'name'    => 'subtitle',
 			'type'    => 'Text',
 			'options' => [
-				'label' => 'Sous-titre'
+				'label' => 'Sous-titre*'
 			]
 		]);
 
@@ -37,7 +45,7 @@ class ProjectAddForm extends Form implements InputFilterAwareInterface
 			'name'    => 'description',
 			'type'    => 'TextArea',
 			'options' => [
-				'label' => 'Description'
+				'label' => 'Description*'
 			]
 		]);
 
@@ -45,15 +53,7 @@ class ProjectAddForm extends Form implements InputFilterAwareInterface
 			'name'    => 'mainpicture',
 			'type'    => 'File',
 			'options' => [
-				'label' => 'Image principale'
-			]
-		]);
-
-		$this->add([
-			'name'    => 'deadline',
-			'type'    => 'Date',
-			'options' => [
-				'label' => 'Date Butoire'
+				'label' => 'Image principale*'
 			]
 		]);
 
@@ -61,8 +61,33 @@ class ProjectAddForm extends Form implements InputFilterAwareInterface
 			'name'    => 'goal',
 			'type'    => 'Number',
 			'options' => [
-				'label' => 'Objectif'
+				'label' => 'Objectif*'
 			]
+		]);
+
+		$this->add([
+			'name'    => 'deadline',
+			'type'    => 'Date',
+			'options' => [
+				'label' => 'Date Butoire*'
+			]
+		]);
+
+		$categoriesHt = [];
+		foreach ($categories as $category)
+		{
+			$categoriesHt[$category->id] = $category->name;
+		}
+		$this->add([
+			'name'       => 'category_ids',
+			'type'       => Select::class,
+			'attributes' => [
+				'multiple' => 'multiple'
+			],
+			'options'    => [
+				'label'         => 'Catégories*',
+				'value_options' => $categoriesHt,
+			],
 		]);
 
 
@@ -112,7 +137,7 @@ class ProjectAddForm extends Form implements InputFilterAwareInterface
 			'required'   => true,
 			'validators' => [
 				new Extension('jpg,png'),
-			    new Size(1048576),
+				new Size(1048576),
 			]
 		]);
 
@@ -123,7 +148,7 @@ class ProjectAddForm extends Form implements InputFilterAwareInterface
 				new LessThan(['max' => 1000000]),
 			]
 		]);
-		
+
 		$this->setInputFilter($inputFilter);
 	}
 
