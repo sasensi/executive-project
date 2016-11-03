@@ -213,6 +213,9 @@ class ProjectController extends AbstractActionCustomController
 				$pictures = $data['picture_ids'];
 				foreach ($pictures as $picture)
 				{
+					// handle file upload error
+					if (empty($picture['tmp_name']) || empty($picture['name'])) continue;
+
 					rename($picture['tmp_name'], $fileDir.$picture['name']);
 
 					// create picture
@@ -220,8 +223,23 @@ class ProjectController extends AbstractActionCustomController
 						'url'        => $fileUrlDir.$picture['name'],
 						'project_id' => $project->id
 					]);
-					$picutreId = $this->getTable('picture')->getTableGateway()->getLastInsertValue();
 				}
+
+				// videos
+				$videos = $data['video_ids'];
+				foreach ($videos as $video)
+				{
+					// handle file upload error
+					if (empty($video['tmp_name']) || empty($video['name'])) continue;
+
+					rename($video['tmp_name'], $fileDir.$video['name']);
+
+					$this->getTable('video')->getTableGateway()->insert([
+						'url'        => $fileUrlDir.$video['name'],
+						'project_id' => $project->id
+					]);
+				}
+
 
 				$this->getServiceLocator()->get(Adapter::class)->getDriver()->getConnection()->commit();
 

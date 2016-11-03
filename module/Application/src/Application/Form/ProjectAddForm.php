@@ -92,6 +92,7 @@ class ProjectAddForm extends Form implements InputFilterAwareInterface
 			],
 		]);
 
+
 		$tagsHt = [];
 		foreach ($tags as $tag)
 		{
@@ -102,10 +103,17 @@ class ProjectAddForm extends Form implements InputFilterAwareInterface
 		$tagField->setItems($tagsHt);
 		$this->add($tagField);
 
+
 		$picturesField = new File('picture_ids');
 		$picturesField->setLabel('Images secondaires');
 		$picturesField->setAttribute('multiple', true);
 		$this->add($picturesField);
+
+
+		$videosField = new File('video_ids');
+		$videosField->setLabel('Vidéos');
+		$videosField->setAttribute('multiple', true);
+		$this->add($videosField);
 
 
 		$this->add([
@@ -154,7 +162,25 @@ class ProjectAddForm extends Form implements InputFilterAwareInterface
 			'required'   => true,
 			'validators' => [
 				new Extension('jpg,png'),
-				new Size(1048576),
+				new Size('1MB'),
+			]
+		]);
+
+		$inputFilter->add([
+			'name'       => 'picture_ids',
+			'required'   => false,
+			'validators' => [
+				new Extension('jpg,png'),
+				new Size('1MB'),
+			]
+		]);
+
+		$inputFilter->add([
+			'name'       => 'video_ids',
+			'required'   => false,
+			'validators' => [
+				new Extension('mp4'),
+				new Size('15MB'),
 			]
 		]);
 

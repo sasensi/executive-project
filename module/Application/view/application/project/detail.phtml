@@ -142,35 +142,31 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 
 		<?php if (count($videos) > 0): ?>
 			<div id="movies" class="col-xs-12 col-md-8">
-				<?php if (count($videos) > 1): ?>
-					<div id="moviesCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
-						<!-- Slides -->
-						<div class="carousel-inner">
-							<?php foreach ($videos as $i => $video): ?>
-								<div class="item <?= $i === 0 ? 'active' : '' ?>">
-									<video src="<?= $this->basePath($video->url) ?>"></video>
-								</div>
-							<?php endforeach; ?>
-						</div>
-						<!-- Controls -->
-						<ol class="carousel-indicators">
-							<?php for ($i = 0; $i < count($videos); $i++): ?>
-								<li data-target="#moviesCarousel" data-slide-to="<?= $i ?>" class="<?= $i === 0 ? 'active' : '' ?>"></li>
-							<?php endfor; ?>
-						</ol>
-						<div id="overlay">
-							<i id="playButton" class="icomoon icon_play"></i>
-							<i id="pauseButton" class="icomoon icon_pause"></i>
-						</div>
-						<a class="left carousel-control" href="#moviesCarousel" data-slide="prev">
-							<i class="icomoon icon_arrow_left"></i>
-						</a> <a class="right carousel-control" href="#moviesCarousel" data-slide="next">
-							<i class="icomoon icon_arrow_right"></i>
-						</a>
+				<div id="moviesCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+					<!-- Slides -->
+					<div class="carousel-inner">
+						<?php foreach ($videos as $i => $video): ?>
+							<div class="item <?= $i === 0 ? 'active' : '' ?>">
+								<video src="<?= $this->basePath($video->url) ?>"></video>
+							</div>
+						<?php endforeach; ?>
 					</div>
-				<?php else: ?><?php foreach ($videos as $i => $video): ?>
-					<video src="<?= $this->basePath($video->url) ?>"></video>
-				<?php endforeach; ?><?php endif; ?>
+					<!-- Controls -->
+					<ol class="carousel-indicators">
+						<?php for ($i = 0; $i < count($videos); $i++): ?>
+							<li data-target="#moviesCarousel" data-slide-to="<?= $i ?>" class="<?= $i === 0 ? 'active' : '' ?>"></li>
+						<?php endfor; ?>
+					</ol>
+					<div id="overlay">
+						<i id="playButton" class="icomoon icon_play"></i>
+						<i id="pauseButton" class="icomoon icon_pause"></i>
+					</div>
+					<a class="left carousel-control" href="#moviesCarousel" data-slide="prev">
+						<i class="icomoon icon_arrow_left"></i>
+					</a> <a class="right carousel-control" href="#moviesCarousel" data-slide="next">
+						<i class="icomoon icon_arrow_right"></i>
+					</a>
+				</div>
 			</div>
 		<?php endif; ?>
 
