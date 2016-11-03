@@ -47,6 +47,17 @@ class ProjectController extends AbstractActionCustomController
 				if (!empty($filterdata['category'])) $searchFilter->setSelectedCategory($filterdata['category']);
 				if (!empty($filterdata['order'])) $searchFilter->setSelectedOrder($filterdata['order']);
 				if (!empty($filterdata['status'])) $searchFilter->setSelectedStatus($filterdata['status']);
+				if (!empty($filterdata['tag']))
+				{
+					try
+					{
+						$tag = $this->getTable('tag')->getOneById($filterdata['tag']);
+						$searchFilter->setTag($tag);
+					}
+					catch (\Exception $e)
+					{
+					}
+				}
 			}
 		}
 

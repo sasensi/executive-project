@@ -242,8 +242,9 @@ h2 {
     background-color : blue;
 }
 
-/* CATEGORIES*/
-#categories {
+/* CATEGORIES/TAGS */
+#categories,
+#tags {
     text-align : center;
 }
 
@@ -253,6 +254,12 @@ h2 {
     padding: .125em .25em;
     margin: .25em;
     cursor: pointer;
+}
+
+#tags li {
+    border-bottom: 1px solid blue;
+    padding: 0 3px;
+    margin: .25em;
 }
 
 /* PAYMENT */

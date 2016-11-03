@@ -10,6 +10,7 @@ namespace Application\Form;
 
 
 use Application\Model\Category;
+use Application\Model\Tag;
 
 class ProjectSearchFilter
 {
@@ -33,6 +34,10 @@ class ProjectSearchFilter
 		self::ORDER_DATE_DESC => 'date ordre décroissant',
 	];
 	protected $categories;
+	/**
+	 * @var Tag
+	 */
+	protected $tag;
 
 	/**
 	 * ProjectSearchFilter constructor.
@@ -132,6 +137,22 @@ class ProjectSearchFilter
 	public function getCategories()
 	{
 		return $this->categories;
+	}
+
+	/**
+	 * @return \Application\Model\Tag
+	 */
+	public function getTag()
+	{
+		return $this->tag;
+	}
+
+	/**
+	 * @param \Application\Model\Tag $tag
+	 */
+	public function setTag(Tag $tag)
+	{
+		$this->tag = $tag;
 	}
 
 }

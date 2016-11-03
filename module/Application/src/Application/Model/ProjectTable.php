@@ -46,6 +46,7 @@ class ProjectTable extends AbstractTable
 				if (isset($categoryId))
 				{
 					$select->join('projectcategory', 'projectcategory.project_id = project.id');
+					//$select->join('projectcategory', 'projectcategory.project_id = project.id', Select::SQL_STAR, Select::JOIN_LEFT);
 					$where->AND->equalTo('projectcategory.category_id', $categoryId);
 				}
 
@@ -58,6 +59,14 @@ class ProjectTable extends AbstractTable
 				elseif ($status === ProjectSearchFilter::STATUS_FINISHED)
 				{
 					$where->AND->literal('deadline < now()');
+				}
+
+				// tag
+				$tag = $searchFilter->getTag();
+				if (isset($tag))
+				{
+					$select->join('projecttag', 'projecttag.project_id = project.id');
+					$where->AND->equalTo('projecttag.tag_id', $tag->id);
 				}
 			});
 

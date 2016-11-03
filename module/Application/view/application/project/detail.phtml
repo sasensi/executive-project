@@ -9,6 +9,7 @@
  * @var \Application\Model\Picture[]    $pictures
  * @var \Zend\View\Renderer\PhpRenderer $this
  * @var \Application\Model\User[]       $financers
+ * @var \Application\Model\Tag[]        $tags
  */
 
 // debug
@@ -106,12 +107,14 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 <!-- CONTENT -->
 <div class="offsetContainer">
 	<div class="row">
+
 		<div id="mainPicture" class="col-xs-12 col-md-8">
 			<img class="img-responsive" src="<?= $this->basePath($project->mainpicture) ?>" alt="Image principale - <?= $project->title ?>">
 		</div>
 		<div class="col-xs-12 col-md-8">
 			<h2><?= $project->subtitle ?></h2>
 		</div>
+
 		<div id="stats" class="col-xs-12 col-md-4">
 			<div class="row">
 				<div class="col-xs-4 col-md-12">
@@ -131,10 +134,12 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 			</div>
 			<div class="separator hidden-md hidden-lg"></div>
 		</div>
+
 		<div id="description" class="col-xs-12 col-md-8">
 			<?= $project->description ?>
 			<div class="separator"></div>
 		</div>
+
 		<?php if (count($videos) > 0): ?>
 			<div id="movies" class="col-xs-12 col-md-8">
 				<?php if (count($videos) > 1): ?>
@@ -163,13 +168,12 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 							<i class="icomoon icon_arrow_right"></i>
 						</a>
 					</div>
-				<?php else: ?>
-					<?php foreach ($videos as $i => $video): ?>
-						<video src="<?= $this->basePath($video->url) ?>"></video>
-					<?php endforeach; ?>
-				<?php endif; ?>
+				<?php else: ?><?php foreach ($videos as $i => $video): ?>
+					<video src="<?= $this->basePath($video->url) ?>"></video>
+				<?php endforeach; ?><?php endif; ?>
 			</div>
 		<?php endif; ?>
+
 		<?php if (count($pictures) > 0): ?>
 			<div id="pictures" class="col-xs-12 col-md-8">
 				<div id="picturesCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
@@ -196,6 +200,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 				<div class="separator"></div>
 			</div>
 		<?php endif; ?>
+
 		<?php if (count($gifts) > 0): ?>
 			<div id="gifts" class="col-xs-12 col-md-4">
 				<?php foreach ($gifts as $gift): ?>
@@ -217,6 +222,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 				<div class="separator hidden-md hidden-lg"></div>
 			</div>
 		<?php endif; ?>
+
 		<div id="categories" class="col-xs-12 col-md-8">
 			<ul class="list-inline">
 				<?php foreach ($categories as $category): ?>
@@ -228,6 +234,20 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 				<?php endforeach; ?>
 			</ul>
 		</div>
+
+		<?php if (count($tags) > 0): ?>
+			<div id="tags" class="col-xs-12 col-md-8">
+				<ul class="list-inline">
+					<?php foreach ($tags as $tag): ?>
+						<li>
+							<a href="<?= $this->url('home/action', ['controller' => 'project', 'action' => 'index']).'?tag='.$tag->id ?>">
+								<?= $tag->name ?>
+							</a>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+		<?php endif; ?>
 
 		<!-- PAYMENT -->
 		<div id="payButton">
