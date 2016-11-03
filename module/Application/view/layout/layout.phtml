@@ -27,6 +27,7 @@
 
 	<!-- scripts -->
 	<?php echo $this->headScript()
+	                ->prependFile($this->basePath('js/main.js'))
 	                ->prependFile($this->basePath('js/bootstrap.min.js'))
 	                ->prependFile($this->basePath('js/jquery.min.js'))
 	                ->prependFile($this->basePath('js/respond.min.js'), 'text/javascript', ['conditional' => 'lt IE 9',])

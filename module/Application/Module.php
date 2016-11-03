@@ -9,6 +9,8 @@
 
 namespace Application;
 
+use Application\Form\View\Helper\FormElement;
+use Application\Form\View\Helper\TagPickerHelper;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Mvc\ModuleRouteListener;
@@ -53,7 +55,8 @@ class Module
 				'picture',
 				'transaction',
 				'paymentmethod',
-			    'projectcategory'
+				'projectcategory',
+				'projecttag',
 			]),
 		];
 	}
@@ -72,15 +75,15 @@ class Module
 
 			$config[ 'Application\Model\\'.$capTableName.'Table' ] = function ($sm) use ($capTableName)
 			{
-				$className = '\Application\Model\\'.$capTableName.'Table';
-				$tableGateway   = $sm->get($capTableName.'TableGateway');
-				$table          = new $className($tableGateway);
+				$className    = '\Application\Model\\'.$capTableName.'Table';
+				$tableGateway = $sm->get($capTableName.'TableGateway');
+				$table        = new $className($tableGateway);
 				return $table;
 			};
 
 			$config[ $capTableName.'TableGateway' ] = function ($sm) use ($capTableName, $tableName)
 			{
-				$className = '\Application\Model\\'.$capTableName;
+				$className          = '\Application\Model\\'.$capTableName;
 				$dbAdapter          = $sm->get('Zend\Db\Adapter\Adapter');
 				$resultSetPrototype = new ResultSet();
 				$resultSetPrototype->setArrayObjectPrototype(new $className());
@@ -89,5 +92,15 @@ class Module
 		}
 
 		return $config;
+	}
+
+	public function getViewHelperConfig()
+	{
+		return [
+			'invokables' => [
+				'formelement' => FormElement::class,
+				'tagpicker'   => TagPickerHelper::class
+			],
+		];
 	}
 }

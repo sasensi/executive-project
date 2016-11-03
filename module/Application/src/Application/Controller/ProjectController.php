@@ -11,10 +11,12 @@ use Application\Model\PictureTable;
 use Application\Model\Project;
 use Application\Model\ProjectTable;
 use Application\Model\ProjectviewTable;
+use Application\Model\Tag;
 use Application\Model\TagTable;
 use Application\Model\TransactionTable;
 use Application\Model\UserTable;
 use Application\Model\VideoTable;
+use Zend\Db\Adapter\Adapter;
 use Zend\View\Helper\HeadLink;
 use Zend\View\Helper\HeadScript;
 use Zend\View\Model\ViewModel;
@@ -91,8 +93,8 @@ class ProjectController extends AbstractActionCustomController
 		$userTable = $this->getTable('user');
 		$financers = $userTable->getAllForProject($project->id);
 
-		$this->addCssDependency('css/project/detail.css');
 		$this->addJsDependency('js/project/detail.js');
+		$this->addCssDependency('css/project/detail.css');
 
 		return new ViewModel([
 			'project'    => $project,
@@ -109,8 +111,11 @@ class ProjectController extends AbstractActionCustomController
 	public function addAction()
 	{
 		$categories = $this->getTable('category')->getAll();
-		$form       = new ProjectAddForm('projectform', $categories);
+		$tags       = $this->getTable('tag')->getAll();
+		// allow looping over tag twice
+		$tags->buffer();
 
+		$form = new ProjectAddForm('projectform', $categories, $tags);
 		$user = UserController::getLoggedUser();
 
 		/** @var \Zend\Http\PhpEnvironment\Request $request */
@@ -129,15 +134,15 @@ class ProjectController extends AbstractActionCustomController
 			{
 				$data = $form->getData();
 
-				var_dump($data);
-
-
 				$project = new Project();
 				$project->exchangeArray($data);
 				$project->creationdate   = date('Y-m-d');
 				$project->user_id        = $user->id;
 				$project->transactionsum = 0;
 				$project->mainpicture    = '';
+
+				// wrap queries in transaction in case of failure
+				$this->getServiceLocator()->get(Adapter::class)->getDriver()->getConnection()->beginTransaction();
 
 				// create row
 				$newProjectId = $this->getProjectTable()->insert($project);
@@ -166,11 +171,47 @@ class ProjectController extends AbstractActionCustomController
 					]);
 				}
 
+				// create tags
+				$postedTags = explode(', ', $data['tag_ids']);
+				foreach ($postedTags as $postedTag)
+				{
+					$tagId = null;
+					/** @var Tag $existingTag */
+					foreach ($tags as $existingTag)
+					{
+						if (strtoupper($postedTag) === strtoupper($existingTag->name))
+						{
+							$tagId = $existingTag->id;
+							break;
+						}
+					}
+
+					// if tag doesn't already exist, create it
+					if (!isset($tagId))
+					{
+						$this->getTable('tag')->getTableGateway()->insert(['name' => $postedTag]);
+						$tagId = $this->getTable('tag')->getTableGateway()->getLastInsertValue();
+					}
+
+					// create project/tag link
+					$this->getTable('projecttag')->getTableGateway()->insert(['project_id' => $newProjectId, 'tag_id' => $tagId]);
+				}
+
+				$this->getServiceLocator()->get(Adapter::class)->getDriver()->getConnection()->commit();
+
 				return $this->redirect()->toRoute('home/action', ['controller' => 'project', 'action' => 'user']);
 			}
 
 			var_dump($form->getData());
 		}
+
+		// client dependencies
+		$this->addJsDependency('vendor/bootstrap-tokenfield/dist/bootstrap-tokenfield.min.js');
+		$this->addJsDependency('vendor/bootstrap-tokenfield/docs-assets/js/typeahead.bundle.min.js');
+
+		$this->addCssDependency('vendor/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css');
+		$this->addCssDependency('vendor/bootstrap-tokenfield/dist/css/tokenfield-typeahead.min.css');
+
 		return new ViewModel([
 			'form' => $form
 		]);

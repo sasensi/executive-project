@@ -2,7 +2,9 @@
 
 namespace Application\Form;
 
+use Application\Form\Element\TagPicker;
 use Application\Model\Category;
+use Application\Model\Tag;
 use Zend\Form\Element\Select;
 use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
@@ -18,10 +20,11 @@ class ProjectAddForm extends Form implements InputFilterAwareInterface
 	/**
 	 * ProjectAddForm constructor.
 	 *
-	 * @param null  $name
+	 * @param null       $name
 	 * @param Category[] $categories all avaiable categories
+	 * @param Tag[]      $tags
 	 */
-	public function __construct($name = null, $categories = [])
+	public function __construct($name = null, $categories = [], $tags = [])
 	{
 		parent::__construct('projectAddForm');
 
@@ -76,7 +79,7 @@ class ProjectAddForm extends Form implements InputFilterAwareInterface
 		$categoriesHt = [];
 		foreach ($categories as $category)
 		{
-			$categoriesHt[$category->id] = $category->name;
+			$categoriesHt[ $category->id ] = $category->name;
 		}
 		$this->add([
 			'name'       => 'category_ids',
@@ -89,6 +92,16 @@ class ProjectAddForm extends Form implements InputFilterAwareInterface
 				'value_options' => $categoriesHt,
 			],
 		]);
+
+		$tagsHt = [];
+		foreach ($tags as $tag)
+		{
+			$tagsHt[$tag->id] = $tag->name;
+		}
+		$tagField = new TagPicker('tag_ids');
+		$tagField->setLabel('Tags');
+		$tagField->setItems($tagsHt);
+		$this->add($tagField);
 
 
 		$this->add([
