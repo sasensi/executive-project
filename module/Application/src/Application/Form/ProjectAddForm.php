@@ -5,15 +5,14 @@ namespace Application\Form;
 use Application\Form\Element\TagPicker;
 use Application\Model\Category;
 use Application\Model\Tag;
+use Zend\Form\Element\File;
 use Zend\Form\Element\Select;
 use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\Validator\File\Extension;
-use Zend\Validator\File\FilesSize;
 use Zend\Validator\File\Size;
 use Zend\Validator\LessThan;
-use Zend\Validator\StringLength;
 
 class ProjectAddForm extends Form implements InputFilterAwareInterface
 {
@@ -102,6 +101,11 @@ class ProjectAddForm extends Form implements InputFilterAwareInterface
 		$tagField->setLabel('Tags');
 		$tagField->setItems($tagsHt);
 		$this->add($tagField);
+
+		$picturesField = new File('picture_ids');
+		$picturesField->setLabel('Images secondaires');
+		$picturesField->setAttribute('multiple', true);
+		$this->add($picturesField);
 
 
 		$this->add([

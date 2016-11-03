@@ -145,13 +145,14 @@ class ProjectController extends AbstractActionCustomController
 				$this->getServiceLocator()->get(Adapter::class)->getDriver()->getConnection()->beginTransaction();
 
 				// create row
-				$newProjectId = $this->getProjectTable()->insert($project);
+				$project->id = $this->getProjectTable()->insert($project);
 
 				// rename image
-				$dirFromRoot = '/img/'.$newProjectId.'/';
+				$dirFromRoot = '/img/'.$project->id.'/';
 				$fileDir     = PUBLIC_DIR.$dirFromRoot;
+				$fileUrlDir  = $dirFromRoot;
 				$filePath    = $fileDir.$data['mainpicture']['name'];
-				$fileUrl     = $this->getRenderer()->basePath().$dirFromRoot.$data['mainpicture']['name'];
+				$fileUrl     = $fileUrlDir.$data['mainpicture']['name'];
 
 				if (!file_exists($fileDir))
 				{
@@ -160,13 +161,13 @@ class ProjectController extends AbstractActionCustomController
 				rename($data['mainpicture']['tmp_name'], $filePath);
 
 				// update image name
-				$this->getProjectTable()->getTableGateway()->update(['mainpicture' => $fileUrl], ['id' => $newProjectId]);
+				$this->getProjectTable()->getTableGateway()->update(['mainpicture' => $fileUrl], ['id' => $project->id]);
 
 				// create categories links
 				foreach ($data['category_ids'] as $categoryId)
 				{
 					$this->getTable('projectcategory')->getTableGateway()->insert([
-						'project_id'  => $newProjectId,
+						'project_id'  => $project->id,
 						'category_id' => $categoryId
 					]);
 				}
@@ -194,7 +195,21 @@ class ProjectController extends AbstractActionCustomController
 					}
 
 					// create project/tag link
-					$this->getTable('projecttag')->getTableGateway()->insert(['project_id' => $newProjectId, 'tag_id' => $tagId]);
+					$this->getTable('projecttag')->getTableGateway()->insert(['project_id' => $project->id, 'tag_id' => $tagId]);
+				}
+
+				// pictures
+				$pictures = $data['picture_ids'];
+				foreach ($pictures as $picture)
+				{
+					rename($picture['tmp_name'], $fileDir.$picture['name']);
+
+					// create picture
+					$this->getTable('picture')->getTableGateway()->insert([
+						'url'        => $fileUrlDir.$picture['name'],
+						'project_id' => $project->id
+					]);
+					$picutreId = $this->getTable('picture')->getTableGateway()->getLastInsertValue();
 				}
 
 				$this->getServiceLocator()->get(Adapter::class)->getDriver()->getConnection()->commit();
@@ -211,6 +226,7 @@ class ProjectController extends AbstractActionCustomController
 
 		$this->addCssDependency('vendor/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css');
 		$this->addCssDependency('vendor/bootstrap-tokenfield/dist/css/tokenfield-typeahead.min.css');
+		$this->addCssDependency('css/project/add.css');
 
 		return new ViewModel([
 			'form' => $form

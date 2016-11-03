@@ -107,7 +107,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 <div class="offsetContainer">
 	<div class="row">
 		<div id="mainPicture" class="col-xs-12 col-md-8">
-			<img class="img-responsive" src="<?= $project->mainpicture ?>" alt="Image principale - <?= $project->title ?>">
+			<img class="img-responsive" src="<?= $this->basePath($project->mainpicture) ?>" alt="Image principale - <?= $project->title ?>">
 		</div>
 		<div class="col-xs-12 col-md-8">
 			<h2><?= $project->subtitle ?></h2>
@@ -143,7 +143,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 						<div class="carousel-inner">
 							<?php foreach ($videos as $i => $video): ?>
 								<div class="item <?= $i === 0 ? 'active' : '' ?>">
-									<video src="<?= $video->url ?>"></video>
+									<video src="<?= $this->basePath($video->url) ?>"></video>
 								</div>
 							<?php endforeach; ?>
 						</div>
@@ -165,7 +165,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 					</div>
 				<?php else: ?>
 					<?php foreach ($videos as $i => $video): ?>
-						<video src="<?= $video->url ?>"></video>
+						<video src="<?= $this->basePath($video->url) ?>"></video>
 					<?php endforeach; ?>
 				<?php endif; ?>
 			</div>
@@ -177,7 +177,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 					<div class="carousel-inner">
 						<?php foreach ($pictures as $i => $picture): ?>
 							<div class="item <?= $i === 0 ? 'active' : '' ?>">
-								<img src="<?= $picture->url ?>">
+								<img src="<?= $this->basePath($picture->url) ?>">
 							</div>
 						<?php endforeach; ?>
 					</div>
@@ -193,7 +193,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 						<i class="icomoon icon_arrow_filled_right"></i>
 					</a>
 				</div>
-				<div class="separator hidden-md hidden-lg"></div>
+				<div class="separator"></div>
 			</div>
 		<?php endif; ?>
 		<?php if (count($gifts) > 0): ?>
@@ -217,7 +217,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 				<div class="separator hidden-md hidden-lg"></div>
 			</div>
 		<?php endif; ?>
-		<div id="categories">
+		<div id="categories" class="col-xs-12 col-md-8">
 			<ul class="list-inline">
 				<?php foreach ($categories as $category): ?>
 					<li>

@@ -11,8 +11,8 @@ $form->prepare();
 $test = $form->get('mainpicture')->getMessages();
 
 // debug
-echo '$test =';
-var_dump($test);
+//echo '$test =';
+//var_dump($test);
 
 
 ?>
@@ -30,6 +30,7 @@ echo $this->formRow($form->get('deadline'));
 echo $this->formRow($form->get('goal'));
 echo $this->formRow($form->get('category_ids'));
 echo $this->formRow($form->get('tag_ids'));
+echo $this->formRow($form->get('picture_ids'));
 echo $this->formSubmit($form->get('submit'));
 ?>
 

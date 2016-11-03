@@ -34,8 +34,8 @@ class TagPicker extends Element implements InputProviderInterface
 	public function getInputSpecification()
 	{
 		return [
-			'name'       => $this->getName(),
-			'validators' => [],
+			'name'     => $this->getName(),
+			'required' => false
 		];
 	}
 

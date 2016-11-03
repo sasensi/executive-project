@@ -117,7 +117,7 @@ input[type="text"],
 input[type="number"] {
     background    : inherit;
     border        : none;
-    border-bottom : 2px solid;
+    border-bottom: 2px solid lightgray;
     color         : inherit;
     width         : 100%;
     padding       : 0 5px;
