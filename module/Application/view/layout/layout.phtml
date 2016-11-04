@@ -77,10 +77,17 @@ catch (Exception $e)
 					</a>
 				</li>
 				<li>
-					<a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'index']) ?>">
-						<i class="icomoon icon_profile"></i>
-						<span>mon compte</span>
-					</a>
+					<?php if (isset($user)): ?>
+						<a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'index']) ?>">
+							<i class="icomoon icon_profile"></i>
+							<span>mon compte</span>
+						</a>
+					<?php else: ?>
+						<a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'signin']) ?>">
+							<i class="icomoon icon_profile"></i>
+							<span>créer un compte</span>
+						</a>
+					<?php endif; ?>
 				</li>
 				<li>
 					<?php if (isset($user)): ?>

@@ -1,1 +1,38 @@
-<h1>créer mon compte</h1>
+<?php
+/**
+ * @var \Application\Form\UserAddForm $form
+ */
+
+use Application\Form\UserAddForm;
+
+$form->setAttribute('action', $_SERVER['REQUEST_URI']);
+$form->prepare();
+
+?>
+
+	<h1>Créer un compte</h1>
+
+<?php
+
+echo $this->form()->openTag($form);
+echo $this->formRow($form->get(UserAddForm::USERTYPE_ID));
+echo $this->formRow($form->get(UserAddForm::EMAIL));
+echo $this->formRow($form->get(UserAddForm::PASSWORD));
+echo $this->formRow($form->get(UserAddForm::NAME));
+echo $this->formRow($form->get(UserAddForm::FIRSTNAME));
+echo $this->formRow($form->get(UserAddForm::BIRTHDATE));
+echo $this->formRow($form->get(UserAddForm::SEX));
+echo $this->formRow($form->get(UserAddForm::ADRESS));
+echo $this->formRow($form->get(UserAddForm::POSTCODE));
+echo $this->formRow($form->get(UserAddForm::CITY));
+echo $this->formRow($form->get(UserAddForm::COUNTRY_ID));
+echo $this->formRow($form->get(UserAddForm::PHONE));
+echo $this->formRow($form->get(UserAddForm::PHOTO));
+echo $this->formRow($form->get(UserAddForm::FAVOURITECATEGORY_ID));
+echo $this->formSubmit($form->get(UserAddForm::SUBMIT));
+?>
+
+	<p>* Champs obligatoires</p>
+
+<?php
+echo $this->form()->closeTag($form);

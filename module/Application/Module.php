@@ -10,6 +10,7 @@
 namespace Application;
 
 use Application\Form\View\Helper\FormElement;
+use Application\Form\View\Helper\FormRow;
 use Application\Form\View\Helper\GiftsFormHelper;
 use Application\Form\View\Helper\TagPickerHelper;
 use Zend\Db\ResultSet\ResultSet;
@@ -121,6 +122,7 @@ class Module
 		return [
 			'invokables' => [
 				'formelement'     => FormElement::class,
+				'formrow'         => FormRow::class,
 				self::HELPER_TAG  => TagPickerHelper::class,
 				self::HELPER_GIFT => GiftsFormHelper::class,
 			],

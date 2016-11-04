@@ -4,6 +4,20 @@
     padding-bottom : 0;
 }
 
+#search input[type="text"] {
+    background    : inherit;
+    border        : none;
+    border-bottom: 2px solid;
+    color         : inherit;
+    width         : 100%;
+    padding       : 0 5px;
+    margin-bottom : 5px;
+}
+
+#search input[type="text"]:focus {
+    outline : none;
+}
+
 /* placeholder color fix */
 #search input[type="text"]::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     color : white;

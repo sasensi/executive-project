@@ -2,8 +2,11 @@
 
 namespace Application\Controller;
 
+use Application\Form\UserAddForm;
+use Application\Model\AbstractTable;
 use Application\Model\User;
 use Application\Model\UserTable;
+use Application\Model\Usertype;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 
@@ -22,7 +25,58 @@ class UserController extends AbstractActionCustomController
 
 	public function signinAction()
 	{
-		return new ViewModel();
+		$form = new UserAddForm();
+
+		/** @var \Zend\Http\PhpEnvironment\Request $request */
+		$request = $this->getRequest();
+
+		if ($request->isPost())
+		{
+			$post = array_merge_recursive(
+				$request->getPost()->toArray(),
+				$request->getFiles()->toArray()
+			);
+
+			$form->setData($post);
+
+			if ($form->isValid())
+			{
+				$data = $form->getData();
+
+				$nowDate = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+
+				$user = new User();
+				$user->exchangeArray($data);
+				$user->subscriptiondate = $nowDate->format(AbstractTable::DATE_FORMAT);
+				// todo: send confirmation mail
+				$user->confirmed = true;
+				$user->desactivated = false;
+
+				$user->id = $this->getTable('user')->insert([
+					'password'         => $user->password,
+					'name'             => $user->name,
+					'firstname'        => $user->firstname,
+					'birthdate'        => $user->birthdate,
+					'email'            => $user->email,
+					'sex'              => $user->sex,
+					'adress'           => $user->adress,
+					'postcode'         => $user->postcode,
+					'city'             => $user->city,
+					'country_id'       => $user->country_id,
+					'phone'            => $user->phone,
+					'photo'            => $user->photo,
+					'facebook'         => $user->facebook,
+					'subscriptiondate' => $user->subscriptiondate,
+					'confirmed'        => $user->confirmed,
+					'desactivated'     => $user->desactivated,
+					'usertype_id'      => $user->usertype_id,
+				]);
+			}
+		}
+
+		return new ViewModel([
+			'form' => $form
+		]);
 	}
 
 	public function loginAction()
