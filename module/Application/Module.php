@@ -13,9 +13,11 @@ use Application\Form\View\Helper\FormElement;
 use Application\Form\View\Helper\GiftsFormHelper;
 use Application\Form\View\Helper\TagPickerHelper;
 use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\TableGateway\TableGateway;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Zend\Session\Config\SessionConfig;
+use Zend\Session\Container;
+use Zend\Session\SessionManager;
 
 class Module
 {
@@ -27,6 +29,21 @@ class Module
 		$eventManager        = $e->getApplication()->getEventManager();
 		$moduleRouteListener = new ModuleRouteListener();
 		$moduleRouteListener->attach($eventManager);
+
+		$this->initSession([
+			'remember_me_seconds' => 180,
+			'use_cookies'         => true,
+			'cookie_httponly'     => true,
+		]);
+	}
+
+	public function initSession($config)
+	{
+		$sessionConfig = new SessionConfig();
+		$sessionConfig->setOptions($config);
+		$sessionManager = new SessionManager($sessionConfig);
+		$sessionManager->start();
+		Container::setDefaultManager($sessionManager);
 	}
 
 	public function getConfig()

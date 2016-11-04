@@ -4,14 +4,17 @@ namespace Application\Controller;
 
 use Application\Model\User;
 use Application\Model\UserTable;
+use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 
 class UserController extends AbstractActionCustomController
 {
+	const SESSION_LOGIN_KEY = 'login';
+
 	public function indexAction()
 	{
 		$user = self::getLoggedUser();
-		
+
 		return new ViewModel([
 			'user' => $user
 		]);
@@ -70,18 +73,34 @@ class UserController extends AbstractActionCustomController
 		]);
 	}
 
+
+	//
+	// STATIC LOGIN
+	//
+
+	public static function logUserIn(User $user)
+	{
+		$sessionContainer       = new Container(self::SESSION_LOGIN_KEY);
+		$sessionContainer->user = $user;
+	}
+
+	public static function logUserOut()
+	{
+	}
+
 	/**
 	 * @return User
+	 * @throws \Exception
 	 */
 	public static function getLoggedUser()
 	{
-		// todo: get real user data
-		$user = new User();
-		$user->exchangeArray([
-			'id'   => 2,
-			'name' => 'test name'
-		]);
-		return $user;
+		$sessionContainer = new Container(self::SESSION_LOGIN_KEY);
+		if (!isset($sessionContainer->user))
+		{
+			throw new \Exception('User is not logged.');
+		}
+
+		return $sessionContainer->user;
 	}
 
 }

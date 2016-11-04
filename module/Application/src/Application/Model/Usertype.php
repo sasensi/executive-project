@@ -8,6 +8,10 @@ namespace Application\Model;
  */
 class Usertype implements RowInterface
 {
+	const FINANCER = 1;
+	const CREATOR  = 2;
+	const ADMIN    = 3;
+
 	/**
 	 * @var integer
 	 */
@@ -21,8 +25,7 @@ class Usertype implements RowInterface
 
 	public function exchangeArray($arr)
 	{
-		$this->id = (isset($arr['id'])) ? $arr['id'] : null;
+		$this->id   = (isset($arr['id'])) ? $arr['id'] : null;
 		$this->name = (isset($arr['name'])) ? $arr['name'] : null;
-
 	}
 }
