@@ -2,9 +2,7 @@
 
 namespace Application\Model;
 
-use Zend\Db\Adapter\AdapterInterface;
-use Zend\Db\ResultSet\ResultSetInterface;
-use Zend\Db\Sql\Sql;
+use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
 class AbstractTable extends TableGateway
@@ -12,12 +10,24 @@ class AbstractTable extends TableGateway
 	const DATE_FORMAT = 'Y-m-d';
 
 	/**
-	 * @param int $id
+	 * Select
+	 *
+	 * @param Where|\Closure|string|array $where
+	 * @return object
 	 */
-	public function selectOneById($id)
+	public function selectFirst($where = null)
 	{
-		$resultSet = $this->select(['id' => $id]);
+		$resultSet = $this->select($where);
 		return $resultSet->current();
+	}
+
+	/**
+	 * @param int $id
+	 * @return object
+	 */
+	public function selectFirstById($id)
+	{
+		return $this->selectFirst(['id' => $id]);
 	}
 
 	public function delete($id)

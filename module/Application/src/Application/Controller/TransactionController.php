@@ -26,11 +26,11 @@ class TransactionController extends AbstractActionCustomController
 		$id = $this->params()->fromRoute('id');
 
 		/** @var Transaction $transaction */
-		$transaction = $this->getTable('transaction')->selectOneById($id);
+		$transaction = $this->getTable('transaction')->selectFirstById($id);
 
-		$project = $this->getTable('project')->selectOneById($transaction->project_id);
+		$project = $this->getTable('project')->selectFirstById($transaction->project_id);
 
-		$paymentMethod = $this->getTable('paymentmethod')->selectOneById($transaction->paymentmethod_id);
+		$paymentMethod = $this->getTable('paymentmethod')->selectFirstById($transaction->paymentmethod_id);
 
 		return new ViewModel([
 			'transaction'   => $transaction,

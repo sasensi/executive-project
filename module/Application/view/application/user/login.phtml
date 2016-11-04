@@ -1,1 +1,26 @@
-<h1>me connecter</h1>
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Application\Form\LoginForm     $form
+ */
+
+use Application\Form\LoginForm;
+
+$form->prepare();
+
+?>
+
+	<h1>Créer un compte</h1>
+
+<?php
+
+echo $this->form()->openTag($form);
+echo $this->formRow($form->get(LoginForm::EMAIL));
+echo $this->formRow($form->get(LoginForm::PASSWORD));
+echo $this->formSubmit($form->get(LoginForm::SUBMIT));
+?>
+
+	<p>* Champs obligatoires</p>
+
+<?php
+echo $this->form()->closeTag($form);

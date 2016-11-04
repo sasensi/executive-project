@@ -51,7 +51,7 @@ class ProjectController extends AbstractActionCustomController
 				{
 					try
 					{
-						$tag = $this->getTable('tag')->selectOneById($filterdata['tag']);
+						$tag = $this->getTable('tag')->selectFirstById($filterdata['tag']);
 						$searchFilter->setTag($tag);
 					}
 					catch (\Exception $e)
@@ -369,6 +369,6 @@ class ProjectController extends AbstractActionCustomController
 	{
 		$id = $this->params()->fromRoute('id');
 
-		return $this->getProjectTable()->selectOneById($id);
+		return $this->getProjectTable()->selectFirstById($id);
 	}
 }

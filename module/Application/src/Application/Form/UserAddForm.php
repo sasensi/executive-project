@@ -9,11 +9,9 @@ namespace Application\Form;
 
 use Zend\Form\Element\Submit;
 use Zend\Form\Element\Text;
-use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
-use Zend\InputFilter\InputFilterAwareInterface;
 
-class UserAddForm extends Form implements InputFilterAwareInterface
+class UserAddForm extends AbstractForm
 {
 	const EMAIL                = 'email';
 	const PASSWORD             = 'password';
@@ -101,8 +99,6 @@ class UserAddForm extends Form implements InputFilterAwareInterface
 
 
 		$this->setDefaultInputFilters();
-
-		$this->setAttribute('class', 'form-horizontal');
 	}
 
 	protected function setDefaultInputFilters()

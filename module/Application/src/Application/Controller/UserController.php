@@ -2,6 +2,7 @@
 
 namespace Application\Controller;
 
+use Application\Form\LoginForm;
 use Application\Form\UserAddForm;
 use Application\Model\AbstractTable;
 use Application\Model\User;
@@ -49,7 +50,7 @@ class UserController extends AbstractActionCustomController
 				$user->exchangeArray($data);
 				$user->subscriptiondate = $nowDate->format(AbstractTable::DATE_FORMAT);
 				// todo: send confirmation mail
-				$user->confirmed = true;
+				$user->confirmed    = true;
 				$user->desactivated = false;
 
 				$user->id = $this->getTable('user')->insert([
@@ -81,7 +82,47 @@ class UserController extends AbstractActionCustomController
 
 	public function loginAction()
 	{
-		return new ViewModel();
+		$form = new LoginForm();
+
+		/** @var \Zend\Http\PhpEnvironment\Request $request */
+		$request = $this->getRequest();
+
+		if ($request->isPost())
+		{
+			$form->setData($request->getPost()->toArray());
+
+			if ($form->isValid())
+			{
+				$data = $form->getData();
+
+				$users = $this->getTable('user')->select([
+					'email' => $data[ LoginForm::EMAIL ]
+				]);
+
+				if ($users->count() === 0)
+				{
+					$form->get(LoginForm::EMAIL)->setMessages(["Aucun compte n'existe pour cette adresse email."]);
+				}
+				else
+				{
+					/** @var User $user */
+					$user = $users->current();
+					if ($user->password !== $data[ LoginForm::PASSWORD ])
+					{
+						$form->get(LoginForm::PASSWORD)->setMessages(['Mot de passe incorrect.']);
+					}
+					else
+					{
+						UserController::logUserIn($user);
+						$this->redirect()->toRoute('home/action', ['controller' => 'user', 'action' => 'index']);
+					}
+				}
+			}
+		}
+
+		return new ViewModel([
+			'form' => $form
+		]);
 	}
 
 	public function forgotPasswordAction()
