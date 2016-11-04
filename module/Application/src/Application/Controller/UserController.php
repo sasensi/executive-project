@@ -69,13 +69,25 @@ class UserController extends AbstractActionCustomController
 					'city'             => $user->city,
 					'country_id'       => $user->country_id,
 					'phone'            => $user->phone,
-					'photo'            => $user->photo,
+					'photo'            => null,
 					'facebook'         => $user->facebook,
 					'subscriptiondate' => $user->subscriptiondate,
 					'confirmed'        => $user->confirmed,
 					'desactivated'     => $user->desactivated,
 					'usertype_id'      => $user->usertype_id,
 				]);
+
+				// rename photo
+				if (!empty($user->photo))
+				{
+					preg_match('/\..+?$/', $user->photo['name'], $matches);
+					$fileExtension = $matches[0];
+					$filePathFromRoot = "img/user/{$user->id}.{$fileExtension}";
+
+					rename($user->photo['tmp_name'], PUBLIC_DIR.$filePathFromRoot);
+
+					$this->getTable('user')->update(['photo' => $filePathFromRoot], ['id' => $user->id]);
+				}
 			}
 		}
 

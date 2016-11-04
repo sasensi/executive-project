@@ -10,6 +10,10 @@ namespace Application\Form;
 use Application\Model\Category;
 use Application\Model\Country;
 use Application\Model\Usertype;
+use Zend\Form\Element\Email;
+use Zend\Form\Element\File;
+use Zend\Form\Element\Number;
+use Zend\Form\Element\Password;
 use Zend\Form\Element\Select;
 use Zend\Form\Element\Submit;
 use Zend\Form\Element\Text;
@@ -44,11 +48,11 @@ class UserAddForm extends AbstractForm
 	{
 		parent::__construct('userAddForm');
 
-		$email = new Text(self::EMAIL);
+		$email = new Email(self::EMAIL);
 		$email->setLabel('Email*');
 		$this->add($email);
 
-		$password = new Text(self::PASSWORD);
+		$password = new Password(self::PASSWORD);
 		$password->setLabel('Mot de passe*');
 		$this->add($password);
 
@@ -72,7 +76,7 @@ class UserAddForm extends AbstractForm
 		$adress->setLabel('Adresse*');
 		$this->add($adress);
 
-		$postcode = new Text(self::POSTCODE);
+		$postcode = new Number(self::POSTCODE);
 		$postcode->setLabel('code postal*');
 		$this->add($postcode);
 
@@ -94,7 +98,7 @@ class UserAddForm extends AbstractForm
 		$phone->setLabel('Téléphone');
 		$this->add($phone);
 
-		$photo = new Text(self::PHOTO);
+		$photo = new File(self::PHOTO);
 		$photo->setLabel('Photo');
 		$this->add($photo);
 
