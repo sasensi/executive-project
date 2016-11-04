@@ -7,6 +7,10 @@
 namespace Application\Form;
 
 
+use Application\Model\Category;
+use Application\Model\Country;
+use Application\Model\Usertype;
+use Zend\Form\Element\Select;
 use Zend\Form\Element\Submit;
 use Zend\Form\Element\Text;
 use Zend\InputFilter\InputFilter;
@@ -29,7 +33,14 @@ class UserAddForm extends AbstractForm
 	const USERTYPE_ID          = 'usertype_id';
 	const SUBMIT               = 'submit';
 
-	public function __construct()
+	/**
+	 * UserAddForm constructor.
+	 *
+	 * @param Usertype[] $userTypes
+	 * @param Country[]  $countries
+	 * @param Category[] $categories
+	 */
+	public function __construct($userTypes, $countries, $categories)
 	{
 		parent::__construct('userAddForm');
 
@@ -69,8 +80,14 @@ class UserAddForm extends AbstractForm
 		$city->setLabel('Ville*');
 		$this->add($city);
 
-		$country_id = new Text(self::COUNTRY_ID);
+		$countriesHt = [];
+		foreach ($countries as $country)
+		{
+			$countriesHt[ $country->id ] = $country->name;
+		}
+		$country_id = new Select(self::COUNTRY_ID);
 		$country_id->setLabel('Pays*');
+		$country_id->setValueOptions($countriesHt);
 		$this->add($country_id);
 
 		$phone = new Text(self::PHONE);
@@ -81,11 +98,23 @@ class UserAddForm extends AbstractForm
 		$photo->setLabel('Photo');
 		$this->add($photo);
 
-		$country_id = new Text(self::FAVOURITECATEGORY_ID);
-		$country_id->setLabel('Catégorie favorite');
-		$this->add($country_id);
+		$categoriesHt = [];
+		foreach ($categories as $category)
+		{
+			$categoriesHt[ $category->id ] = $category->name;
+		}
+		$favouritecategory_id = new Select(self::FAVOURITECATEGORY_ID);
+		$favouritecategory_id->setLabel('Catégorie favorite');
+		$favouritecategory_id->setValueOptions($categoriesHt);
+		$this->add($favouritecategory_id);
 
-		$usertype_id = new Text(self::USERTYPE_ID);
+		$userTypesHt = [];
+		foreach ($userTypes as $userType)
+		{
+			$userTypesHt[ $userType->id ] = $userType->name;
+		}
+		$usertype_id = new Select(self::USERTYPE_ID);
+		$usertype_id->setValueOptions($userTypesHt);
 		$usertype_id->setLabel('Type de compte');
 		$this->add($usertype_id);
 

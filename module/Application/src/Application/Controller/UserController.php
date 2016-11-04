@@ -26,7 +26,11 @@ class UserController extends AbstractActionCustomController
 
 	public function signinAction()
 	{
-		$form = new UserAddForm();
+		$userTypes  = $this->getTable('usertype')->select();
+		$countries  = $this->getTable('country')->select();
+		$categories = $this->getTable('category')->select();
+
+		$form = new UserAddForm($userTypes, $countries, $categories);
 
 		/** @var \Zend\Http\PhpEnvironment\Request $request */
 		$request = $this->getRequest();
