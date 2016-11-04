@@ -18,7 +18,7 @@ class ProjectTable extends AbstractTable
 	 */
 	public function getAllFromUserId($userId)
 	{
-		$resultSet = $this->tableGateway->select(['user_id' => $userId]);
+		$resultSet = $this->select(['user_id' => $userId]);
 		return $resultSet;
 	}
 
@@ -28,7 +28,7 @@ class ProjectTable extends AbstractTable
 	 */
 	public function getAllFromSearchFilters($searchFilter)
 	{
-		$resultSet = $this->tableGateway->select(function (Select $select) use ($searchFilter)
+		$resultSet = $this->select(function (Select $select) use ($searchFilter)
 		{
 			$select->where(function (Where $where) use ($searchFilter, $select)
 			{
@@ -85,23 +85,5 @@ class ProjectTable extends AbstractTable
 		});
 
 		return $resultSet;
-	}
-
-	public function insert(Project $project)
-	{
-		$this->tableGateway->insert([
-			'user_id'        => $project->user_id,
-			'title'          => $project->title,
-			'subtitle'       => $project->subtitle,
-			'description'    => $project->description,
-			'mainpicture'    => $project->mainpicture,
-			'creationdate'   => $project->creationdate,
-			'deadline'       => $project->deadline,
-			'goal'           => $project->goal,
-			'promotionend'   => $project->promotionend,
-			'transactionsum' => $project->transactionsum,
-		]);
-
-		return $this->tableGateway->getLastInsertValue();
 	}
 }

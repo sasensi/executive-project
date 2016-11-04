@@ -13,7 +13,7 @@ class UserTable extends AbstractTable
 	public function getAllForProject($projectId)
 	{
 
-		$stmt = $this->tableGateway->getAdapter()->getDriver()->createStatement();
+		$stmt = $this->getAdapter()->getDriver()->createStatement();
 		$stmt->prepare('
 			SELECT user.*, transaction.id as transaction_id
 			FROM user
@@ -36,7 +36,7 @@ class UserTable extends AbstractTable
 
 	public function desactivate($id)
 	{
-		$this->tableGateway->update([
+		$this->update([
 			'desactivated' => true
 		], [
 			'id' => $id

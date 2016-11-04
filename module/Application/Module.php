@@ -73,21 +73,22 @@ class Module
 		{
 			$capTableName = ucfirst($tableName);
 
-			$config[ 'Application\Model\\'.$capTableName.'Table' ] = function ($sm) use ($capTableName)
-			{
-				$className    = '\Application\Model\\'.$capTableName.'Table';
-				$tableGateway = $sm->get($capTableName.'TableGateway');
-				$table        = new $className($tableGateway);
-				return $table;
-			};
+			//$config[ 'Application\Model\\'.$capTableName.'Table' ] = function ($sm) use ($capTableName)
+			//{
+			//	$className    = '\Application\Model\\'.$capTableName.'Table';
+			//	$tableGateway = $sm->get($capTableName.'TableGateway');
+			//	$table        = new $className($tableGateway);
+			//	return $table;
+			//};
 
-			$config[ $capTableName.'TableGateway' ] = function ($sm) use ($capTableName, $tableName)
+			$config[ 'Application\Model\\'.$capTableName.'Table' ] = function ($sm) use ($capTableName, $tableName)
 			{
-				$className          = '\Application\Model\\'.$capTableName;
+				$tableClassName     = '\Application\Model\\'.$capTableName.'Table';
+				$dataClassName      = '\Application\Model\\'.$capTableName;
 				$dbAdapter          = $sm->get('Zend\Db\Adapter\Adapter');
 				$resultSetPrototype = new ResultSet();
-				$resultSetPrototype->setArrayObjectPrototype(new $className());
-				return new TableGateway($tableName, $dbAdapter, null, $resultSetPrototype);
+				$resultSetPrototype->setArrayObjectPrototype(new $dataClassName());
+				return new $tableClassName($tableName, $dbAdapter, null, $resultSetPrototype);
 			};
 		}
 

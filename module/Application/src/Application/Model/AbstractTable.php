@@ -2,49 +2,35 @@
 
 namespace Application\Model;
 
+use Zend\Db\Adapter\AdapterInterface;
+use Zend\Db\ResultSet\ResultSetInterface;
+use Zend\Db\Sql\Sql;
 use Zend\Db\TableGateway\TableGateway;
 
-class AbstractTable
+class AbstractTable extends TableGateway
 {
 	const DATE_FORMAT = 'Y-m-d';
-
-	protected $tableGateway;
-
-	public function __construct(TableGateway $tableGateway)
-	{
-		$this->tableGateway = $tableGateway;
-	}
-
-	public function execute($sql)
-	{
-
-	}
-
-	/**
-	 * @return \Zend\Db\TableGateway\TableGateway
-	 */
-	public function getTableGateway()
-	{
-		return $this->tableGateway;
-	}
-
-	public function getAll()
-	{
-		$resultSet = $this->tableGateway->select();
-		return $resultSet;
-	}
 
 	/**
 	 * @param int $id
 	 */
-	public function getOneById($id)
+	public function selectOneById($id)
 	{
-		$resultSet = $this->tableGateway->select(['id' => $id]);
+		$resultSet = $this->select(['id' => $id]);
 		return $resultSet->current();
 	}
 
 	public function delete($id)
 	{
-	    $this->tableGateway->delete(['id' => $id]);
+		$this->delete(['id' => $id]);
 	}
+
+	public function insert($set)
+	{
+		parent::insert($set);
+
+		return $this->getLastInsertValue();
+	}
+
+
 }

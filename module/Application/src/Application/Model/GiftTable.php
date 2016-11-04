@@ -10,6 +10,6 @@ class GiftTable extends AbstractTable
 {
 	public function getAllFromProjectId($projectId)
 	{
-		return $this->tableGateway->select(['project_id' => $projectId]);
+		return $this->select(['project_id' => $projectId]);
 	}
 }

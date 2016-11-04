@@ -28,7 +28,7 @@ class ProjectController extends AbstractActionCustomController
 		// handle search filters
 
 		/** @var Category[] $categories */
-		$categories = $this->getTable('category')->getAll();
+		$categories = $this->getTable('category')->select();
 
 		$searchFilter = new ProjectSearchFilter($categories);
 
@@ -51,7 +51,7 @@ class ProjectController extends AbstractActionCustomController
 				{
 					try
 					{
-						$tag = $this->getTable('tag')->getOneById($filterdata['tag']);
+						$tag = $this->getTable('tag')->selectOneById($filterdata['tag']);
 						$searchFilter->setTag($tag);
 					}
 					catch (\Exception $e)
@@ -121,8 +121,8 @@ class ProjectController extends AbstractActionCustomController
 
 	public function addAction()
 	{
-		$categories = $this->getTable('category')->getAll();
-		$tags       = $this->getTable('tag')->getAll();
+		$categories = $this->getTable('category')->select();
+		$tags       = $this->getTable('tag')->select();
 		// allow looping over tag twice
 		$tags->buffer();
 
@@ -156,7 +156,18 @@ class ProjectController extends AbstractActionCustomController
 				$this->getServiceLocator()->get(Adapter::class)->getDriver()->getConnection()->beginTransaction();
 
 				// create row
-				$project->id = $this->getProjectTable()->insert($project);
+				$project->id = $this->getTable('project')->insert([
+					'user_id'        => $project->user_id,
+					'title'          => $project->title,
+					'subtitle'       => $project->subtitle,
+					'description'    => $project->description,
+					'mainpicture'    => $project->mainpicture,
+					'creationdate'   => $project->creationdate,
+					'deadline'       => $project->deadline,
+					'goal'           => $project->goal,
+					'promotionend'   => $project->promotionend,
+					'transactionsum' => $project->transactionsum,
+				]);
 
 				// rename image
 				$dirFromRoot = '/img/'.$project->id.'/';
@@ -172,12 +183,12 @@ class ProjectController extends AbstractActionCustomController
 				rename($data['mainpicture']['tmp_name'], $filePath);
 
 				// update image name
-				$this->getProjectTable()->getTableGateway()->update(['mainpicture' => $fileUrl], ['id' => $project->id]);
+				$this->getProjectTable()->update(['mainpicture' => $fileUrl], ['id' => $project->id]);
 
 				// create categories links
 				foreach ($data['category_ids'] as $categoryId)
 				{
-					$this->getTable('projectcategory')->getTableGateway()->insert([
+					$this->getTable('projectcategory')->insert([
 						'project_id'  => $project->id,
 						'category_id' => $categoryId
 					]);
@@ -201,12 +212,12 @@ class ProjectController extends AbstractActionCustomController
 					// if tag doesn't already exist, create it
 					if (!isset($tagId))
 					{
-						$this->getTable('tag')->getTableGateway()->insert(['name' => $postedTag]);
-						$tagId = $this->getTable('tag')->getTableGateway()->getLastInsertValue();
+						$this->getTable('tag')->insert(['name' => $postedTag]);
+						$tagId = $this->getTable('tag')->getLastInsertValue();
 					}
 
 					// create project/tag link
-					$this->getTable('projecttag')->getTableGateway()->insert(['project_id' => $project->id, 'tag_id' => $tagId]);
+					$this->getTable('projecttag')->insert(['project_id' => $project->id, 'tag_id' => $tagId]);
 				}
 
 				// pictures
@@ -219,7 +230,7 @@ class ProjectController extends AbstractActionCustomController
 					rename($picture['tmp_name'], $fileDir.$picture['name']);
 
 					// create picture
-					$this->getTable('picture')->getTableGateway()->insert([
+					$this->getTable('picture')->insert([
 						'url'        => $fileUrlDir.$picture['name'],
 						'project_id' => $project->id
 					]);
@@ -234,7 +245,7 @@ class ProjectController extends AbstractActionCustomController
 
 					rename($video['tmp_name'], $fileDir.$video['name']);
 
-					$this->getTable('video')->getTableGateway()->insert([
+					$this->getTable('video')->insert([
 						'url'        => $fileUrlDir.$video['name'],
 						'project_id' => $project->id
 					]);
@@ -345,6 +356,6 @@ class ProjectController extends AbstractActionCustomController
 	{
 		$id = $this->params()->fromRoute('id');
 
-		return $this->getProjectTable()->getOneById($id);
+		return $this->getProjectTable()->selectOneById($id);
 	}
 }
