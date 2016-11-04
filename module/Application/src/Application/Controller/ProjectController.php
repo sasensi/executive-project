@@ -251,6 +251,18 @@ class ProjectController extends AbstractActionCustomController
 					]);
 				}
 
+				// gifts
+				$gifts = $data['gift_ids'];
+				foreach ($gifts as $gift)
+				{
+					$this->getTable('gift')->insert([
+						'title'       => $gift['title'],
+						'minamount'   => $gift['minamount'],
+						'description' => $gift['description'],
+						'project_id'  => $project->id,
+					]);
+				}
+
 
 				$this->getServiceLocator()->get(Adapter::class)->getDriver()->getConnection()->commit();
 

@@ -33,9 +33,9 @@ class GiftsFormHelper extends FormInput
 		}
 
 		return <<<HTML
-<div class="giftsWrapper">
+<div class="giftsWrapper" data-name="{$element->getName()}">
 	{$giftsContent}
-	<button class="giftsAddButton btn btn-default">Ajouter</button>
+	<span class="giftsAddButton btn btn-default">Ajouter</span>
 </div>
 HTML;
 	}
@@ -49,12 +49,13 @@ HTML;
 	public function renderGift($gift, $i, $element)
 	{
 		$titleName       = "{$element->getName()}[{$i}][title]";
-		$amountName      = "{$element->getName()}[{$i}][amount]";
+		$amountName      = "{$element->getName()}[{$i}][minamount]";
 		$descriptionName = "{$element->getName()}[{$i}][description]";
 
 		return <<<HTML
 
-<fieldset>
+<fieldset data-index="{$i}">
+	<span class="giftDeleteButton btn btn-danger">Supprimer</span>
     <div class="">
         <label for="$titleName">Titre</label>
         <input type="text" name="$titleName" id="$titleName" value="{$gift->title}" />

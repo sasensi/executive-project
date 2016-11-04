@@ -33,6 +33,12 @@
 	                ->prependFile($this->basePath('js/respond.min.js'), 'text/javascript', ['conditional' => 'lt IE 9',])
 	                ->prependFile($this->basePath('js/html5shiv.min.js'), 'text/javascript', ['conditional' => 'lt IE 9',]); ?>
 
+	<!-- global js variable -->
+	<script>
+		var _App = {
+			rootUrl: '<?= $this->basePath() ?>'
+		};
+	</script>
 </head>
 <body>
 
