@@ -1,16 +1,30 @@
 <?php
 
 /**
+ * @var \Zend\View\Renderer\PhpRenderer $this
  * @var \Application\Model\Project[] $projects
  */
-
-// debug
-foreach ($projects as $project)
-{
-	echo '$project =';
-	var_dump($project);
-}
 
 ?>
 
 <h1>mes projets</h1>
+<table class="table">
+	<thead>
+	<tr>
+		<th>Titre</th>
+		<th>Action</th>
+	</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($projects as $project): ?>
+		<tr>
+			<td><?= $project->title ?></td>
+			<td>
+				<a href="<?= $this->url('home/action/id', ['controller' => 'project', 'action' => 'detail', 'id' => $project->id]) ?>" class="btn btn-primary">voir</a>
+				<a href="<?= $this->url('home/action/id', ['controller' => 'project', 'action' => 'user_update', 'id' => $project->id]) ?>" class="btn btn-warning">éditer</a>
+				<a href="<?= $this->url('home/action/id', ['controller' => 'project', 'action' => 'user_delete', 'id' => $project->id]) ?>" class="btn btn-danger">supprimer</a>
+			</td>
+		</tr>
+	<?php endforeach; ?>
+	</tbody>
+</table>
