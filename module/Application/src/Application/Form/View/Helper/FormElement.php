@@ -9,6 +9,7 @@
 namespace Application\Form\View\Helper;
 
 
+use Application\Form\Element\GiftsFormElement;
 use Application\Form\Element\TagPicker;
 use Zend\Form\ElementInterface;
 use Zend\Form\View\Helper\FormElement as BaseFormElement;
@@ -28,6 +29,11 @@ class FormElement extends BaseFormElement
 		{
 			//return '<p>test</p>';
 			$helper = $renderer->plugin('tagpicker');
+			return $helper($element);
+		}
+		elseif ($element instanceof GiftsFormElement)
+		{
+			$helper = $renderer->plugin('giftform');
 			return $helper($element);
 		}
 

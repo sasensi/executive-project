@@ -10,6 +10,7 @@
 namespace Application;
 
 use Application\Form\View\Helper\FormElement;
+use Application\Form\View\Helper\GiftsFormHelper;
 use Application\Form\View\Helper\TagPickerHelper;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
@@ -18,6 +19,9 @@ use Zend\Mvc\MvcEvent;
 
 class Module
 {
+	const HELPER_GIFT = 'giftform';
+	const HELPER_TAG  = 'tagpicker';
+
 	public function onBootstrap(MvcEvent $e)
 	{
 		$eventManager        = $e->getApplication()->getEventManager();
@@ -99,8 +103,9 @@ class Module
 	{
 		return [
 			'invokables' => [
-				'formelement' => FormElement::class,
-				'tagpicker'   => TagPickerHelper::class
+				'formelement'     => FormElement::class,
+				self::HELPER_TAG  => TagPickerHelper::class,
+				self::HELPER_GIFT => GiftsFormHelper::class,
 			],
 		];
 	}

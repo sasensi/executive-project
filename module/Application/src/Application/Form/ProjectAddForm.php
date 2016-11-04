@@ -2,8 +2,10 @@
 
 namespace Application\Form;
 
+use Application\Form\Element\GiftsFormElement;
 use Application\Form\Element\TagPicker;
 use Application\Model\Category;
+use Application\Model\Gift;
 use Application\Model\Tag;
 use Zend\Form\Element\File;
 use Zend\Form\Element\Select;
@@ -22,8 +24,9 @@ class ProjectAddForm extends Form implements InputFilterAwareInterface
 	 * @param null       $name
 	 * @param Category[] $categories all avaiable categories
 	 * @param Tag[]      $tags
+	 * @param Gift[]     $gifts
 	 */
-	public function __construct($name = null, $categories = [], $tags = [])
+	public function __construct($name = null, $categories = [], $tags = [], $gifts = [])
 	{
 		parent::__construct('projectAddForm');
 
@@ -96,7 +99,7 @@ class ProjectAddForm extends Form implements InputFilterAwareInterface
 		$tagsHt = [];
 		foreach ($tags as $tag)
 		{
-			$tagsHt[$tag->id] = $tag->name;
+			$tagsHt[ $tag->id ] = $tag->name;
 		}
 		$tagField = new TagPicker('tag_ids');
 		$tagField->setLabel('Tags');
@@ -114,6 +117,12 @@ class ProjectAddForm extends Form implements InputFilterAwareInterface
 		$videosField->setLabel('Vidéos');
 		$videosField->setAttribute('multiple', true);
 		$this->add($videosField);
+
+
+		// gifts
+		$giftsField = new GiftsFormElement('gift_ids');
+		$giftsField->setLabel('Contreparties');
+		$this->add($giftsField);
 
 
 		$this->add([

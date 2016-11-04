@@ -9,6 +9,8 @@
 
 namespace Application;
 
+use Application\Controller\WsContentController;
+
 return [
 	'router'          => [
 		'routes' => [
@@ -67,7 +69,29 @@ return [
 				],
 			],
 
+			// web services
+			// ws/content/gift
+			'ws'   => [
+				'type'    => 'Segment',
+				'options' => [
+					'route' => '/ws',
+				],
 
+				'child_routes' => [
+					'content' => [
+						'type'    => 'Segment',
+						'options' => [
+							'route'       => '/content/:action',
+							'constraints' => [
+								'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+							],
+							'defaults'    => [
+								'controller' => WsContentController::class,
+							],
+						],
+					]
+				]
+			],
 		],
 	],
 	'service_manager' => [
@@ -95,6 +119,7 @@ return [
 			'Application\Controller\About'       => Controller\AboutController::class,
 			'Application\Controller\Transaction' => Controller\TransactionController::class,
 			'Application\Controller\User'        => Controller\UserController::class,
+			WsContentController::class           => WsContentController::class
 		],
 	],
 	'view_manager'    => [
@@ -111,6 +136,9 @@ return [
 		],
 		'template_path_stack'      => [
 			__DIR__.'/../view',
+		],
+		'strategies'               => [
+			'ViewJsonStrategy',
 		],
 	],
 	// Placeholder for console routes
