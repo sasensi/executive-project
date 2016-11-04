@@ -9,7 +9,6 @@ use Application\Model\CategoryTable;
 use Application\Model\GiftTable;
 use Application\Model\PictureTable;
 use Application\Model\Project;
-use Application\Model\ProjectTable;
 use Application\Model\ProjectviewTable;
 use Application\Model\Tag;
 use Application\Model\TagTable;
@@ -17,8 +16,6 @@ use Application\Model\TransactionTable;
 use Application\Model\UserTable;
 use Application\Model\VideoTable;
 use Zend\Db\Adapter\Adapter;
-use Zend\View\Helper\HeadLink;
-use Zend\View\Helper\HeadScript;
 use Zend\View\Model\ViewModel;
 
 class ProjectController extends AbstractActionCustomController
@@ -104,6 +101,15 @@ class ProjectController extends AbstractActionCustomController
 		$userTable = $this->getTable('user');
 		$financers = $userTable->getAllForProject($project->id);
 
+		$user = null;
+		try
+		{
+			$user = UserController::getLoggedUser();
+		}
+		catch (\Exception $e)
+		{
+		}
+
 		$this->addJsDependency('js/project/detail.js');
 		$this->addCssDependency('css/project/detail.css');
 
@@ -116,6 +122,7 @@ class ProjectController extends AbstractActionCustomController
 			'videos'     => $videos,
 			'pictures'   => $pictures,
 			'financers'  => $financers,
+			'user'       => $user,
 		]);
 	}
 

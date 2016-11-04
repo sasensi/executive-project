@@ -251,15 +251,15 @@ h2 {
 #categories li {
     border        : 1px solid blue;
     border-radius : 3px;
-    padding: .125em .25em;
-    margin: .25em;
-    cursor: pointer;
+    padding       : .125em .25em;
+    margin        : .25em;
+    cursor        : pointer;
 }
 
 #tags li {
-    border-bottom: 1px solid blue;
-    padding: 0 3px;
-    margin: .25em;
+    border-bottom : 1px solid blue;
+    padding       : 0 3px;
+    margin        : .25em;
 }
 
 /* PAYMENT */
@@ -353,9 +353,19 @@ h2 {
 }
 
 #payment input {
-    border-width : 4px;
-    width        : 4em;
-    text-align   : center;
+    border-width  : 4px;
+    width         : 4em;
+    text-align    : center;
+    background    : inherit;
+    border        : none;
+    border-bottom : 3px solid;
+    color         : inherit;
+    padding       : 0 5px;
+    margin-bottom : 5px;
+}
+
+#payment input:focus {
+    outline : none;
 }
 
 #gift {

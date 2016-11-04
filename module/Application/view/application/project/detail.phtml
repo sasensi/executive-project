@@ -10,6 +10,7 @@
  * @var \Zend\View\Renderer\PhpRenderer $this
  * @var \Application\Model\User[]       $financers
  * @var \Application\Model\Tag[]        $tags
+ * @var \Application\Model\User|null    $user
  */
 
 // debug
@@ -246,41 +247,43 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 		<?php endif; ?>
 
 		<!-- PAYMENT -->
-		<div id="payButton">
-			<i class="icomoon icon_payment"></i>
-		</div>
-		<div id="payment">
-			<div>
-				<div id="closebutton">
-					<div class="crossBar"></div>
-					<div class="crossBar"></div>
-				</div>
+		<?php if (isset($user) && $user->isFinancer()): ?>
+			<div id="payButton">
+				<i class="icomoon icon_payment"></i>
+			</div>
+			<div id="payment">
+				<div>
+					<div id="closebutton">
+						<div class="crossBar"></div>
+						<div class="crossBar"></div>
+					</div>
 
-				<h1><?= $project->title ?></h1>
+					<h1><?= $project->title ?></h1>
 
-				<section>
-					<div id="price">
-						<input type="number">
-						<span>€</span>
-					</div>
-					<div id="gift">
-						<i class="icomoon icon_gift"></i>
-						<span>placeholder</span>
-					</div>
-				</section>
+					<section>
+						<div id="price">
+							<input type="number">
+							<span>€</span>
+						</div>
+						<div id="gift">
+							<i class="icomoon icon_gift"></i>
+							<span>placeholder</span>
+						</div>
+					</section>
 
-				<div id="buttons">
-					<div id="paypalButton">
-						<i class="icomoon icon_paypal"></i>
-					</div>
-					<div id="creditCardButton">
-						<i class="icomoon icon_credit_card"></i>
-					</div>
-					<div id="bitcoinButton">
-						<i class="icomoon icon_bitcoin"></i>
+					<div id="buttons">
+						<div id="paypalButton">
+							<i class="icomoon icon_paypal"></i>
+						</div>
+						<div id="creditCardButton">
+							<i class="icomoon icon_credit_card"></i>
+						</div>
+						<div id="bitcoinButton">
+							<i class="icomoon icon_bitcoin"></i>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		<?php endif; ?>
 	</div>
 </div>
