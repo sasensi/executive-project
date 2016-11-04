@@ -132,7 +132,9 @@ class UserController extends AbstractActionCustomController
 
 	public function logoutAction()
 	{
-		return new ViewModel();
+		self::logUserOut();
+
+		$this->redirect()->toRoute('home');
 	}
 
 	public function updateAction()
@@ -181,6 +183,8 @@ class UserController extends AbstractActionCustomController
 
 	public static function logUserOut()
 	{
+		$sessionContainer = new Container(self::SESSION_LOGIN_KEY);
+		$sessionContainer->getManager()->getStorage()->clear(self::SESSION_LOGIN_KEY);
 	}
 
 	/**
