@@ -123,16 +123,16 @@ class User implements RowInterface
 
 	public function isFinancer()
 	{
-		return $this->usertype_id === Usertype::FINANCER;
+		return $this->usertype_id == Usertype::FINANCER;
 	}
 
 	public function isCreator()
 	{
-		return $this->usertype_id === Usertype::CREATOR;
+		return $this->usertype_id == Usertype::CREATOR;
 	}
 
 	public function isAdmin()
 	{
-		return $this->usertype_id === Usertype::ADMIN;
+		return $this->usertype_id == Usertype::ADMIN;
 	}
 }
