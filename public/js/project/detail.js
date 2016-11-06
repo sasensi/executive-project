@@ -83,11 +83,12 @@ $(document).ready(function ()
     // display corresponding gift on price change
     $('#price input').change(function ()
     {
-        var price = parseInt($(this).val());
-        if (isNaN(price) || price <= 0)
+        var price    = parseInt($(this).val());
+        var minPrice = 1;
+        if (isNaN(price) || price <= minPrice)
         {
-            price = 0;
-            $(this).val(0);
+            price = minPrice;
+            $(this).val(minPrice);
         }
 
         var correspondingGift = null;

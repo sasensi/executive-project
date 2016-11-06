@@ -252,7 +252,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 				<i class="icomoon icon_payment"></i>
 			</div>
 			<div id="payment">
-				<div>
+				<form method="post" action="<?= $this->url('home/action', ['controller' => 'transaction', 'action' => 'add']) ?>">
 					<div id="closebutton">
 						<div class="crossBar"></div>
 						<div class="crossBar"></div>
@@ -262,7 +262,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 
 					<section>
 						<div id="price">
-							<input type="number">
+							<input type="number" value="1">
 							<span>€</span>
 						</div>
 						<div id="gift">
@@ -272,17 +272,17 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 					</section>
 
 					<div id="buttons">
-						<div id="paypalButton">
+						<button id="paypalButton">
 							<i class="icomoon icon_paypal"></i>
-						</div>
-						<div id="creditCardButton">
+						</button>
+						<button id="creditCardButton">
 							<i class="icomoon icon_credit_card"></i>
-						</div>
-						<div id="bitcoinButton">
+						</button>
+						<button id="bitcoinButton">
 							<i class="icomoon icon_bitcoin"></i>
-						</div>
+						</button>
 					</div>
-				</div>
+				</form>
 			</div>
 		<?php endif; ?>
 	</div>
