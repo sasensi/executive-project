@@ -91,6 +91,8 @@ class UserController extends AbstractActionCustomController
 			}
 		}
 
+		$this->addJsDependency('js/user/signin.js');
+
 		return new ViewModel([
 			'form' => $form
 		]);
