@@ -33,7 +33,7 @@ class LoginForm extends Form
 
 		$submit = new Submit(self::SUBMIT);
 		$submit->setAttributes([
-			'value' => 'Créer',
+			'value' => 'Se connecter',
 			'class' => 'btn btn-primary'
 		]);
 		$this->add($submit);

@@ -177,7 +177,7 @@ class ProjectController extends AbstractActionCustomController
 				]);
 
 				// rename image
-				$dirFromRoot = '/img/'.$project->id.'/';
+				$dirFromRoot = '/img/project/'.$project->id.'/';
 				$fileDir     = PUBLIC_DIR.$dirFromRoot;
 				$fileUrlDir  = $dirFromRoot;
 				$filePath    = $fileDir.$data['mainpicture']['name'];

@@ -78,7 +78,7 @@ class UserController extends AbstractActionCustomController
 				]);
 
 				// rename photo
-				if (!empty($user->photo))
+				if (isset($user->photo['tmp_name']))
 				{
 					preg_match('/\..+?$/', $user->photo['name'], $matches);
 					$fileExtension = $matches[0];

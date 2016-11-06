@@ -1,0 +1,23 @@
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer  $this
+ *
+ * @var \Application\Model\Project       $project
+ * @var \Application\Model\Paymentmethod $paymentMethod
+ * @var integer                          $amount
+ */
+?>
+
+<h1>Paiement</h1>
+
+<p>montant: <?= $amount ?></p>
+<p>projet: <?= $project->title ?></p>
+<p>méthode de paiement: <?= $paymentMethod->name ?></p>
+
+<form method="post" action="<?= $this->url('home/action', ['controller' => 'transaction', 'action' => 'add']) ?>">
+	<input type="hidden" name="projectId" value="<?= $project->id ?>">
+	<input type="hidden" name="paymentMethodId" value="<?= $paymentMethod->id ?>">
+	<input type="hidden" name="amount" value="<?= $amount ?>">
+
+	<input type="submit" value="simuler le paiement">
+</form>

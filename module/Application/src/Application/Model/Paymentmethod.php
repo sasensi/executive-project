@@ -8,6 +8,10 @@ namespace Application\Model;
  */
 class Paymentmethod implements RowInterface
 {
+	const CREDIT_CARD = 1;
+	const PAYPAL      = 2;
+	const BITCOIN     = 3;
+
 	/**
 	 * @var integer
 	 */
@@ -21,8 +25,7 @@ class Paymentmethod implements RowInterface
 
 	public function exchangeArray($arr)
 	{
-		$this->id = (isset($arr['id'])) ? $arr['id'] : null;
+		$this->id   = (isset($arr['id'])) ? $arr['id'] : null;
 		$this->name = (isset($arr['name'])) ? $arr['name'] : null;
-
 	}
 }

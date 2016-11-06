@@ -62,6 +62,8 @@
 //	var_dump($picture);
 //}
 
+use Application\Model\Paymentmethod;
+
 $remainingDaysCount = $project->getRemainingDaysCount();
 
 $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLine() : 'terminé';
@@ -247,12 +249,14 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 		<?php endif; ?>
 
 		<!-- PAYMENT -->
-		<?php if (!isset($user) || $user->isFinancer()): ?>
+		<?php if (isset($user) && $user->isFinancer()): ?>
 			<div id="payButton">
 				<i class="icomoon icon_payment"></i>
 			</div>
 			<div id="payment">
-				<form method="post" action="<?= $this->url('home/action', ['controller' => 'transaction', 'action' => 'add']) ?>">
+				<form method="post" action="<?= $this->url('home/action', ['controller' => 'transaction', 'action' => 'payment']) ?>">
+					<input name="projectId" type="hidden" value="<?= $project->id ?>">
+
 					<div id="closebutton">
 						<div class="crossBar"></div>
 						<div class="crossBar"></div>
@@ -262,7 +266,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 
 					<section>
 						<div id="price">
-							<input type="number" value="1">
+							<input title="amount" name="amount" type="number" value="1">
 							<span>€</span>
 						</div>
 						<div id="gift">
@@ -272,13 +276,13 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 					</section>
 
 					<div id="buttons">
-						<button id="paypalButton">
+						<button name="paymentMethodId" value="<?= Paymentmethod::PAYPAL ?>" id="paypalButton">
 							<i class="icomoon icon_paypal"></i>
 						</button>
-						<button id="creditCardButton">
+						<button name="paymentMethodId" value="<?= Paymentmethod::CREDIT_CARD ?>" id="creditCardButton">
 							<i class="icomoon icon_credit_card"></i>
 						</button>
-						<button id="bitcoinButton">
+						<button name="paymentMethodId" value="<?= Paymentmethod::BITCOIN ?>" id="bitcoinButton">
 							<i class="icomoon icon_bitcoin"></i>
 						</button>
 					</div>
