@@ -201,7 +201,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 		<?php if (count($gifts) > 0): ?>
 			<div id="gifts" class="col-xs-12 col-md-4">
 				<?php foreach ($gifts as $gift): ?>
-					<div class="gift">
+					<div class="gift" data-minamount="<?= $gift->minamount ?>" data-title="<?= $gift->title ?>">
 						<p class="minAmount">
 							<i class="icomoon icon_payment"></i>
 							<span>&#62; <?= $gift->minamount ?> €</span>
@@ -247,7 +247,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 		<?php endif; ?>
 
 		<!-- PAYMENT -->
-		<?php if (isset($user) && $user->isFinancer()): ?>
+		<?php if (!isset($user) || $user->isFinancer()): ?>
 			<div id="payButton">
 				<i class="icomoon icon_payment"></i>
 			</div>
@@ -267,7 +267,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 						</div>
 						<div id="gift">
 							<i class="icomoon icon_gift"></i>
-							<span>placeholder</span>
+							<span></span>
 						</div>
 					</section>
 

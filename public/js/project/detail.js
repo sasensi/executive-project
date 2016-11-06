@@ -70,4 +70,47 @@ $(document).ready(function ()
     {
         $payment.removeClass('active');
     });
+
+    var gifts = [];
+    // get gifts data from interface
+    $('.gift').each(function ()
+    {
+        gifts.push({
+            minAmount: $(this).data('minamount'),
+            title    : $(this).data('title')
+        });
+    });
+    // display corresponding gift on price change
+    $('#price input').change(function ()
+    {
+        var price = parseInt($(this).val());
+        if (isNaN(price) || price <= 0)
+        {
+            price = 0;
+            $(this).val(0);
+        }
+
+        var correspondingGift = null;
+        for (var i = gifts.length - 1; i >= 0; i--)
+        {
+            var gift = gifts[i];
+            if (gift.minAmount <= price)
+            {
+                correspondingGift = gift;
+                break;
+            }
+        }
+
+        var $gift = $('#gift');
+        if (correspondingGift !== null)
+        {
+            $gift.addClass('active');
+            $gift.find('span').text(correspondingGift.title);
+        }
+        else
+        {
+            $gift.removeClass('active');
+            $gift.find('span').text('');
+        }
+    });
 });
