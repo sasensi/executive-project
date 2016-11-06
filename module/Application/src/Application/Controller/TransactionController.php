@@ -5,6 +5,8 @@ namespace Application\Controller;
 use Application\Model\AbstractTable;
 use Application\Model\Transaction;
 use Application\Model\TransactionTable;
+use Application\Util\Hashtable;
+use Zend\Db\Sql\Where;
 use Zend\View\Model\ViewModel;
 
 class TransactionController extends AbstractActionCustomController
@@ -15,10 +17,32 @@ class TransactionController extends AbstractActionCustomController
 
 		/** @var TransactionTable $transactionTable */
 		$transactionTable = $this->getTable('transaction');
-		$transactions     = $transactionTable->getAllFromUserId($user->id);
+
+		$transactions = $transactionTable->getAllFromUserId($user->id);
+		$transactions->buffer();
+
+		$projectsIds = [];
+		/** @var Transaction[] $transactions */
+		foreach ($transactions as $transaction)
+		{
+			if (!in_array($transaction->project_id, $projectsIds))
+			{
+				$projectsIds[] = $transaction->project_id;
+			}
+		}
+
+		$where = new Where();
+		$where->in('id', $projectsIds);
+		$projects   = $this->getTable('project')->select($where);
+		$projectsHt = Hashtable::createFromObject($projects);
+
+		$paymentMethods   = $this->getTable('paymentmethod')->select();
+		$paymentMethodsHt = Hashtable::createFromObject($paymentMethods);
 
 		return new ViewModel([
-			'transactions' => $transactions
+			'transactions'     => $transactions,
+			'projectsHt'       => $projectsHt,
+			'paymentMethodsHt' => $paymentMethodsHt,
 		]);
 	}
 

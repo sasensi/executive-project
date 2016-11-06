@@ -1,18 +1,37 @@
 <?php
 
 /**
- * @var \Application\Model\Transaction[] $transactions
+ * @var \Zend\View\Renderer\PhpRenderer    $this
+ * @var \Application\Model\Transaction[]   $transactions
+ * @var \Application\Model\Project[]       $projectsHt
+ * @var \Application\Model\Paymentmethod[] $paymentMethodsHt
  */
-
-
-echo "transactions:\n";
-foreach ($transactions as $transaction)
-{
-	// debug
-	echo '$transaction =';
-	var_dump($transaction);
-}
 
 ?>
 
 <h1>mes financements</h1>
+<table class="table">
+	<thead>
+	<tr>
+		<th>Projet</th>
+		<th>Montant</th>
+		<th>Date</th>
+		<th>Méthode</th>
+		<th>Date de remboursement</th>
+	</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($transactions as $transaction):
+		$project = $projectsHt[ $transaction->project_id ];
+		$paymentMethod = $paymentMethodsHt[ $transaction->paymentmethod_id ];
+		?>
+		<tr>
+			<td><?= $project->title ?></td>
+			<td><?= $transaction->amount ?></td>
+			<td><?= $transaction->paymentdate ?></td>
+			<td><?= $paymentMethod->name ?></td>
+			<td><?= $transaction->repaymentdate ?></td>
+		</tr>
+	<?php endforeach; ?>
+	</tbody>
+</table>
