@@ -52,7 +52,7 @@ class UserAddForm extends AbstractForm
 		$email->setLabel('Email*');
 		$this->add($email);
 
-		$password = new Password(self::PASSWORD);
+		$password = new Text(self::PASSWORD);
 		$password->setLabel('Mot de passe*');
 		$this->add($password);
 
@@ -68,8 +68,12 @@ class UserAddForm extends AbstractForm
 		$birthdate->setLabel('Date de naissance*');
 		$this->add($birthdate);
 
-		$sex = new Text(self::SEX);
+		$sex = new Select(self::SEX);
 		$sex->setLabel('Sexe*');
+		$sex->setValueOptions([
+			'M' => 'Homme',
+		    'F' => 'Femme',
+		]);
 		$this->add($sex);
 
 		$adress = new Text(self::ADRESS);

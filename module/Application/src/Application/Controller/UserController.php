@@ -81,7 +81,7 @@ class UserController extends AbstractActionCustomController
 				if (isset($user->photo['tmp_name']))
 				{
 					preg_match('/\..+?$/', $user->photo['name'], $matches);
-					$fileExtension = $matches[0];
+					$fileExtension    = $matches[0];
 					$filePathFromRoot = "img/user/{$user->id}.{$fileExtension}";
 
 					rename($user->photo['tmp_name'], PUBLIC_DIR.$filePathFromRoot);
@@ -157,7 +157,61 @@ class UserController extends AbstractActionCustomController
 
 	public function updateAction()
 	{
-		return new ViewModel();
+		$userTypes  = $this->getTable('usertype')->select();
+		$countries  = $this->getTable('country')->select();
+		$categories = $this->getTable('category')->select();
+
+		$user = UserController::getLoggedUser();
+
+		$form = new UserAddForm($userTypes, $countries, $categories);
+		$form->setData([
+			'password'   => $user->password,
+			'sex'        => $user->sex,
+			'adress'     => $user->adress,
+			'postcode'   => $user->postcode,
+			'city'       => $user->city,
+			'country_id' => $user->country_id,
+			'phone'      => $user->phone,
+		]);
+
+		$form->get(UserAddForm::SUBMIT)->setAttribute('value', 'Modifier');
+		$form->setValidationGroup(['password', 'sex', 'adress', 'postcode', 'city', 'country_id', 'phone']);
+
+		/** @var \Zend\Http\PhpEnvironment\Request $request */
+		$request = $this->getRequest();
+
+		if ($request->isPost())
+		{
+			$post = array_merge_recursive(
+				$request->getPost()->toArray(),
+				$request->getFiles()->toArray()
+			);
+
+			$form->setData($post);
+
+			if ($form->isValid())
+			{
+				// overrite user datas
+				$user->exchangeArray($form->getData());
+
+				$user->id = $this->getTable('user')->update([
+					'password'   => $user->password,
+					'sex'        => $user->sex,
+					'adress'     => $user->adress,
+					'postcode'   => $user->postcode,
+					'city'       => $user->city,
+					'country_id' => $user->country_id,
+					'phone'      => $user->phone,
+				], ['id' => $user->id]);
+			}
+		}
+
+		$this->addJsDependency('js/user/signin.js');
+
+		return new ViewModel([
+			'form' => $form,
+			'user' => $user,
+		]);
 	}
 
 	public function updateAvatarAction()
