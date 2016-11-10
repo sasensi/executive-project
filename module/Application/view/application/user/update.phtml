@@ -1,10 +1,10 @@
 <?php
 /**
- * @var \Application\Form\UserAddForm $form
- * @var \Application\Model\User       $user
+ * @var \Application\Form\UserForm $form
+ * @var \Application\Model\User    $user
  */
 
-use Application\Form\UserAddForm;
+use Application\Form\UserForm;
 
 $form->setAttribute('action', $_SERVER['REQUEST_URI']);
 $form->prepare();
@@ -16,18 +16,17 @@ $form->prepare();
 <?php
 
 echo $this->form()->openTag($form);
-echo $this->formRow($form->get(UserAddForm::PASSWORD));
-echo $this->formRow($form->get(UserAddForm::SEX));
-echo $this->formRow($form->get(UserAddForm::ADRESS));
-echo $this->formRow($form->get(UserAddForm::POSTCODE));
-echo $this->formRow($form->get(UserAddForm::CITY));
-echo $this->formRow($form->get(UserAddForm::COUNTRY_ID));
-echo $this->formRow($form->get(UserAddForm::PHONE));
+echo $this->formRow($form->get(UserForm::SEX));
+echo $this->formRow($form->get(UserForm::ADRESS));
+echo $this->formRow($form->get(UserForm::POSTCODE));
+echo $this->formRow($form->get(UserForm::CITY));
+echo $this->formRow($form->get(UserForm::COUNTRY_ID));
+echo $this->formRow($form->get(UserForm::PHONE));
 if ($user->isFinancer())
 {
-	echo $this->formRow($form->get(UserAddForm::FAVOURITECATEGORY_ID));
+	echo $this->formRow($form->get(UserForm::FAVOURITECATEGORY_ID));
 }
-echo $this->formSubmit($form->get(UserAddForm::SUBMIT));
+echo $this->formSubmit($form->get(UserForm::SUBMIT));
 ?>
 
 	<p>* Champs obligatoires</p>

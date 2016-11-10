@@ -19,7 +19,7 @@ use Zend\Form\Element\Submit;
 use Zend\Form\Element\Text;
 use Zend\InputFilter\InputFilter;
 
-class UserAddForm extends AbstractForm
+class UserForm extends AbstractForm
 {
 	const EMAIL                = 'email';
 	const PASSWORD             = 'password';
@@ -52,7 +52,7 @@ class UserAddForm extends AbstractForm
 		$email->setLabel('Email*');
 		$this->add($email);
 
-		$password = new Text(self::PASSWORD);
+		$password = new Password(self::PASSWORD);
 		$password->setLabel('Mot de passe*');
 		$this->add($password);
 

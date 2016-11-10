@@ -3,7 +3,7 @@
 namespace Application\Controller;
 
 use Application\Form\LoginForm;
-use Application\Form\UserAddForm;
+use Application\Form\UserForm;
 use Application\Model\AbstractTable;
 use Application\Model\User;
 use Application\Model\UserTable;
@@ -30,7 +30,7 @@ class UserController extends AbstractActionCustomController
 		$countries  = $this->getTable('country')->select();
 		$categories = $this->getTable('category')->select();
 
-		$form = new UserAddForm($userTypes, $countries, $categories);
+		$form = new UserForm($userTypes, $countries, $categories);
 
 		/** @var \Zend\Http\PhpEnvironment\Request $request */
 		$request = $this->getRequest();
@@ -161,11 +161,11 @@ class UserController extends AbstractActionCustomController
 		$countries  = $this->getTable('country')->select();
 		$categories = $this->getTable('category')->select();
 
+		// get current user
 		$user = UserController::getLoggedUser();
 
-		$form = new UserAddForm($userTypes, $countries, $categories);
+		$form = new UserForm($userTypes, $countries, $categories);
 		$form->setData([
-			'password'   => $user->password,
 			'sex'        => $user->sex,
 			'adress'     => $user->adress,
 			'postcode'   => $user->postcode,
@@ -174,18 +174,18 @@ class UserController extends AbstractActionCustomController
 			'phone'      => $user->phone,
 		]);
 
-		$form->get(UserAddForm::SUBMIT)->setAttribute('value', 'Modifier');
-		$form->setValidationGroup(['password', 'sex', 'adress', 'postcode', 'city', 'country_id', 'phone']);
+		// change submit button label
+		$form->get(UserForm::SUBMIT)->setAttribute('value', 'Modifier');
+
+		// only validate displayed fields
+		$form->setValidationGroup(['sex', 'adress', 'postcode', 'city', 'country_id', 'phone']);
 
 		/** @var \Zend\Http\PhpEnvironment\Request $request */
 		$request = $this->getRequest();
 
 		if ($request->isPost())
 		{
-			$post = array_merge_recursive(
-				$request->getPost()->toArray(),
-				$request->getFiles()->toArray()
-			);
+			$post = $request->getPost()->toArray();
 
 			$form->setData($post);
 
@@ -195,7 +195,6 @@ class UserController extends AbstractActionCustomController
 				$user->exchangeArray($form->getData());
 
 				$user->id = $this->getTable('user')->update([
-					'password'   => $user->password,
 					'sex'        => $user->sex,
 					'adress'     => $user->adress,
 					'postcode'   => $user->postcode,
@@ -205,8 +204,6 @@ class UserController extends AbstractActionCustomController
 				], ['id' => $user->id]);
 			}
 		}
-
-		$this->addJsDependency('js/user/signin.js');
 
 		return new ViewModel([
 			'form' => $form,
