@@ -2,6 +2,7 @@
 
 namespace Application\Controller;
 
+use Application\Exception\NotLoggedUserException;
 use Application\Form\LoginForm;
 use Application\Form\UserForm;
 use Application\Model\AbstractTable;
@@ -59,6 +60,8 @@ class UserController extends AbstractActionCustomController
 				$user->confirmed    = true;
 				$user->desactivated = false;
 
+				$this->beginTransaction();
+
 				$user->id = $this->getTable('user')->insert([
 					'password'         => $user->password,
 					'name'             => $user->name,
@@ -80,7 +83,7 @@ class UserController extends AbstractActionCustomController
 				]);
 
 				// rename photo
-				if (isset($user->photo['tmp_name']))
+				if (!empty($user->photo['tmp_name']))
 				{
 					preg_match('/\..+?$/', $user->photo['name'], $matches);
 					$fileExtension    = $matches[0];
@@ -88,8 +91,16 @@ class UserController extends AbstractActionCustomController
 
 					rename($user->photo['tmp_name'], PUBLIC_DIR.$filePathFromRoot);
 
-					$this->getTable('user')->update(['photo' => $filePathFromRoot], ['id' => $user->id]);
+					$user->photo = $filePathFromRoot;
+
+					$this->getTable('user')->update(['photo' => $user->photo], ['id' => $user->id]);
 				}
+
+				$this->commitTransaction();
+
+				// log user in
+				self::logUserIn($user);
+				$this->redirect()->toRoute('home/action', ['controller' => 'user']);
 			}
 		}
 
@@ -288,18 +299,24 @@ class UserController extends AbstractActionCustomController
 		}
 
 		// user is deletable
-		if ($deletable)
+		$success = false;
+		if ($deletable || $desactivable)
 		{
-			$table->delete($user->id);
-		}
-		elseif ($desactivable)
-		{
-			$table->desactivate($user->id);
+			if ($deletable)
+			{
+				$table->delete($user->id);
+			}
+			elseif ($desactivable)
+			{
+				$table->desactivate($user->id);
+			}
+			$success = true;
+			self::logUserOut();
 		}
 
 		return new ViewModel([
 			'user'    => $user,
-			'success' => ($deletable || $desactivable)
+			'success' => $success
 		]);
 	}
 
@@ -329,7 +346,7 @@ class UserController extends AbstractActionCustomController
 		$sessionContainer = new Container(self::SESSION_LOGIN_KEY);
 		if (!isset($sessionContainer->user))
 		{
-			throw new \Exception('User is not logged.');
+			throw new NotLoggedUserException('User is not logged.');
 		}
 
 		return $sessionContainer->user;

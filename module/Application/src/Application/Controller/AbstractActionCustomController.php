@@ -3,6 +3,7 @@
 namespace Application\Controller;
 
 use Application\Model\AbstractTable;
+use Zend\Db\Adapter\Adapter;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Helper\HeadLink;
 use Zend\View\Helper\HeadScript;
@@ -46,5 +47,15 @@ class AbstractActionCustomController extends AbstractActionController
 	protected function getRenderer()
 	{
 		return $this->getServiceLocator()->get('Zend\View\Renderer\RendererInterface');
+	}
+
+	protected function beginTransaction()
+	{
+		$this->getServiceLocator()->get(Adapter::class)->getDriver()->getConnection()->beginTransaction();
+	}
+
+	protected function commitTransaction()
+	{
+		$this->getServiceLocator()->get(Adapter::class)->getDriver()->getConnection()->commit();
 	}
 }

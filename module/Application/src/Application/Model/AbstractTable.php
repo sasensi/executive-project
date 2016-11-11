@@ -32,7 +32,7 @@ class AbstractTable extends TableGateway
 
 	public function delete($id)
 	{
-		$this->delete(['id' => $id]);
+		parent::delete(['id' => $id]);
 	}
 
 	public function insert($set)

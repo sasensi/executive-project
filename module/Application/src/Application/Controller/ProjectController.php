@@ -15,7 +15,6 @@ use Application\Model\TagTable;
 use Application\Model\TransactionTable;
 use Application\Model\UserTable;
 use Application\Model\VideoTable;
-use Zend\Db\Adapter\Adapter;
 use Zend\View\Model\ViewModel;
 
 class ProjectController extends AbstractActionCustomController
@@ -160,7 +159,7 @@ class ProjectController extends AbstractActionCustomController
 				$project->mainpicture    = '';
 
 				// wrap queries in transaction in case of failure
-				$this->getServiceLocator()->get(Adapter::class)->getDriver()->getConnection()->beginTransaction();
+				$this->beginTransaction();
 
 				// create row
 				$project->id = $this->getTable('project')->insert([
@@ -271,7 +270,7 @@ class ProjectController extends AbstractActionCustomController
 				}
 
 
-				$this->getServiceLocator()->get(Adapter::class)->getDriver()->getConnection()->commit();
+				$this->commitTransaction();
 
 				return $this->redirect()->toRoute('home/action', ['controller' => 'project', 'action' => 'user']);
 			}
