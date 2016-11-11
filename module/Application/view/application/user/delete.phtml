@@ -1,14 +1,16 @@
 <?php
 
 /**
- * @var \Application\Model\User $user
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Application\Model\User         $user
+ * @var bool                            $success
  */
-
-// debug
-echo '$user =';
-var_dump($user);
-
 
 ?>
 
 <h1>supprimer mon compte</h1>
+<?php if ($success): ?>
+	<p>votre compte a bien été supprimé</p>
+<?php else: ?>
+	<p>votre compte n'a pas pu être supprimé car vous avez une activité en cours</p>
+<?php endif; ?>

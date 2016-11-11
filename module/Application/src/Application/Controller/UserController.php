@@ -5,6 +5,8 @@ namespace Application\Controller;
 use Application\Form\LoginForm;
 use Application\Form\UserForm;
 use Application\Model\AbstractTable;
+use Application\Model\Project;
+use Application\Model\Transaction;
 use Application\Model\User;
 use Application\Model\UserTable;
 use Application\Model\Usertype;
@@ -229,13 +231,75 @@ class UserController extends AbstractActionCustomController
 	public function deleteAction()
 	{
 		$user = self::getLoggedUser();
+		/** @var UserTable $table */
+		$table = $this->getTable('user');
 
-		/** @var UserTable $userTable */
-		$userTable = $this->getTable('user');
-		$userTable->desactivate($user->id);
+		$deletable    = false;
+		$desactivable = false;
+		if ($user->isFinancer())
+		{
+			$transactions = $this->getTable('transaction')->select(['user_id' => $user->id]);
+			if ($transactions->count() === 0)
+			{
+				$deletable = true;
+			}
+			else
+			{
+				$desactivable = true;
+				$timeZone     = new \DateTimeZone('Europe/Paris');
+				$nowDate      = new \DateTime('now', $timeZone);
+				/** @var Transaction $transaction */
+				foreach ($transactions as $transaction)
+				{
+					/** @var Project $project */
+					$project             = $this->getTable('project')->selectFirstById($transaction->project_id);
+					$projectDeadlineDate = \DateTime::createFromFormat(AbstractTable::DATE_FORMAT, $project->deadline, $timeZone);
+					if ($projectDeadlineDate > $nowDate)
+					{
+						$desactivable = false;
+						break;
+					}
+				}
+			}
+		}
+		elseif ($user->isCreator())
+		{
+			$projects = $this->getTable('project')->select(['user_id' => $user->id]);
+			if ($projects->count() === 0)
+			{
+				$deletable = true;
+			}
+			else
+			{
+				$desactivable = true;
+				$timeZone     = new \DateTimeZone('Europe/Paris');
+				$nowDate      = new \DateTime('now', $timeZone);
+				/** @var Project $project */
+				foreach ($projects as $project)
+				{
+					$projectDeadlineDate = \DateTime::createFromFormat(AbstractTable::DATE_FORMAT, $project->deadline, $timeZone);
+					if ($projectDeadlineDate > $nowDate)
+					{
+						$desactivable = false;
+						break;
+					}
+				}
+			}
+		}
+
+		// user is deletable
+		if ($deletable)
+		{
+			$table->delete($user->id);
+		}
+		elseif ($desactivable)
+		{
+			$table->desactivate($user->id);
+		}
 
 		return new ViewModel([
-			'user' => $user
+			'user'    => $user,
+			'success' => ($deletable || $desactivable)
 		]);
 	}
 
