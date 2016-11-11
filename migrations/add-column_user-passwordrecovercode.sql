@@ -1,0 +1,1 @@
+ALTER TABLE crowdfunding.user ADD passwordrecovercode VARCHAR(255) NULL;

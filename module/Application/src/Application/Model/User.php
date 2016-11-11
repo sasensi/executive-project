@@ -98,27 +98,33 @@ class User implements RowInterface
 	 */
 	public $usertype_id;
 
+	/**
+	 * @var string
+	 */
+	public $passwordrecovercode;
+
 
 	public function exchangeArray($arr)
 	{
-		$this->id               = (isset($arr['id'])) ? $arr['id'] : null;
-		$this->password         = (isset($arr['password'])) ? $arr['password'] : null;
-		$this->name             = (isset($arr['name'])) ? $arr['name'] : null;
-		$this->firstname        = (isset($arr['firstname'])) ? $arr['firstname'] : null;
-		$this->birthdate        = (isset($arr['birthdate'])) ? $arr['birthdate'] : null;
-		$this->email            = (isset($arr['email'])) ? $arr['email'] : null;
-		$this->sex              = (isset($arr['sex'])) ? $arr['sex'] : null;
-		$this->adress           = (isset($arr['adress'])) ? $arr['adress'] : null;
-		$this->postcode         = (isset($arr['postcode'])) ? $arr['postcode'] : null;
-		$this->city             = (isset($arr['city'])) ? $arr['city'] : null;
-		$this->country_id       = (isset($arr['country_id'])) ? $arr['country_id'] : null;
-		$this->phone            = (isset($arr['phone'])) ? $arr['phone'] : null;
-		$this->photo            = (isset($arr['photo'])) ? $arr['photo'] : null;
-		$this->facebook         = (isset($arr['facebook'])) ? $arr['facebook'] : null;
-		$this->subscriptiondate = (isset($arr['subscriptiondate'])) ? $arr['subscriptiondate'] : null;
-		$this->confirmed        = (isset($arr['confirmed'])) ? $arr['confirmed'] : null;
-		$this->desactivated     = (isset($arr['desactivated'])) ? $arr['desactivated'] : null;
-		$this->usertype_id      = (isset($arr['usertype_id'])) ? $arr['usertype_id'] : null;
+		$this->id                  = (isset($arr['id'])) ? $arr['id'] : null;
+		$this->password            = (isset($arr['password'])) ? $arr['password'] : null;
+		$this->name                = (isset($arr['name'])) ? $arr['name'] : null;
+		$this->firstname           = (isset($arr['firstname'])) ? $arr['firstname'] : null;
+		$this->birthdate           = (isset($arr['birthdate'])) ? $arr['birthdate'] : null;
+		$this->email               = (isset($arr['email'])) ? $arr['email'] : null;
+		$this->sex                 = (isset($arr['sex'])) ? $arr['sex'] : null;
+		$this->adress              = (isset($arr['adress'])) ? $arr['adress'] : null;
+		$this->postcode            = (isset($arr['postcode'])) ? $arr['postcode'] : null;
+		$this->city                = (isset($arr['city'])) ? $arr['city'] : null;
+		$this->country_id          = (isset($arr['country_id'])) ? $arr['country_id'] : null;
+		$this->phone               = (isset($arr['phone'])) ? $arr['phone'] : null;
+		$this->photo               = (isset($arr['photo'])) ? $arr['photo'] : null;
+		$this->facebook            = (isset($arr['facebook'])) ? $arr['facebook'] : null;
+		$this->subscriptiondate    = (isset($arr['subscriptiondate'])) ? $arr['subscriptiondate'] : null;
+		$this->confirmed           = (isset($arr['confirmed'])) ? $arr['confirmed'] : null;
+		$this->desactivated        = (isset($arr['desactivated'])) ? $arr['desactivated'] : null;
+		$this->usertype_id         = (isset($arr['usertype_id'])) ? $arr['usertype_id'] : null;
+		$this->passwordrecovercode = (isset($arr['passwordrecovercode'])) ? $arr['passwordrecovercode'] : null;
 	}
 
 	public function isFinancer()

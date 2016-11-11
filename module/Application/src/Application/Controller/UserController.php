@@ -3,6 +3,8 @@
 namespace Application\Controller;
 
 use Application\Exception\NotLoggedUserException;
+use Application\Form\ChangePasswordForm;
+use Application\Form\ForgotPasswordForm;
 use Application\Form\LoginForm;
 use Application\Form\UserForm;
 use Application\Model\AbstractTable;
@@ -11,6 +13,10 @@ use Application\Model\Transaction;
 use Application\Model\User;
 use Application\Model\UserTable;
 use Application\Model\Usertype;
+use Zend\Crypt\BlockCipher;
+use Zend\Crypt\Symmetric\Mcrypt;
+use Zend\Mail\Message;
+use Zend\Mail\Transport\Sendmail;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 
@@ -158,7 +164,110 @@ class UserController extends AbstractActionCustomController
 
 	public function forgotPasswordAction()
 	{
-		return new ViewModel();
+		$form = new ForgotPasswordForm();
+
+		/** @var \Zend\Http\PhpEnvironment\Request $request */
+		$request = $this->getRequest();
+
+		if ($request->isPost())
+		{
+			$post = $request->getPost()->toArray();
+
+			$form->setData($post);
+
+			if ($form->isValid())
+			{
+				$postedEmail = $post[ ForgotPasswordForm::EMAIL ];
+
+				// check user exists for this email
+				$user = $this->getTable('user')->selectFirst(['email' => $postedEmail]);
+				if ($user === false)
+				{
+					$form->get(ForgotPasswordForm::EMAIL)->setMessages(["Aucun utilisateur n'existe pour cette adresse email."]);
+				}
+				else
+				{
+					$code        = $user->id.'_'.time();
+					$cryptedCode = $this->getCrypter()->encrypt($code);
+					// store code in db
+					$this->getTable('user')->update(['passwordrecovercode' => $cryptedCode], ['id' => $user->id]);
+					// build unique usage URL
+					$changePasswordUrl = $this->url()->fromRoute('home/action', ['controller' => 'user', 'action' => 'change_password']);
+					$changePasswordUrl .= '?'.http_build_query(['code' => $cryptedCode]);
+
+					$emailBody = <<<HTML
+<p>Bonjour,</p>
+<p>Vous avez fait une demande de récupération de mot de passe.</p>
+<p>Cliquez <a href="{$changePasswordUrl}">ici</a> pour changer votre mot de passe.</p>
+HTML;
+
+					//
+					// DEBUG
+					//
+					$viewModel = new ViewModel([
+						'emailBody' => $emailBody
+					]);
+					$viewModel->setTemplate('application/user/forgot_password_email_debug.phtml');
+					return $viewModel;
+
+
+					$message = new Message();
+					$message->addTo($postedEmail)
+					        ->addFrom('contact@iap.com')
+					        ->setSubject('Récupération de votre mot de passe')
+					        ->setBody($emailBody);
+
+					$transport = new Sendmail();
+					$transport->send($message);
+				}
+			}
+		}
+
+		return new ViewModel([
+			'form' => $form
+		]);
+	}
+
+	public function changePasswordAction()
+	{
+		/** @var \Zend\Http\PhpEnvironment\Request $request */
+		$request = $this->getRequest();
+
+		$cryptedCode = $request->getQuery()->get('code');
+		$code        = $this->getCrypter()->decrypt($cryptedCode);
+		$id          = explode('_', $code)[0];
+		/** @var User $user */
+		$user = $this->getTable('user')->selectFirstById($id);
+
+		if ($user->passwordrecovercode !== $cryptedCode)
+		{
+			throw new \Exception('Invalid password recovery code');
+		}
+
+		$form = new ChangePasswordForm();
+
+		if ($request->isPost())
+		{
+			$post = $request->getPost()->toArray();
+
+			$form->setData($post);
+
+			if ($form->isValid())
+			{
+				// change user password
+				$user->password = $post[ ChangePasswordForm::PASSWORD ];
+				// make password recover code null to prevent using URL multiple times
+				$this->getTable('user')->update(['password' => $user->password, 'passwordrecovercode' => null], ['id' => $user->id]);
+
+				// log user in
+				self::logUserIn($user);
+				$this->redirect()->toRoute('home/action', ['controller' => 'user']);
+			}
+		}
+
+		return new ViewModel([
+			'form' => $form
+		]);
 	}
 
 	public function logoutAction()
@@ -350,6 +459,18 @@ class UserController extends AbstractActionCustomController
 		}
 
 		return $sessionContainer->user;
+	}
+
+
+	//
+	// INTERNAL
+	//
+
+	protected function getCrypter()
+	{
+		$blockCipher = new BlockCipher(new Mcrypt(['algo' => 'aes']));
+		$blockCipher->setKey('encryption key');
+		return $blockCipher;
 	}
 
 }

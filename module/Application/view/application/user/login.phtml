@@ -24,3 +24,6 @@ echo $this->formSubmit($form->get(LoginForm::SUBMIT));
 
 <?php
 echo $this->form()->closeTag($form);
+?>
+
+<a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'forgot_password']) ?>" class="btn btn-warning">J'ai oublié mon mot de passe</a>
