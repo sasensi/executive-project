@@ -76,7 +76,12 @@ class User implements RowInterface
 	/**
 	 * @var string
 	 */
-	public $facebook;
+	public $facebookid;
+
+	/**
+	 * @var string
+	 */
+	public $facebooktoken;
 
 	/**
 	 * @var string
@@ -119,7 +124,8 @@ class User implements RowInterface
 		$this->country_id          = (isset($arr['country_id'])) ? $arr['country_id'] : null;
 		$this->phone               = (isset($arr['phone'])) ? $arr['phone'] : null;
 		$this->photo               = (isset($arr['photo'])) ? $arr['photo'] : null;
-		$this->facebook            = (isset($arr['facebook'])) ? $arr['facebook'] : null;
+		$this->facebookid          = (isset($arr['facebookid'])) ? $arr['facebookid'] : null;
+		$this->facebooktoken       = (isset($arr['facebooktoken'])) ? $arr['facebooktoken'] : null;
 		$this->subscriptiondate    = (isset($arr['subscriptiondate'])) ? $arr['subscriptiondate'] : null;
 		$this->confirmed           = (isset($arr['confirmed'])) ? $arr['confirmed'] : null;
 		$this->desactivated        = (isset($arr['desactivated'])) ? $arr['desactivated'] : null;

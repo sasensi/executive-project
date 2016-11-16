@@ -2,6 +2,7 @@
 /**
  * @var \Zend\View\Renderer\PhpRenderer $this
  * @var \Application\Form\LoginForm     $form
+ * @var string                          $facebookLoginUrl
  */
 
 use Application\Form\LoginForm;
@@ -10,7 +11,7 @@ $form->prepare();
 
 ?>
 
-	<h1>Se connecter</h1>
+<h1>Se connecter</h1>
 
 <?php
 
@@ -20,10 +21,11 @@ echo $this->formRow($form->get(LoginForm::PASSWORD));
 echo $this->formSubmit($form->get(LoginForm::SUBMIT));
 ?>
 
-	<p>* Champs obligatoires</p>
+<p>* Champs obligatoires</p>
 
 <?php
 echo $this->form()->closeTag($form);
 ?>
 
 <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'forgot_password']) ?>" class="btn btn-warning">J'ai oublié mon mot de passe</a>
+<a href="<?= $facebookLoginUrl ?>" class="btn btn-primary">Se connecter avec facebook</a>

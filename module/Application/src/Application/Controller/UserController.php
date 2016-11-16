@@ -12,7 +12,8 @@ use Application\Model\Project;
 use Application\Model\Transaction;
 use Application\Model\User;
 use Application\Model\UserTable;
-use Application\Model\Usertype;
+use Facebook\Facebook;
+use Facebook\GraphNodes\GraphUser;
 use Zend\Crypt\BlockCipher;
 use Zend\Crypt\Symmetric\Mcrypt;
 use Zend\Mail\Message;
@@ -22,7 +23,8 @@ use Zend\View\Model\ViewModel;
 
 class UserController extends AbstractActionCustomController
 {
-	const SESSION_LOGIN_KEY = 'login';
+	const SESSION_LOGIN_KEY          = 'login';
+	const SESSION_LOGIN_FACEBOOK_KEY = 'facebookLogin';
 
 	public function indexAction()
 	{
@@ -40,6 +42,30 @@ class UserController extends AbstractActionCustomController
 		$categories = $this->getTable('category')->select();
 
 		$form = new UserForm($userTypes, $countries, $categories);
+
+		// if user logged through facebook, fill rom with facebook datas
+		$facebookLoginSessionContainer = new Container(self::SESSION_LOGIN_FACEBOOK_KEY);
+		$fbUser                        = null;
+		if (isset($facebookLoginSessionContainer->graphUser))
+		{
+			/** @var GraphUser $fbUser */
+			$fbUser          = $facebookLoginSessionContainer->graphUser;
+			$fbUserBirthDate = $fbUser->getBirthday();
+			if (isset($fbUserBirthDate))
+			{
+				$fbUserBirthDate = $fbUserBirthDate->format(AbstractTable::DATE_FORMAT);
+			}
+			$fbUserGender = $fbUser->getGender();
+			if (isset($fbUserGender))
+			{
+				$fbUserGender = $fbUserGender === 'male' ? 'M' : 'F';
+			}
+			$form->get(UserForm::EMAIL)->setValue($fbUser->getEmail());
+			$form->get(UserForm::FIRSTNAME)->setValue($fbUser->getFirstName());
+			$form->get(UserForm::BIRTHDATE)->setValue($fbUserBirthDate);
+			$form->get(UserForm::SEX)->setValue($fbUserGender);
+			$form->get(UserForm::NAME)->setValue($fbUser->getLastName());
+		}
 
 		/** @var \Zend\Http\PhpEnvironment\Request $request */
 		$request = $this->getRequest();
@@ -62,9 +88,17 @@ class UserController extends AbstractActionCustomController
 				$user = new User();
 				$user->exchangeArray($data);
 				$user->subscriptiondate = $nowDate->format(AbstractTable::DATE_FORMAT);
-				// todo: send confirmation mail
-				$user->confirmed    = true;
-				$user->desactivated = false;
+				$user->confirmed        = true;
+				$user->desactivated     = false;
+
+				if (isset($fbUser))
+				{
+					$user->facebookid = $fbUser->getId();
+					if (isset($facebookLoginSessionContainer->token))
+					{
+						$user->facebooktoken = $facebookLoginSessionContainer->token;
+					}
+				}
 
 				$this->beginTransaction();
 
@@ -81,7 +115,8 @@ class UserController extends AbstractActionCustomController
 					'country_id'       => $user->country_id,
 					'phone'            => $user->phone,
 					'photo'            => null,
-					'facebook'         => $user->facebook,
+					'facebookid'       => $user->facebookid,
+					'facebooktoken'    => $user->facebooktoken,
 					'subscriptiondate' => $user->subscriptiondate,
 					'confirmed'        => $user->confirmed,
 					'desactivated'     => $user->desactivated,
@@ -104,6 +139,9 @@ class UserController extends AbstractActionCustomController
 
 				$this->commitTransaction();
 
+				// clear facebook login session
+				$facebookLoginSessionContainer->exchangeArray([]);
+
 				// log user in
 				self::logUserIn($user);
 				$this->redirect()->toRoute('home/action', ['controller' => 'user']);
@@ -120,6 +158,12 @@ class UserController extends AbstractActionCustomController
 	public function loginAction()
 	{
 		$form = new LoginForm();
+
+		$fb = $this->getFacebook();
+
+		$helper           = $fb->getRedirectLoginHelper();
+		$permissions      = ['email'];
+		$facebookLoginUrl = $helper->getLoginUrl('http://localhost/user/facebook_login_callback', $permissions);
 
 		/** @var \Zend\Http\PhpEnvironment\Request $request */
 		$request = $this->getRequest();
@@ -158,8 +202,87 @@ class UserController extends AbstractActionCustomController
 		}
 
 		return new ViewModel([
-			'form' => $form
+			'form'             => $form,
+			'facebookLoginUrl' => $facebookLoginUrl,
 		]);
+	}
+
+	public function facebookLoginCallbackAction()
+	{
+		$fb = $this->getFacebook();
+
+		$helper = $fb->getRedirectLoginHelper();
+		try
+		{
+			$accessToken = $helper->getAccessToken();
+
+			if (!isset($accessToken))
+			{
+				throw new \Exception('Cannot get access token');
+			}
+
+			// OAuth 2.0 client handler
+			$oAuth2Client = $fb->getOAuth2Client();
+
+			// Exchanges a short-lived access token for a long-lived one
+			$longLivedAccessToken = $oAuth2Client->getLongLivedAccessToken($accessToken->getValue());
+
+			// get user infos
+			$fb->setDefaultAccessToken($longLivedAccessToken->getValue());
+
+			$response   = $fb->get('/me?fields=id,birthday,email,first_name,gender,last_name');
+			$userNode   = $response->getGraphUser();
+			$email      = $userNode->getEmail();
+			$facebookId = $userNode->getId();
+
+			// case of a user that already connected with his facebook account
+			/** @var User $user */
+			$user = $this->getTable('user')->selectFirst(['facebookid' => $facebookId]);
+			if (isset($user))
+			{
+				// log in and redirect
+				self::logUserIn($user);
+				$this->redirect()->toRoute('home/action', ['controller' => 'user']);
+			}
+			else
+			{
+				// case of a user existing in database with the same email adress
+				$user = $this->getTable('user')->selectFirst(['email' => $email]);
+				if (isset($user))
+				{
+					// store user facebookid infos
+					$user->facebookid    = $facebookId;
+					$user->facebooktoken = $longLivedAccessToken->getValue();
+					$this->getTable('user')->update([
+						'facebookid'    => $user->facebookid,
+						'facebooktoken' => $user->facebooktoken,
+
+					], ['id' => $user->id]);
+
+					// log in
+					self::logUserIn($user);
+
+					// redirect
+					$this->redirect()->toRoute('home/action', ['controller' => 'user']);
+				}
+				else
+				{
+					// case of a new user
+					// redirect to signin page forwarding user datas
+					$sessionContainer            = new Container(self::SESSION_LOGIN_FACEBOOK_KEY);
+					$sessionContainer->graphUser = $userNode;
+					$sessionContainer->token     = $longLivedAccessToken->getValue();
+
+					$this->redirect()->toRoute('home/action', ['controller' => 'user', 'action' => 'signin']);
+				}
+			}
+		}
+		catch (\Exception $e)
+		{
+			// When Graph returns an error
+			echo 'there was an error: '.$e->getMessage();
+			exit;
+		}
 	}
 
 	public function forgotPasswordAction()
@@ -209,16 +332,14 @@ HTML;
 					]);
 					$viewModel->setTemplate('application/user/forgot_password_email_debug.phtml');
 					return $viewModel;
-
-
-					$message = new Message();
+					/*$message = new Message();
 					$message->addTo($postedEmail)
 					        ->addFrom('contact@iap.com')
 					        ->setSubject('Récupération de votre mot de passe')
 					        ->setBody($emailBody);
 
 					$transport = new Sendmail();
-					$transport->send($message);
+					$transport->send($message);*/
 				}
 			}
 		}
@@ -443,7 +564,7 @@ HTML;
 	public static function logUserOut()
 	{
 		$sessionContainer = new Container(self::SESSION_LOGIN_KEY);
-		$sessionContainer->getManager()->getStorage()->clear(self::SESSION_LOGIN_KEY);
+		$sessionContainer->exchangeArray([]);
 	}
 
 	/**
@@ -471,6 +592,15 @@ HTML;
 		$blockCipher = new BlockCipher(new Mcrypt(['algo' => 'aes']));
 		$blockCipher->setKey('encryption key');
 		return $blockCipher;
+	}
+
+	protected function getFacebook()
+	{
+		return new Facebook([
+			'app_id'                => '1759318977664202',
+			'app_secret'            => '7400f08d28732ba37094d74af0561013',
+			'default_graph_version' => 'v2.8',
+		]);
 	}
 
 }
