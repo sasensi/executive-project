@@ -163,7 +163,8 @@ class UserController extends AbstractActionCustomController
 
 		$helper           = $fb->getRedirectLoginHelper();
 		$permissions      = ['email'];
-		$facebookLoginUrl = $helper->getLoginUrl('http://localhost/user/facebook_login_callback', $permissions);
+		$targetRoute      = $this->url()->fromRoute('home/action', ['controller' => 'user', 'action' => 'facebook_login_callback'], ['force_canonical' => true]);
+		$facebookLoginUrl = $helper->getLoginUrl($targetRoute, $permissions);
 
 		/** @var \Zend\Http\PhpEnvironment\Request $request */
 		$request = $this->getRequest();
