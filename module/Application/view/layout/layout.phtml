@@ -77,10 +77,15 @@ catch (Exception $e)
 					</a>
 				</li>
 				<li>
-					<?php if (isset($user)): ?>
+					<?php if (isset($user)):
+						$userType = '';
+						if ($user->isFinancer()) $userType = 'Financeur';
+						elseif ($user->isCreator()) $userType = 'Créateur';
+						elseif ($user->isAdmin()) $userType = 'Administrateur';
+						?>
 						<a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'index']) ?>">
 							<i class="icomoon icon_profile"></i>
-							<span>mon compte</span>
+							<span>mon compte (<?= $user->name ?> <?= $user->firstname ?> - <?= $userType ?>)</span>
 						</a>
 					<?php else: ?>
 						<a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'signin']) ?>">

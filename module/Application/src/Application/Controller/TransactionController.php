@@ -76,7 +76,7 @@ class TransactionController extends AbstractActionCustomController
 			$project       = $this->getTable('project')->selectFirstById($post->get('projectId'));
 			$paymentMethod = $this->getTable('paymentmethod')->selectFirstById($post->get('paymentMethodId'));
 
-			if ($amount <= 1)
+			if ($amount < 1)
 			{
 				throw new \Exception('Invalid transaction amount: '.$amount);
 			}
@@ -126,5 +126,20 @@ class TransactionController extends AbstractActionCustomController
 		// redirect invalid request
 		$this->redirect()->toRoute('home');
 		return;
+	}
+
+	public function paypalCallbackAction()
+	{
+
+	}
+
+	public function paymentSuccessAction()
+	{
+		return new ViewModel();
+	}
+
+	public function paymentCancelAction()
+	{
+		return new ViewModel();
 	}
 }
