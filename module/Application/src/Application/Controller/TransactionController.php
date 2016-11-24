@@ -3,6 +3,7 @@
 namespace Application\Controller;
 
 use Application\Model\AbstractTable;
+use Application\Model\Paymentmethod;
 use Application\Model\Transaction;
 use Application\Model\TransactionTable;
 use Application\Util\Hashtable;
@@ -64,73 +65,69 @@ class TransactionController extends AbstractActionCustomController
 		]);
 	}
 
-	public function paymentAction()
-	{
-		/** @var \Zend\Http\PhpEnvironment\Request $request */
-		$request = $this->getRequest();
-
-		if ($request->isPost())
-		{
-			$post          = $request->getPost();
-			$amount        = $post->get('amount');
-			$project       = $this->getTable('project')->selectFirstById($post->get('projectId'));
-			$paymentMethod = $this->getTable('paymentmethod')->selectFirstById($post->get('paymentMethodId'));
-
-			if ($amount < 1)
-			{
-				throw new \Exception('Invalid transaction amount: '.$amount);
-			}
-
-			return new ViewModel([
-				'amount'        => $amount,
-				'project'       => $project,
-				'paymentMethod' => $paymentMethod,
-			]);
-		}
-
-		// redirect invalid request
-		$this->redirect()->toRoute('home');
-		return null;
-	}
-
 	public function addAction()
 	{
 		/** @var \Zend\Http\PhpEnvironment\Request $request */
 		$request = $this->getRequest();
-
-		if ($request->isPost())
+		if (!$request->isPost())
 		{
-			$post            = $request->getPost();
-			$amount          = $post->get('amount');
-			$projectId       = $post->get('projectId');
-			$paymentMethodId = $post->get('paymentMethodId');
-			$nowDate         = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
-
-			if ($amount <= 1)
-			{
-				throw new \Exception('Invalid transaction amount: '.$amount);
-			}
-
-			$this->getTable('transaction')->insert([
-				'amount'           => $amount,
-				'paymentdate'      => $nowDate->format(AbstractTable::DATE_FORMAT),
-				'user_id'          => UserController::getLoggedUser()->id,
-				'project_id'       => $projectId,
-				'paymentmethod_id' => $paymentMethodId,
-			]);
-
-			$this->redirect()->toRoute('home', ['controller' => 'transaction']);
+			$this->redirect()->toRoute('home');
 			return;
 		}
 
-		// redirect invalid request
-		$this->redirect()->toRoute('home');
+		$post            = $request->getPost();
+		$amount          = $post->get('amount');
+		$projectId       = $post->get('projectId');
+		$paymentMethodId = $post->get('paymentMethodId');
+		$nowDate         = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+
+		if ($amount < 1)
+		{
+			throw new \Exception('Invalid transaction amount: '.$amount);
+		}
+
+		// debug: create transaction before receiving payment confirmation
+		$this->getTable('transaction')->insert([
+			'amount'           => $amount,
+			'paymentdate'      => $nowDate->format(AbstractTable::DATE_FORMAT),
+			'user_id'          => UserController::getLoggedUser()->id,
+			'project_id'       => $projectId,
+			'paymentmethod_id' => $paymentMethodId,
+		]);
+
+		// paypal case
+		if ($paymentMethodId === (string) Paymentmethod::PAYPAL)
+		{
+			$project = $this->getTable('project')->selectFirstById($projectId);
+
+			// build URL
+			$params                    = [];
+			$params['cmd']             = '_donations';
+			$params['business']        = 'asensi.samuel-seller@gmail.com';
+			$params['amount']          = $amount;
+			$params['currency_code']   = 'EUR';
+			$params['item_name']       = 'Financement du project '.$project->title;
+			$params['lc']              = 'fr_FR';
+			$params['cbt']             = 'Revenir sur le site';
+			$params['rm']              = 2;
+			$params['notify_url']      = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'paypal_callback']);
+			$params['return']          = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'payment_success']);
+			$params['cancel_return']   = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'payment_cancel']);
+			$params['projectId']       = $project->id;
+			$params['paymentMethodId'] = $paymentMethodId;
+
+			$url = 'https://www.sandbox.paypal.com/cgi-bin/webscr?'.http_build_query($params);
+			$this->redirect()->toUrl($url);
+			return;
+		}
+
+		$this->redirect()->toRoute('home', ['controller' => 'transaction']);
 		return;
 	}
 
 	public function paypalCallbackAction()
 	{
-
+		// todo: handle IPN handshake then create transaction
 	}
 
 	public function paymentSuccessAction()
