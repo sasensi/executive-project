@@ -254,7 +254,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 				<i class="icomoon icon_payment"></i>
 			</div>
 			<div id="payment">
-				<form method="post" action="<?= $this->url('home/action', ['controller' => 'transaction', 'action' => 'add']) ?>">
+				<form method="GET" action="<?= $this->url('home/action', ['controller' => 'transaction', 'action' => 'add']) ?>">
 					<input name="projectId" type="hidden" value="<?= $project->id ?>">
 
 					<div id="closebutton">
