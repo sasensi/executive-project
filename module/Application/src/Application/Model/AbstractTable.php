@@ -30,6 +30,14 @@ class AbstractTable extends TableGateway
 		return $this->selectFirst(['id' => $id]);
 	}
 
+	public function selectFromIds(array $ids)
+	{
+		$where = new Where();
+		$where->expression('id IN(?)', implode(',', $ids));
+
+		return $this->select($where);
+	}
+
 	public function delete($id)
 	{
 		parent::delete(['id' => $id]);

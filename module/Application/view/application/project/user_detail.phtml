@@ -1,1 +1,38 @@
+<?php
+
+/**
+ * @var \Zend\View\Renderer\PhpRenderer  $this
+ * @var \Application\Model\Project       $project
+ * @var \Application\Model\Transaction[] $transactions
+ * @var \Application\Model\User[]        $financersHt
+ */
+use Application\Util\DateFormatter;
+
+?>
+
 <h1>mon projet</h1>
+
+<table class="table">
+	<thead>
+	<tr>
+		<th>Date</th>
+		<th>Montant</th>
+		<th>Nom du financeur</th>
+		<th>Email du financeur</th>
+	</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($transactions as $transaction):
+		$financer = $financersHt[$transaction->user_id];
+		?>
+		<tr>
+			<td><?= DateFormatter::usToFr($transaction->paymentdate) ?></td>
+			<td><?= $transaction->amount ?></td>
+			<td><?= $financer->name ?> <?= $financer->firstname ?></td>
+			<td><?= $financer->email ?></td>
+		</tr>
+	<?php endforeach; ?>
+	</tbody>
+</table>
+
+<a href="<?= $this->url('home/action/id', ['controller' => 'project', 'action' => 'detail', 'id' => $project->id]) ?>" class="btn btn-primary">Voir mon projet</a>

@@ -15,6 +15,8 @@ use Application\Model\TagTable;
 use Application\Model\TransactionTable;
 use Application\Model\UserTable;
 use Application\Model\VideoTable;
+use Application\Util\Hashtable;
+use Application\Util\MultiArray;
 use Zend\View\Model\ViewModel;
 
 class ProjectController extends AbstractActionCustomController
@@ -322,7 +324,18 @@ class ProjectController extends AbstractActionCustomController
 
 	public function userDetailAction()
 	{
-		return new ViewModel();
+		$project      = $this->getProjectFromRouteId();
+		$transactions = $this->getTable('transaction')->select(['project_id' => $project->id]);
+		$transactions->buffer();
+		$userIds     = MultiArray::getArrayOfValues($transactions, 'user_id');
+		$financers   = $this->getTable('user')->selectFromIds($userIds);
+		$financersHt = Hashtable::createFromObject($financers);
+
+		return new ViewModel([
+			'project'      => $project,
+			'transactions' => $transactions,
+			'financersHt'  => $financersHt,
+		]);
 	}
 
 	public function userUpdateAction()
