@@ -112,12 +112,10 @@ class TransactionController extends AbstractActionCustomController
 			$data['paymentMethodId'] = $paymentMethodId;
 
 			$url = 'https://www.sandbox.paypal.com/cgi-bin/webscr?'.http_build_query($data);
-			$this->redirect()->toUrl($url);
-			return;
+			return $this->redirect()->toUrl($url);
 		}
 
-		$this->redirect()->toRoute('home/action', ['controller' => 'transaction', 'action' => 'payment_success']);
-		return;
+		return $this->redirectToRoute('transaction', 'payment_success');
 	}
 
 	public function paypalCallbackAction()

@@ -145,7 +145,7 @@ class UserController extends AbstractActionCustomController
 
 				// log user in
 				self::logUserIn($user);
-				$this->redirect()->toRoute('home/action', ['controller' => 'user']);
+				return $this->redirectToRoute('user');
 			}
 		}
 
@@ -199,11 +199,11 @@ class UserController extends AbstractActionCustomController
 							// clear session
 							$params = $session->payment;
 							$session->exchangeArray([]);
-							return $this->redirect()->toRoute('home/action', ['controller' => 'transaction', 'action' => 'add'], ['query' => $params]);
+							return $this->redirectToRoute('transaction', 'add', null, $params);
 						}
 						else
 						{
-							return $this->redirect()->toRoute('home/action', ['controller' => 'user', 'action' => 'index']);
+							return $this->redirectToRoute('user');
 						}
 					}
 				}
@@ -226,7 +226,7 @@ class UserController extends AbstractActionCustomController
 		$session->payment = $request->getQuery()->toArray();
 
 		// display login
-		return $this->redirect()->toRoute('home/action', ['controller' => 'user', 'action' => 'login']);
+		return $this->redirectToRoute('user', 'login');
 	}
 
 	public function facebookLoginCallbackAction()
@@ -264,7 +264,7 @@ class UserController extends AbstractActionCustomController
 			{
 				// log in and redirect
 				self::logUserIn($user);
-				$this->redirect()->toRoute('home/action', ['controller' => 'user']);
+				return $this->redirectToRoute('user');
 			}
 			else
 			{
@@ -285,7 +285,7 @@ class UserController extends AbstractActionCustomController
 					self::logUserIn($user);
 
 					// redirect
-					$this->redirect()->toRoute('home/action', ['controller' => 'user']);
+					return $this->redirectToRoute('user');
 				}
 				else
 				{
@@ -295,7 +295,7 @@ class UserController extends AbstractActionCustomController
 					$sessionContainer->graphUser = $userNode;
 					$sessionContainer->token     = $longLivedAccessToken->getValue();
 
-					$this->redirect()->toRoute('home/action', ['controller' => 'user', 'action' => 'signin']);
+					return $this->redirectToRoute('user', 'signin');
 				}
 			}
 		}
@@ -404,7 +404,7 @@ HTML;
 
 				// log user in
 				self::logUserIn($user);
-				$this->redirect()->toRoute('home/action', ['controller' => 'user']);
+				return $this->redirectToRoute('user');
 			}
 		}
 
@@ -417,7 +417,7 @@ HTML;
 	{
 		self::logUserOut();
 
-		$this->redirect()->toRoute('home');
+		return $this->redirectToRoute();
 	}
 
 	public function updateAction()

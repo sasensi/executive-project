@@ -282,7 +282,7 @@ class ProjectController extends AbstractActionCustomController
 
 				$this->commitTransaction();
 
-				return $this->redirect()->toRoute('home/action', ['controller' => 'project', 'action' => 'user']);
+				return $this->redirectToRoute('project', 'user');
 			}
 
 			var_dump($form->getData());
@@ -320,10 +320,9 @@ class ProjectController extends AbstractActionCustomController
 
 	public function userAction()
 	{
-		// todo get real user id from session
-		$userId = 11;
+		$user = UserController::getLoggedUser();
 
-		$projects = $this->getProjectTable()->getAllFromUserId($userId);
+		$projects = $this->getProjectTable()->getAllFromUserId($user->id);
 
 		return new ViewModel([
 			'projects' => $projects
