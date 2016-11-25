@@ -69,16 +69,11 @@ class TransactionController extends AbstractActionCustomController
 	{
 		/** @var \Zend\Http\PhpEnvironment\Request $request */
 		$request = $this->getRequest();
-		if (!$request->isPost())
-		{
-			$this->redirect()->toRoute('home');
-			return;
-		}
 
-		$post            = $request->getPost();
-		$amount          = $post->get('amount');
-		$projectId       = $post->get('projectId');
-		$paymentMethodId = $post->get('paymentMethodId');
+		$params          = $request->getQuery();
+		$amount          = $params->get('amount');
+		$projectId       = $params->get('projectId');
+		$paymentMethodId = $params->get('paymentMethodId');
 		$nowDate         = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
 
 		if ($amount < 1)
@@ -101,22 +96,22 @@ class TransactionController extends AbstractActionCustomController
 			$project = $this->getTable('project')->selectFirstById($projectId);
 
 			// build URL
-			$params                    = [];
-			$params['cmd']             = '_donations';
-			$params['business']        = 'asensi.samuel-seller@gmail.com';
-			$params['amount']          = $amount;
-			$params['currency_code']   = 'EUR';
-			$params['item_name']       = 'Financement du project '.$project->title;
-			$params['lc']              = 'fr_FR';
-			$params['cbt']             = 'Revenir sur le site';
-			$params['rm']              = 2;
-			$params['notify_url']      = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'paypal_callback']);
-			$params['return']          = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'payment_success']);
-			$params['cancel_return']   = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'payment_cancel']);
-			$params['projectId']       = $project->id;
-			$params['paymentMethodId'] = $paymentMethodId;
+			$data                    = [];
+			$data['cmd']             = '_donations';
+			$data['business']        = 'asensi.samuel-seller@gmail.com';
+			$data['amount']          = $amount;
+			$data['currency_code']   = 'EUR';
+			$data['item_name']       = 'Financement du project '.$project->title;
+			$data['lc']              = 'fr_FR';
+			$data['cbt']             = 'Revenir sur le site';
+			$data['rm']              = 2;
+			$data['notify_url']      = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'paypal_callback']);
+			$data['return']          = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'payment_success']);
+			$data['cancel_return']   = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'payment_cancel']);
+			$data['projectId']       = $project->id;
+			$data['paymentMethodId'] = $paymentMethodId;
 
-			$url = 'https://www.sandbox.paypal.com/cgi-bin/webscr?'.http_build_query($params);
+			$url = 'https://www.sandbox.paypal.com/cgi-bin/webscr?'.http_build_query($data);
 			$this->redirect()->toUrl($url);
 			return;
 		}

@@ -13,7 +13,6 @@ use Application\Model\ProjectviewTable;
 use Application\Model\Tag;
 use Application\Model\TagTable;
 use Application\Model\Transaction;
-use Application\Model\TransactionTable;
 use Application\Model\User;
 use Application\Model\UserTable;
 use Application\Model\VideoTable;
@@ -21,7 +20,6 @@ use Application\Util\DateFormatter;
 use Application\Util\ExcelTable;
 use Application\Util\Hashtable;
 use Application\Util\MultiArray;
-use PHPExcel;
 use Zend\View\Model\ViewModel;
 
 class ProjectController extends AbstractActionCustomController
@@ -107,13 +105,17 @@ class ProjectController extends AbstractActionCustomController
 		$userTable = $this->getTable('user');
 		$financers = $userTable->getAllForProject($project->id);
 
-		$user = null;
 		try
 		{
-			$user = UserController::getLoggedUser();
+			$user       = UserController::getLoggedUser();
+			$paymentUrl = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'add']);
 		}
+			// not logged user
 		catch (\Exception $e)
 		{
+			$user = null;
+			// by default, payment points to login page, with real payment URL as target
+			$paymentUrl = $this->url()->fromRoute('home/action', ['controller' => 'user', 'action' => 'login_to_pay']);
 		}
 
 		$this->addJsDependency('js/project/detail.js');
@@ -129,6 +131,7 @@ class ProjectController extends AbstractActionCustomController
 			'pictures'   => $pictures,
 			'financers'  => $financers,
 			'user'       => $user,
+			'paymentUrl' => $paymentUrl,
 		]);
 	}
 

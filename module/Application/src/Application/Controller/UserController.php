@@ -25,6 +25,7 @@ class UserController extends AbstractActionCustomController
 {
 	const SESSION_LOGIN_KEY          = 'login';
 	const SESSION_LOGIN_FACEBOOK_KEY = 'facebookLogin';
+	const SESSION_FORWARD_PAYMENT    = 'forwardPayment';
 
 	public function indexAction()
 	{
@@ -159,16 +160,10 @@ class UserController extends AbstractActionCustomController
 	{
 		$form = new LoginForm();
 
-		$fb = $this->getFacebook();
-
-		$helper           = $fb->getRedirectLoginHelper();
-		$permissions      = ['email'];
-		$targetRoute      = $this->url()->fromRoute('home/action', ['controller' => 'user', 'action' => 'facebook_login_callback'], ['force_canonical' => true]);
-		$facebookLoginUrl = $helper->getLoginUrl($targetRoute, $permissions);
+		$facebookLoginUrl = $this->getFacebookLoginUrl();
 
 		/** @var \Zend\Http\PhpEnvironment\Request $request */
 		$request = $this->getRequest();
-
 		if ($request->isPost())
 		{
 			$form->setData($request->getPost()->toArray());
@@ -196,7 +191,20 @@ class UserController extends AbstractActionCustomController
 					else
 					{
 						UserController::logUserIn($user);
-						$this->redirect()->toRoute('home/action', ['controller' => 'user', 'action' => 'index']);
+
+						// check if user was prompted to login after payment request
+						$session = new Container(self::SESSION_FORWARD_PAYMENT);
+						if (isset($session->payment) && $user->isFinancer())
+						{
+							// clear session
+							$params = $session->payment;
+							$session->exchangeArray([]);
+							return $this->redirect()->toRoute('home/action', ['controller' => 'transaction', 'action' => 'add'], ['query' => $params]);
+						}
+						else
+						{
+							return $this->redirect()->toRoute('home/action', ['controller' => 'user', 'action' => 'index']);
+						}
 					}
 				}
 			}
@@ -206,6 +214,19 @@ class UserController extends AbstractActionCustomController
 			'form'             => $form,
 			'facebookLoginUrl' => $facebookLoginUrl,
 		]);
+	}
+
+	public function loginToPayAction()
+	{
+		/** @var \Zend\Http\PhpEnvironment\Request $request */
+		$request = $this->getRequest();
+
+		// store payment informations
+		$session          = new Container(self::SESSION_FORWARD_PAYMENT);
+		$session->payment = $request->getQuery()->toArray();
+
+		// display login
+		return $this->redirect()->toRoute('home/action', ['controller' => 'user', 'action' => 'login']);
 	}
 
 	public function facebookLoginCallbackAction()
@@ -602,6 +623,15 @@ HTML;
 			'app_secret'            => '7400f08d28732ba37094d74af0561013',
 			'default_graph_version' => 'v2.8',
 		]);
+	}
+
+	protected function getFacebookLoginUrl()
+	{
+		$fb          = $this->getFacebook();
+		$helper      = $fb->getRedirectLoginHelper();
+		$permissions = ['email'];
+		$targetRoute = $this->url()->fromRoute('home/action', ['controller' => 'user', 'action' => 'facebook_login_callback'], ['force_canonical' => true]);
+		return $helper->getLoginUrl($targetRoute, $permissions);
 	}
 
 }

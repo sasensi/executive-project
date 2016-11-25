@@ -7,6 +7,7 @@
 namespace Application\Form;
 
 
+use Zend\Form\Element\Password;
 use Zend\Form\Element\Submit;
 use Zend\Form\Element\Text;
 use Zend\Form\Form;
@@ -27,7 +28,7 @@ class LoginForm extends Form
 		$email->setLabel('Email*');
 		$this->add($email);
 
-		$password = new Text(self::PASSWORD);
+		$password = new Password(self::PASSWORD);
 		$password->setLabel('Mot de passe*');
 		$this->add($password);
 

@@ -11,56 +11,8 @@
  * @var \Application\Model\User[]       $financers
  * @var \Application\Model\Tag[]        $tags
  * @var \Application\Model\User|null    $user
+ * @var string                          $paymentUrl
  */
-
-// debug
-//echo '$project =';
-//var_dump($project);
-//
-//echo "categories:";
-//foreach ($categories as $category)
-//{
-//	// debug
-//	echo '$category =';
-//	var_dump($category);
-//}
-//
-//echo "gifts:";
-//foreach ($gifts as $gift)
-//{
-//	// debug
-//	echo '$gift =';
-//	var_dump($gift);
-//}
-//
-//echo "tags:";
-//foreach ($tags as $tag)
-//{
-//	// debug
-//	echo '$tag =';
-//	var_dump($tag);
-//}
-//
-//// debug
-//echo '$viewsCount =';
-//var_dump($viewsCount);
-//
-//echo '$videos:';
-//var_dump($videos);
-//foreach ($videos as $video)
-//{
-//	// debug
-//	echo '$video =';
-//	var_dump($video);
-//}
-//
-//echo '$pictures:';
-//foreach ($pictures as $picture)
-//{
-//	// debug
-//	echo '$picture =';
-//	var_dump($picture);
-//}
 
 use Application\Model\Paymentmethod;
 
@@ -249,12 +201,12 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 		<?php endif; ?>
 
 		<!-- PAYMENT -->
-		<?php if (isset($user) && $user->isFinancer()): ?>
+		<?php if (!isset($user) || $user->isFinancer()): ?>
 			<div id="payButton">
 				<i class="icomoon icon_payment"></i>
 			</div>
 			<div id="payment">
-				<form method="GET" action="<?= $this->url('home/action', ['controller' => 'transaction', 'action' => 'add']) ?>">
+				<form method="GET" action="<?= $paymentUrl ?>">
 					<input name="projectId" type="hidden" value="<?= $project->id ?>">
 
 					<div id="closebutton">
