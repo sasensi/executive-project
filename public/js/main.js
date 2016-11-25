@@ -31,8 +31,8 @@ $(document).ready(function ()
         .on('tokenfield:createtoken', function (e)
         {
             var existingTags = $(this).tokenfield('getTokens');
-            var newTag = e.attrs.value;
-            for (var i=0; i<existingTags.length; i++)
+            var newTag       = e.attrs.value;
+            for (var i = 0; i < existingTags.length; i++)
             {
                 if (newTag.toUpperCase() === existingTags[i].value.toUpperCase())
                 {
@@ -49,5 +49,9 @@ $(document).ready(function ()
                 }
             ]
         });
+    });
+
+    $('.datePicker').datepicker({
+        format: 'dd/mm/yyyy'
     });
 });

@@ -7,8 +7,6 @@
 namespace Application\Util;
 
 
-use Zend\Form\Element\DateTime;
-
 class DateFormatter
 {
 	const FORMAT_US = 'Y-m-d';
@@ -19,6 +17,11 @@ class DateFormatter
 	public static function usToFr($dateUs)
 	{
 		return self::getDateTime($dateUs, self::FORMAT_US)->format(self::FORMAT_FR);
+	}
+
+	public static function frToUs($dateFr)
+	{
+		return self::getDateTime($dateFr, self::FORMAT_FR)->format(self::FORMAT_US);
 	}
 
 	protected static function getDateTime($date, $format)

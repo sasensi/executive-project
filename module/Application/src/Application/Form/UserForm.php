@@ -7,9 +7,11 @@
 namespace Application\Form;
 
 
+use Application\Form\Element\Date;
 use Application\Model\Category;
 use Application\Model\Country;
 use Application\Model\Usertype;
+use Application\Util\DateFormatter;
 use Zend\Form\Element\Email;
 use Zend\Form\Element\File;
 use Zend\Form\Element\Number;
@@ -17,6 +19,7 @@ use Zend\Form\Element\Password;
 use Zend\Form\Element\Select;
 use Zend\Form\Element\Submit;
 use Zend\Form\Element\Text;
+use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
 
 class UserForm extends AbstractForm
@@ -64,7 +67,7 @@ class UserForm extends AbstractForm
 		$firstName->setLabel('Prénom*');
 		$this->add($firstName);
 
-		$birthdate = new Text(self::BIRTHDATE);
+		$birthdate = new Date(self::BIRTHDATE);
 		$birthdate->setLabel('Date de naissance*');
 		$this->add($birthdate);
 
@@ -134,13 +137,25 @@ class UserForm extends AbstractForm
 		]);
 		$this->add($submit);
 
-
 		$this->setDefaultInputFilters();
 	}
 
 	protected function setDefaultInputFilters()
 	{
 		$inputFilter = new InputFilter();
+
+		$dateFilter = new \Zend\Validator\Date();
+		$dateFilter->setFormat(DateFormatter::FORMAT_FR);
+
+		$input = new Input(self::BIRTHDATE);
+		$input->getValidatorChain()->attach($dateFilter);
+		$inputFilter->add($input);
+
+		$input = new Input(self::FAVOURITECATEGORY_ID);
+		$input->setRequired(false);
+		$inputFilter->add($input);
+
+
 
 		$this->setInputFilter($inputFilter);
 	}

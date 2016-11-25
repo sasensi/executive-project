@@ -12,6 +12,7 @@ namespace Application;
 use Application\Controller\UserController;
 use Application\Exception\NotLoggedUserException;
 use Application\Exception\WrongUserTypeException;
+use Application\Form\View\Helper\Date;
 use Application\Form\View\Helper\FormElement;
 use Application\Form\View\Helper\FormRow;
 use Application\Form\View\Helper\GiftsFormHelper;
@@ -29,6 +30,7 @@ class Module
 {
 	const HELPER_GIFT = 'giftform';
 	const HELPER_TAG  = 'tagpicker';
+	const HELPER_DATE = 'datepicker';
 
 	public function onBootstrap(MvcEvent $e)
 	{
@@ -170,6 +172,7 @@ class Module
 				'formrow'         => FormRow::class,
 				self::HELPER_TAG  => TagPickerHelper::class,
 				self::HELPER_GIFT => GiftsFormHelper::class,
+				self::HELPER_DATE => Date::class,
 			],
 		];
 	}

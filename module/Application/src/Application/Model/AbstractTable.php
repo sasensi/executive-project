@@ -13,7 +13,7 @@ class AbstractTable extends TableGateway
 	 * Select
 	 *
 	 * @param Where|\Closure|string|array $where
-	 * @return object
+	 * @return object|null
 	 */
 	public function selectFirst($where = null)
 	{

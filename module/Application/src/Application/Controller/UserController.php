@@ -12,12 +12,11 @@ use Application\Model\Project;
 use Application\Model\Transaction;
 use Application\Model\User;
 use Application\Model\UserTable;
+use Application\Util\DateFormatter;
 use Facebook\Facebook;
 use Facebook\GraphNodes\GraphUser;
 use Zend\Crypt\BlockCipher;
 use Zend\Crypt\Symmetric\Mcrypt;
-use Zend\Mail\Message;
-use Zend\Mail\Transport\Sendmail;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 
@@ -83,6 +82,17 @@ class UserController extends AbstractActionCustomController
 			if ($form->isValid())
 			{
 				$data = $form->getData();
+
+				// check email unicity
+				// todo: do this check with a validator
+				$existingUserWithSameEmail = $this->getTable('user')->selectFirst(['email' => $data[UserForm::EMAIL]]);
+				if (isset($existingUserWithSameEmail))
+				{
+
+				}
+
+				// format birthdate
+				$data[UserForm::BIRTHDATE] = DateFormatter::frToUs($data[UserForm::BIRTHDATE]);
 
 				$nowDate = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
 
