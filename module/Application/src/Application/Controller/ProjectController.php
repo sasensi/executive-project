@@ -12,11 +12,16 @@ use Application\Model\Project;
 use Application\Model\ProjectviewTable;
 use Application\Model\Tag;
 use Application\Model\TagTable;
+use Application\Model\Transaction;
 use Application\Model\TransactionTable;
+use Application\Model\User;
 use Application\Model\UserTable;
 use Application\Model\VideoTable;
+use Application\Util\DateFormatter;
+use Application\Util\ExcelTable;
 use Application\Util\Hashtable;
 use Application\Util\MultiArray;
+use PHPExcel;
 use Zend\View\Model\ViewModel;
 
 class ProjectController extends AbstractActionCustomController
@@ -355,21 +360,42 @@ class ProjectController extends AbstractActionCustomController
 
 	public function exportAction()
 	{
-		$project = $this->getProjectFromRouteId();
+		$project      = $this->getProjectFromRouteId();
+		$transactions = $this->getTable('transaction')->select(['project_id' => $project->id]);
+		$transactions->buffer();
+		$userIds   = MultiArray::getArrayOfValues($transactions, 'user_id');
+		$financers = $this->getTable('user')->selectFromIds($userIds);
+		/** @var User[] $financersHt */
+		$financersHt = Hashtable::createFromObject($financers);
 
-		/** @var TransactionTable $transactionTable */
-		$transactionTable = $this->getTable('transaction');
-		$transactions     = $transactionTable->getAllFromProjectId($project->id);
+		$excelTable = new ExcelTable('Informations sur les financeurs', 'Idées À Porter');
 
-		/** @var UserTable $userTable */
-		$userTable = $this->getTable('user');
-		$users     = $userTable->getAllForProject($project->id);
-
-		return new ViewModel([
-			'project'      => $project,
-			'transactions' => $transactions,
-			'users'        => $users,
+		// header
+		$excelTable->addRow([
+			'Date',
+			'Montant',
+			'Nom du financeur',
+			'Email du financeur',
 		]);
+
+		/** @var Transaction[] $transactions */
+		foreach ($transactions as $transaction)
+		{
+			$financer = $financersHt[ $transaction->user_id ];
+
+			$excelTable->addRow([
+				DateFormatter::usToFr($transaction->paymentdate),
+				$transaction->amount,
+				$financer->name.' '.$financer->firstname,
+				$financer->email,
+			]);
+		}
+
+		$excelTable->output();
+	}
+
+	protected function addExcelRow(\PHPExcel_Worksheet $sheet, $data)
+	{
 	}
 
 

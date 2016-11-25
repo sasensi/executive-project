@@ -193,7 +193,6 @@ class Module
 				'index',
 				'update',
 				'delete',
-				'export',
 			],
 
 			'project' => [
@@ -205,6 +204,7 @@ class Module
 				'user_update',
 				'user_delete',
 				'user_promote',
+				'export',
 			],
 
 			'transaction' => [
@@ -215,10 +215,6 @@ class Module
 		];
 
 		$creatorBlacklist = [
-			'user' => [
-				'export',
-			],
-
 			'project' => [
 				'add',
 				'delete',
@@ -227,6 +223,7 @@ class Module
 				'user_update',
 				'user_delete',
 				'user_promote',
+				'export',
 			],
 		];
 
