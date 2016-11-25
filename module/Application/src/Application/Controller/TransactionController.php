@@ -116,7 +116,7 @@ class TransactionController extends AbstractActionCustomController
 			return;
 		}
 
-		$this->redirect()->toRoute('home', ['controller' => 'transaction']);
+		$this->redirect()->toRoute('home/action', ['controller' => 'transaction', 'action' => 'payment_success']);
 		return;
 	}
 
