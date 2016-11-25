@@ -6,7 +6,7 @@ nbproject
 .DS_Store
 .project
 .settings
-vendor
+/vendor
 composer.phar
 .idea
 /debug
