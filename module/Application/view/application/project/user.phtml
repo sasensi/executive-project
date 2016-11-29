@@ -23,6 +23,7 @@
 				<a href="<?= $this->url('home/action/id', ['controller' => 'project', 'action' => 'user_detail', 'id' => $project->id]) ?>" class="btn btn-primary">voir</a>
 				<a href="<?= $this->url('home/action/id', ['controller' => 'project', 'action' => 'user_update', 'id' => $project->id]) ?>" class="btn btn-warning">éditer</a>
 				<a href="<?= $this->url('home/action/id', ['controller' => 'project', 'action' => 'user_delete', 'id' => $project->id]) ?>" class="btn btn-danger">supprimer</a>
+				<a href="<?= $this->url('home/action/id', ['controller' => 'project', 'action' => 'user_promote', 'id' => $project->id]) ?>" class="btn btn-default">mettre en avant</a>
 			</td>
 		</tr>
 	<?php endforeach; ?>

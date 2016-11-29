@@ -71,15 +71,17 @@ class ProjectTable extends AbstractTable
 			});
 
 			// order
-			$order = $searchFilter->getSelectedOrder();
+			$orders = ['promotionend DESC'];
+			$order  = $searchFilter->getSelectedOrder();
 			if ($order === ProjectSearchFilter::ORDER_DATE_ASC)
 			{
-				$select->order('deadline ASC');
+				$orders[] = 'deadline ASC';
 			}
 			elseif ($order === ProjectSearchFilter::ORDER_DATE_DESC)
 			{
-				$select->order('deadline DESC');
+				$orders[] = 'deadline DESC';
 			}
+			$select->order($orders);
 
 			$select->group('project.id');
 		});

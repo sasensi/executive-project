@@ -1,1 +1,25 @@
+<?php
+
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var int $promotionPrice
+ * @var int $promotionDelay
+ */
+
+use Application\Model\Paymentmethod;
+
+?>
+
 <h1>mettre en avant mon projet</h1>
+<p>Coût: <?= $promotionPrice ?>€. Votre projet sera mis en avant pour une durée de <?= $promotionDelay ?> jours</p>
+<form action="<?= $_SERVER['REQUEST_URI'] ?>" method="post">
+    <button name="paymentMethodId" value="<?= Paymentmethod::PAYPAL ?>" id="paypalButton">
+        <i class="icomoon icon_paypal"></i>
+    </button>
+    <button name="paymentMethodId" value="<?= Paymentmethod::CREDIT_CARD ?>" id="creditCardButton">
+        <i class="icomoon icon_credit_card"></i>
+    </button>
+    <button name="paymentMethodId" value="<?= Paymentmethod::BITCOIN ?>" id="bitcoinButton">
+        <i class="icomoon icon_bitcoin"></i>
+    </button>
+</form>

@@ -46,4 +46,9 @@ class DateFormatter
 		}
 		return self::$timezone;
 	}
+
+	public static function getNowDate()
+	{
+		return new \DateTime('now', self::getTimeZone());
+	}
 }

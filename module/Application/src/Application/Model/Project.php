@@ -11,6 +11,9 @@ use DateTimeZone;
  */
 class Project implements RowInterface
 {
+	const PROMOTION_PRICE = 15;
+	const PROMOTION_DELAY = 7;
+
 	/**
 	 * @var integer
 	 */

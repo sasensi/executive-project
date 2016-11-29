@@ -4,9 +4,11 @@ namespace Application\Controller;
 
 use Application\Form\ProjectAddForm;
 use Application\Form\ProjectSearchFilter;
+use Application\Model\AbstractTable;
 use Application\Model\Category;
 use Application\Model\CategoryTable;
 use Application\Model\GiftTable;
+use Application\Model\Paymentmethod;
 use Application\Model\PictureTable;
 use Application\Model\Project;
 use Application\Model\ProjectviewTable;
@@ -356,6 +358,78 @@ class ProjectController extends AbstractActionCustomController
 	}
 
 	public function userPromoteAction()
+	{
+		/** @var \Zend\Http\PhpEnvironment\Request $request */
+		$request = $this->getRequest();
+
+		if ($request->isPost())
+		{
+			$paymentMethodId = $request->getPost()->get('paymentMethodId');
+			$amount          = Project::PROMOTION_PRICE;
+
+			// debug: promote project before receiving payment confirmation
+			$project = $this->getProjectFromRouteId();
+
+			$previousPromotionEnd = null;
+			$nowDate              = DateFormatter::getNowDate();
+			if (isset($project->promotionend))
+			{
+				$previousPromotionEnd = \DateTime::createFromFormat(AbstractTable::DATE_FORMAT, $project->promotionend, DateFormatter::getTimeZone());
+			}
+
+			if (!isset($previousPromotionEnd) || $previousPromotionEnd < $nowDate)
+			{
+				$previousPromotionEnd = $nowDate;
+			}
+
+			$newPromotionEnd = $previousPromotionEnd->add(new \DateInterval('P'.Project::PROMOTION_DELAY.'D'));
+
+			$this->getTable('project')->update(['promotionend' => $newPromotionEnd->format(AbstractTable::DATE_FORMAT)], ['id' => $project->id]);
+
+
+			// paypal case
+			if ($paymentMethodId === (string) Paymentmethod::PAYPAL)
+			{
+				// build URL
+				$data                  = [];
+				$data['cmd']           = '_donations';
+				$data['business']      = 'asensi.samuel-seller@gmail.com';
+				$data['amount']        = $amount;
+				$data['currency_code'] = 'EUR';
+				$data['item_name']     = 'Mise en avant du project '.$project->title;
+				$data['lc']            = 'fr_FR';
+				$data['cbt']           = 'Revenir sur le site';
+				$data['rm']            = 2;
+				$data['notify_url']    = $this->url()->fromRoute('home/action', ['controller' => 'project', 'action' => 'paypal_callback']);
+				$data['return']        = $this->url()->fromRoute('home/action/id', ['controller' => 'project', 'action' => 'payment_success', 'id' => $project->id]);
+				$data['cancel_return'] = $this->url()->fromRoute('home/action/id', ['controller' => 'project', 'action' => 'payment_cancel', 'id' => $project->id]);
+				$data['projectId']     = $project->id;
+
+				$url = 'https://www.sandbox.paypal.com/cgi-bin/webscr?'.http_build_query($data);
+				return $this->redirect()->toUrl($url);
+			}
+
+			return $this->redirectToRoute('project', 'payment_success', $project->id);
+		}
+
+		return new ViewModel([
+			'promotionPrice' => Project::PROMOTION_PRICE,
+			'promotionDelay' => Project::PROMOTION_DELAY,
+		]);
+	}
+
+	public function paypalCallbackAction()
+	{
+	}
+
+	public function paymentSuccessAction()
+	{
+		return new ViewModel([
+			'project' => $this->getProjectFromRouteId()
+		]);
+	}
+
+	public function paymentCancelAction()
 	{
 		return new ViewModel();
 	}

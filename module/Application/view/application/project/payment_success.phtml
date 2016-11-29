@@ -1,0 +1,12 @@
+<?php
+
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Application\Model\Project $project
+ */
+use Application\Util\DateFormatter;
+
+?>
+
+<h1>Projet mis en avant avec succèss</h1>
+<p>Votre projet sera mis en avant jusqu'au <?= DateFormatter::usToFr($project->promotionend) ?></p>
