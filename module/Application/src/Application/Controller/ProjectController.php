@@ -350,14 +350,15 @@ class ProjectController extends AbstractActionCustomController
 
 	public function userUpdateAction()
 	{
+		// needed for autocompletion
 		/** @var TagTable $tagTable */
-		$tagTable = $this->getTable('tag');
-		$tags     = $tagTable->select();
-		// allow looping over tag twice
-		$tags->buffer();
+		/** @var \Zend\Http\PhpEnvironment\Request $request */
 
-		$form = new ProjectUpdateForm('projectform', $tags);
-		$user = UserController::getLoggedUser();
+		// get datas
+		$tagTable = $this->getTable('tag');
+		$tagsExistingInDb     = $tagTable->select();
+		// allow looping over tag multiple times
+		$tagsExistingInDb->buffer();
 
 		$project = $this->getProjectFromRouteId();
 
@@ -371,6 +372,9 @@ class ProjectController extends AbstractActionCustomController
 		$projectTags = $tagTable->getAllFromProjectId($project->id)->buffer();
 		$tagsIds     = MultiArray::getArrayOfValues($projectTags, 'name');
 
+
+		// init form
+		$form = new ProjectUpdateForm('projectform', $tagsExistingInDb);
 		$form->setData([
 			ProjectUpdateForm::DESCRIPTION => $project->description,
 			ProjectUpdateForm::PICTURES    => $picturesIds,
@@ -378,34 +382,30 @@ class ProjectController extends AbstractActionCustomController
 			ProjectUpdateForm::TAGS        => implode(',', $tagsIds),
 		]);
 
-		/** @var \Zend\Http\PhpEnvironment\Request $request */
+		// handle request
 		$request = $this->getRequest();
-
 		if ($request->isPost())
 		{
+			// get posted data
 			$post = array_merge_recursive(
 				$request->getPost()->toArray(),
 				$request->getFiles()->toArray()
 			);
 
+			// validate data
 			$form->setData($post);
-
 			if ($form->isValid())
 			{
+				// get filtered data
 				$data = $form->getData();
 
 				// wrap queries in transaction in case of failure
 				$this->beginTransaction();
 
-				// create row
+				// update description
 				$this->getTable('project')->update([
 					'description' => $data[ ProjectUpdateForm::DESCRIPTION ],
 				]);
-
-				// rename image
-				$dirFromRoot = '/img/project/'.$project->id.'/';
-				$fileDir     = PUBLIC_DIR.$dirFromRoot;
-				$fileUrlDir  = $dirFromRoot;
 
 				// create tags
 				$postedTags = explode(', ', $data[ ProjectUpdateForm::TAGS ]);
@@ -413,7 +413,7 @@ class ProjectController extends AbstractActionCustomController
 				{
 					$tagId = null;
 					/** @var Tag $existingTag */
-					foreach ($tags as $existingTag)
+					foreach ($tagsExistingInDb as $existingTag)
 					{
 						if (strtoupper($postedTag) === strtoupper($existingTag->name))
 						{
@@ -429,8 +429,21 @@ class ProjectController extends AbstractActionCustomController
 						$tagId = $this->getTable('tag')->getLastInsertValue();
 					}
 
-					// create project/tag link
-					$this->getTable('projecttag')->insert(['project_id' => $project->id, 'tag_id' => $tagId]);
+					// create project/tag link if it doesn't exist yet
+					$projectTagAlreadyExists = false;
+					foreach ($projectTags as $projectTag)
+					{
+						if (strtoupper($postedTag) === strtoupper($projectTag->name))
+						{
+							$projectTagAlreadyExists = true;
+							break;
+						}
+					}
+
+					if (!$projectTagAlreadyExists)
+					{
+						$this->getTable('projecttag')->insert(['project_id' => $project->id, 'tag_id' => $tagId]);
+					}
 				}
 
 				// delete tags
@@ -460,48 +473,13 @@ class ProjectController extends AbstractActionCustomController
 					}
 				}
 
-				// todo: handle empty post
-				// pictures
-				$pictures = $data['picture_ids'];
-				foreach ($pictures as $picture)
-				{
-					// handle file upload error
-					if (empty($picture['tmp_name']) || empty($picture['name'])) continue;
-
-					rename($picture['tmp_name'], $fileDir.$picture['name']);
-
-					// create picture
-					$this->getTable('picture')->insert([
-						'url'        => $fileUrlDir.$picture['name'],
-						'project_id' => $project->id
-					]);
-				}
-
-				// videos
-				$videos = $data['video_ids'];
-				foreach ($videos as $video)
-				{
-					// handle file upload error
-					if (empty($video['tmp_name']) || empty($video['name'])) continue;
-
-					rename($video['tmp_name'], $fileDir.$video['name']);
-
-					$this->getTable('video')->insert([
-						'url'        => $fileUrlDir.$video['name'],
-						'project_id' => $project->id
-					]);
-				}
-
-
 				$this->commitTransaction();
 
 				return $this->redirectToRoute('project', 'user');
 			}
-
-			var_dump($form->getData());
 		}
 
-		// client dependencies
+		// add client dependencies
 		$this->addJsDependency('vendor/bootstrap-tokenfield/dist/bootstrap-tokenfield.min.js');
 		$this->addJsDependency('vendor/bootstrap-tokenfield/docs-assets/js/typeahead.bundle.min.js');
 		$this->addJsDependency('js/form.js');
