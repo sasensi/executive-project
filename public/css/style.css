@@ -184,7 +184,7 @@ input[type="submit"] {
 
 /* PHONE INPUT */
 .iti-flag {
-    background-image : url("../vendor/intl-tel-input-master/build/img/flags.png");
+    background-image : url("../vendor/intl-tel-input-7.1.0/build/img/flags.png");
 }
 
 .intl-tel-input {
