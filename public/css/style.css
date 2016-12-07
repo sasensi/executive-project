@@ -156,6 +156,11 @@ footer > p {
     font-size  : 1.5em;
 }
 
+/* FILE PICKER */
+.file-input span.hidden-xs {
+    display: inherit !important;
+}
+
 /* RESPONSIVE */
 
 /* XS ONLY */
@@ -179,6 +184,11 @@ footer > p {
     nav li:first-child,
     nav li:nth-child(2) {
         float : left;
+    }
+
+    /* FILE PICKER */
+    .file-input span.hidden-xs {
+        display: none !important;
     }
 }
 

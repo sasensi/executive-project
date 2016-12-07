@@ -28,9 +28,10 @@ catch (Exception $e)
 
 	<!-- styles -->
 	<?php echo $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath().'/img/favicon.ico'])
+	                ->prependStylesheet($this->basePath('css/style.css'))
 	                ->prependStylesheet($this->basePath('fonts/icomoon/style.custom.css'))
 	                ->prependStylesheet($this->basePath('fonts/icomoon/style.css'))
-	                ->prependStylesheet($this->basePath('css/style.css'))
+	                ->prependStylesheet($this->basePath('vendor/bootstrap-fileinput-master/css/fileinput.min.css'))
 	                ->prependStylesheet($this->basePath('vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css'))
 	                ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
 	                ->prependStylesheet($this->basePath('css/bootstrap.min.css')) ?>
@@ -38,6 +39,8 @@ catch (Exception $e)
 	<!-- scripts -->
 	<?php echo $this->headScript()
 	                ->prependFile($this->basePath('js/main.js'))
+	                ->prependFile($this->basePath('vendor/bootstrap-fileinput-master/js/locales/fr.js'))
+	                ->prependFile($this->basePath('vendor/bootstrap-fileinput-master/js/fileinput.min.js'))
 	                ->prependFile($this->basePath('vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js'))
 	                ->prependFile($this->basePath('js/bootstrap.min.js'))
 	                ->prependFile($this->basePath('js/jquery.min.js'))

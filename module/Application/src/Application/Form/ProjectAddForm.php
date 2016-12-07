@@ -2,6 +2,7 @@
 
 namespace Application\Form;
 
+use Application\Form\Element\Date;
 use Application\Form\Element\GiftsFormElement;
 use Application\Form\Element\TagPicker;
 use Application\Model\Category;
@@ -72,7 +73,7 @@ class ProjectAddForm extends Form implements InputFilterAwareInterface
 
 		$this->add([
 			'name'    => 'deadline',
-			'type'    => 'Date',
+			'type'    => Date::class,
 			'options' => [
 				'label' => 'Date Butoire*'
 			]

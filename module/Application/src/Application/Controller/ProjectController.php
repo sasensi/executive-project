@@ -287,8 +287,6 @@ class ProjectController extends AbstractActionCustomController
 
 				return $this->redirectToRoute('project', 'user');
 			}
-
-			var_dump($form->getData());
 		}
 
 		// client dependencies

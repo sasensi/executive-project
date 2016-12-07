@@ -68,4 +68,13 @@ $(document).ready(function ()
     $('.datePicker').datepicker({
         format: 'dd/mm/yyyy'
     });
+
+    //
+    // FILE PICKER
+    //
+    $('input[type="file"]').fileinput({
+        language         : 'fr',
+        browseOnZoneClick: true,
+        showUpload       : false
+    });
 });
