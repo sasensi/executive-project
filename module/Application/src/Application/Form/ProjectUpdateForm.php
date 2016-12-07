@@ -11,7 +11,7 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\Validator\File\Extension;
 use Zend\Validator\File\Size;
 
-class ProjectUpdateForm extends Form implements InputFilterAwareInterface
+class ProjectUpdateForm extends AbstractForm
 {
 	const DESCRIPTION = 'description';
 	const TAGS        = 'tag_ids';

@@ -10,14 +10,12 @@ use Application\Model\Gift;
 use Application\Model\Tag;
 use Zend\Form\Element\File;
 use Zend\Form\Element\Select;
-use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
-use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\Validator\File\Extension;
 use Zend\Validator\File\Size;
 use Zend\Validator\LessThan;
 
-class ProjectAddForm extends Form implements InputFilterAwareInterface
+class ProjectAddForm extends AbstractForm
 {
 	/**
 	 * ProjectAddForm constructor.

@@ -289,15 +289,6 @@ class ProjectController extends AbstractActionCustomController
 			}
 		}
 
-		// client dependencies
-		$this->addJsDependency('vendor/bootstrap-tokenfield/dist/bootstrap-tokenfield.min.js');
-		$this->addJsDependency('vendor/bootstrap-tokenfield/docs-assets/js/typeahead.bundle.min.js');
-		$this->addJsDependency('js/form.js');
-
-		$this->addCssDependency('vendor/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css');
-		$this->addCssDependency('vendor/bootstrap-tokenfield/dist/css/tokenfield-typeahead.min.css');
-		$this->addCssDependency('css/project/add.css');
-
 		return new ViewModel([
 			'form' => $form
 		]);
@@ -348,13 +339,16 @@ class ProjectController extends AbstractActionCustomController
 
 	public function userUpdateAction()
 	{
-		// needed for autocompletion
-		/** @var TagTable $tagTable */
-		/** @var \Zend\Http\PhpEnvironment\Request $request */
+		// editor autocompletion helper
+		/**
+		 * @var TagTable                          $tagTable
+		 * @var \Zend\Http\PhpEnvironment\Request $request
+		 * @var Tag[]                             $projectTags
+		 */
 
 		// get datas
-		$tagTable = $this->getTable('tag');
-		$tagsExistingInDb     = $tagTable->select();
+		$tagTable         = $this->getTable('tag');
+		$tagsExistingInDb = $tagTable->select();
 		// allow looping over tag multiple times
 		$tagsExistingInDb->buffer();
 
@@ -366,7 +360,6 @@ class ProjectController extends AbstractActionCustomController
 		$videos    = $this->getTable('video')->select(['project_id' => $project->id]);
 		$videosIds = MultiArray::getArrayOfValues($videos, 'id');
 
-		/** @var Tag[] $projectTags */
 		$projectTags = $tagTable->getAllFromProjectId($project->id)->buffer();
 		$tagsIds     = MultiArray::getArrayOfValues($projectTags, 'name');
 
@@ -476,15 +469,6 @@ class ProjectController extends AbstractActionCustomController
 				return $this->redirectToRoute('project', 'user');
 			}
 		}
-
-		// add client dependencies
-		$this->addJsDependency('vendor/bootstrap-tokenfield/dist/bootstrap-tokenfield.min.js');
-		$this->addJsDependency('vendor/bootstrap-tokenfield/docs-assets/js/typeahead.bundle.min.js');
-		$this->addJsDependency('js/form.js');
-
-		$this->addCssDependency('vendor/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css');
-		$this->addCssDependency('vendor/bootstrap-tokenfield/dist/css/tokenfield-typeahead.min.css');
-		$this->addCssDependency('css/project/add.css');
 
 		return new ViewModel([
 			'form' => $form
@@ -607,10 +591,6 @@ class ProjectController extends AbstractActionCustomController
 		}
 
 		$excelTable->output();
-	}
-
-	protected function addExcelRow(\PHPExcel_Worksheet $sheet, $data)
-	{
 	}
 
 

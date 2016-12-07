@@ -84,7 +84,7 @@ class UserForm extends AbstractForm
 		$this->add($adress);
 
 		$postcode = new Number(self::POSTCODE);
-		$postcode->setLabel('code postal*');
+		$postcode->setLabel('Code postal*');
 		$this->add($postcode);
 
 		$city = new Text(self::CITY);

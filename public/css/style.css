@@ -94,6 +94,11 @@ nav li:first-child {
 
 nav li span {
     display : none;
+    max-width: 150px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    vertical-align: middle;
 }
 
 nav li a {
@@ -177,6 +182,10 @@ input[type="submit"] {
     display : block;
 }
 
+form > p:last-child {
+    text-align : right;
+}
+
 /* FILE PICKER */
 .file-input span.hidden-xs {
     display : inherit !important;
@@ -189,6 +198,11 @@ input[type="submit"] {
 
 .intl-tel-input {
     width : 100%;
+}
+
+/* TAGS PICKER */
+.giftsWrapper fieldset {
+    margin : 1em 0 2em 0;
 }
 
 /* RESPONSIVE */
