@@ -566,7 +566,7 @@ HTML;
 		{
 			if ($deletable)
 			{
-				$table->delete($user->id);
+				$table->deleteFromId($user->id);
 			}
 			elseif ($desactivable)
 			{

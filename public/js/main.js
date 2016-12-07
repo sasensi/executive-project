@@ -5,6 +5,9 @@
 $(document).ready(function ()
 {
 
+    //
+    // TAG PICKER
+    //
     $('[data-role="tagPicker"]').each(function ()
     {
         var items          = $(this).attr('data-items').split(',');
@@ -34,7 +37,14 @@ $(document).ready(function ()
             var newTag       = e.attrs.value;
             for (var i = 0; i < existingTags.length; i++)
             {
-                if (newTag.toUpperCase() === existingTags[i].value.toUpperCase())
+                var existingTag = existingTags[i];
+                // fix bug on init
+                if (existingTag === this)
+                {
+                    continue;
+                }
+
+                if (newTag.toUpperCase() === existingTag.value.toUpperCase())
                 {
                     e.preventDefault();
                     return false;
@@ -51,6 +61,10 @@ $(document).ready(function ()
         });
     });
 
+
+    //
+    // DATE PICKER
+    //
     $('.datePicker').datepicker({
         format: 'dd/mm/yyyy'
     });

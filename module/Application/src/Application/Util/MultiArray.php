@@ -9,6 +9,11 @@ namespace Application\Util;
 
 class MultiArray
 {
+	/**
+	 * @param array|object $array
+	 * @param string       $key
+	 * @return array
+	 */
 	public static function getArrayOfValues($array, $key)
 	{
 		$result = [];
@@ -21,7 +26,7 @@ class MultiArray
 			}
 			elseif (is_array($subArray))
 			{
-				$result[] = $subArray[$key];
+				$result[] = $subArray[ $key ];
 			}
 		}
 

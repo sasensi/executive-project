@@ -38,7 +38,7 @@ class AbstractTable extends TableGateway
 		return $this->select($where);
 	}
 
-	public function delete($id)
+	public function deleteFromId($id)
 	{
 		parent::delete(['id' => $id]);
 	}

@@ -1,1 +1,29 @@
+<?php
+
+/**
+ * @var \Zend\View\Renderer\PhpRenderer     $this
+ * @var \Application\Form\ProjectUpdateForm $form
+ */
+
+use Application\Form\ProjectUpdateForm;
+
+$form->prepare();
+
+?>
+
 <h1>modifier mon projet</h1>
+
+<?php
+
+echo $this->form()->openTag($form);
+echo $this->formRow($form->get(ProjectUpdateForm::DESCRIPTION));
+echo $this->formRow($form->get(ProjectUpdateForm::TAGS));
+echo $this->formRow($form->get(ProjectUpdateForm::PICTURES));
+echo $this->formRow($form->get(ProjectUpdateForm::VIDEOS));
+echo $this->formSubmit($form->get(ProjectUpdateForm::SUBMIT));
+?>
+
+    <p>* Champs obligatoires</p>
+
+<?php
+echo $this->form()->closeTag($form);

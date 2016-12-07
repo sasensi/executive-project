@@ -4,6 +4,7 @@ namespace Application\Controller;
 
 use Application\Form\ProjectAddForm;
 use Application\Form\ProjectSearchFilter;
+use Application\Form\ProjectUpdateForm;
 use Application\Model\AbstractTable;
 use Application\Model\Category;
 use Application\Model\CategoryTable;
@@ -308,7 +309,7 @@ class ProjectController extends AbstractActionCustomController
 	{
 		$project = $this->getProjectFromRouteId();
 
-		$this->getProjectTable()->delete($project->id);
+		$this->getProjectTable()->deleteFromId($project->id);
 
 		return new ViewModel([
 			'project' => $project
@@ -349,7 +350,169 @@ class ProjectController extends AbstractActionCustomController
 
 	public function userUpdateAction()
 	{
-		return new ViewModel();
+		/** @var TagTable $tagTable */
+		$tagTable = $this->getTable('tag');
+		$tags     = $tagTable->select();
+		// allow looping over tag twice
+		$tags->buffer();
+
+		$form = new ProjectUpdateForm('projectform', $tags);
+		$user = UserController::getLoggedUser();
+
+		$project = $this->getProjectFromRouteId();
+
+		$pictures    = $this->getTable('picture')->select(['project_id' => $project->id]);
+		$picturesIds = MultiArray::getArrayOfValues($pictures, 'id');
+
+		$videos    = $this->getTable('video')->select(['project_id' => $project->id]);
+		$videosIds = MultiArray::getArrayOfValues($videos, 'id');
+
+		/** @var Tag[] $projectTags */
+		$projectTags = $tagTable->getAllFromProjectId($project->id)->buffer();
+		$tagsIds     = MultiArray::getArrayOfValues($projectTags, 'name');
+
+		$form->setData([
+			ProjectUpdateForm::DESCRIPTION => $project->description,
+			ProjectUpdateForm::PICTURES    => $picturesIds,
+			ProjectUpdateForm::VIDEOS      => $videosIds,
+			ProjectUpdateForm::TAGS        => implode(',', $tagsIds),
+		]);
+
+		/** @var \Zend\Http\PhpEnvironment\Request $request */
+		$request = $this->getRequest();
+
+		if ($request->isPost())
+		{
+			$post = array_merge_recursive(
+				$request->getPost()->toArray(),
+				$request->getFiles()->toArray()
+			);
+
+			$form->setData($post);
+
+			if ($form->isValid())
+			{
+				$data = $form->getData();
+
+				// wrap queries in transaction in case of failure
+				$this->beginTransaction();
+
+				// create row
+				$this->getTable('project')->update([
+					'description' => $data[ ProjectUpdateForm::DESCRIPTION ],
+				]);
+
+				// rename image
+				$dirFromRoot = '/img/project/'.$project->id.'/';
+				$fileDir     = PUBLIC_DIR.$dirFromRoot;
+				$fileUrlDir  = $dirFromRoot;
+
+				// create tags
+				$postedTags = explode(', ', $data[ ProjectUpdateForm::TAGS ]);
+				foreach ($postedTags as $postedTag)
+				{
+					$tagId = null;
+					/** @var Tag $existingTag */
+					foreach ($tags as $existingTag)
+					{
+						if (strtoupper($postedTag) === strtoupper($existingTag->name))
+						{
+							$tagId = $existingTag->id;
+							break;
+						}
+					}
+
+					// if tag doesn't already exist, create it
+					if (!isset($tagId))
+					{
+						$this->getTable('tag')->insert(['name' => $postedTag]);
+						$tagId = $this->getTable('tag')->getLastInsertValue();
+					}
+
+					// create project/tag link
+					$this->getTable('projecttag')->insert(['project_id' => $project->id, 'tag_id' => $tagId]);
+				}
+
+				// delete tags
+				foreach ($projectTags as $projectTag)
+				{
+					$tagWasRemoved = true;
+					foreach ($postedTags as $postedTag)
+					{
+						if (strtoupper($postedTag) === strtoupper($projectTag->name))
+						{
+							$tagWasRemoved = false;
+							break;
+						}
+					}
+
+					if ($tagWasRemoved)
+					{
+						// break link
+						$this->getTable('projecttag')->delete(['project_id' => $project->id, 'tag_id' => $projectTag->id]);
+
+						// check if tag is still linked with at least one project
+						$count = $this->getTable('projecttag')->select(['tag_id' => $projectTag->id])->count();
+						if ($count === 0)
+						{
+							$this->getTable('tag')->deleteFromId($projectTag->id);
+						}
+					}
+				}
+
+				// todo: handle empty post
+				// pictures
+				$pictures = $data['picture_ids'];
+				foreach ($pictures as $picture)
+				{
+					// handle file upload error
+					if (empty($picture['tmp_name']) || empty($picture['name'])) continue;
+
+					rename($picture['tmp_name'], $fileDir.$picture['name']);
+
+					// create picture
+					$this->getTable('picture')->insert([
+						'url'        => $fileUrlDir.$picture['name'],
+						'project_id' => $project->id
+					]);
+				}
+
+				// videos
+				$videos = $data['video_ids'];
+				foreach ($videos as $video)
+				{
+					// handle file upload error
+					if (empty($video['tmp_name']) || empty($video['name'])) continue;
+
+					rename($video['tmp_name'], $fileDir.$video['name']);
+
+					$this->getTable('video')->insert([
+						'url'        => $fileUrlDir.$video['name'],
+						'project_id' => $project->id
+					]);
+				}
+
+
+				$this->commitTransaction();
+
+				return $this->redirectToRoute('project', 'user');
+			}
+
+			var_dump($form->getData());
+		}
+
+		// client dependencies
+		$this->addJsDependency('vendor/bootstrap-tokenfield/dist/bootstrap-tokenfield.min.js');
+		$this->addJsDependency('vendor/bootstrap-tokenfield/docs-assets/js/typeahead.bundle.min.js');
+		$this->addJsDependency('js/form.js');
+
+		$this->addCssDependency('vendor/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css');
+		$this->addCssDependency('vendor/bootstrap-tokenfield/dist/css/tokenfield-typeahead.min.css');
+		$this->addCssDependency('css/project/add.css');
+
+		return new ViewModel([
+			'form' => $form
+		]);
 	}
 
 	public function userDeleteAction()
