@@ -21,7 +21,7 @@ a:hover {
     margin-top : 53px;
     padding    : 15px;
     width      : 100%;
-    min-height: calc(100vh - 153px);
+    min-height : calc(100vh - 153px);
 }
 
 div.container a.brand {
@@ -54,9 +54,9 @@ div.container a.brand {
     padding-bottom : 9px;
     margin         : -15px;
     margin-bottom  : 15px;
-    font-size: 1.2em;
-    text-align: center;
-    font-weight: 600;
+    font-size      : 1.2em;
+    text-align     : center;
+    font-weight    : 600;
 }
 
 /* NAV */
@@ -122,7 +122,7 @@ nav li i {
 }
 
 .offsetContainer {
-    margin-top: 37px;
+    margin-top : 37px;
     position   : relative;
     width      : 100%;
 }
@@ -147,10 +147,10 @@ input[type="number"]:focus {
 /* FOOTER */
 
 footer {
-    background     : #3D3E42;
-    text-align     : center;
-    color          : white;
-    height: 100px;
+    background : #3D3E42;
+    text-align : center;
+    color      : white;
+    height     : 100px;
 }
 
 footer > img {
@@ -159,16 +159,16 @@ footer > img {
 }
 
 footer > img:first-child {
-    height: 2em;
+    height : 2em;
 }
 
 footer > img:nth-child(2) {
-    height: 1.2em;
+    height : 1.2em;
 }
 
 footer > p {
     margin-top : .7em;
-    font-size: 1em;
+    font-size  : 1em;
 }
 
 /* FORM */
@@ -180,6 +180,15 @@ input[type="submit"] {
 /* FILE PICKER */
 .file-input span.hidden-xs {
     display : inherit !important;
+}
+
+/* PHONE INPUT */
+.iti-flag {
+    background-image : url("../vendor/intl-tel-input-master/build/img/flags.png");
+}
+
+.intl-tel-input {
+    width : 100%;
 }
 
 /* RESPONSIVE */

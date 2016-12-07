@@ -77,4 +77,13 @@ $(document).ready(function ()
         browseOnZoneClick: true,
         showUpload       : false
     });
+
+    //
+    // PHONE INPUT
+    //
+    $('.phoneInput').intlTelInput({
+        autoFormat    : true,
+        utilsScript   : "../vendor/intl-tel-input-7.1.0/lib/libphonenumber/build/utils.js",
+        initialCountry: 'fr'
+    });
 });

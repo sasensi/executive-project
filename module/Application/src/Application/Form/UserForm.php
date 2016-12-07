@@ -103,6 +103,7 @@ class UserForm extends AbstractForm
 
 		$phone = new Text(self::PHONE);
 		$phone->setLabel('Téléphone');
+		$phone->setAttribute('class', 'phoneInput');
 		$this->add($phone);
 
 		$photo = new File(self::PHOTO);
