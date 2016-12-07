@@ -38,7 +38,7 @@ class WsContentController extends AbstractActionCustomController
 		$gift              = new Gift();
 		$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
 		/** @var GiftsFormHelper $giftHelper */
-		$giftHelper = $viewHelperManager->get(Module::HELPER_GIFT); // $escapeHtml can be called as function because of its __invoke method
+		$giftHelper = $viewHelperManager->get(Module::HELPER_GIFT);
 
 		$content = $giftHelper->renderGift($gift, $params['index'], $element);
 

@@ -52,22 +52,25 @@ HTML;
 		$amountName      = "{$element->getName()}[{$i}][minamount]";
 		$descriptionName = "{$element->getName()}[{$i}][description]";
 
+		$displayIndex = $i+1;
+
 		return <<<HTML
 
 <fieldset data-index="{$i}">
-	<span class="giftDeleteButton btn btn-danger">Supprimer</span>
-    <div class="">
+	<legend>Contrepartie n°{$displayIndex}</legend>
+    <div class="form-group">
         <label for="$titleName">Titre</label>
-        <input type="text" name="$titleName" id="$titleName" value="{$gift->title}" />
+        <input class="form-control" type="text" name="$titleName" id="$titleName" value="{$gift->title}" />
     </div>
-    <div class="">
+    <div class="form-group">
         <label for="{$amountName}">Montant minimum</label>
-        <input type="number" name="{$amountName}" id="{$amountName}" value="{$gift->minamount}" />
+        <input class="form-control" type="number" name="{$amountName}" id="{$amountName}" value="{$gift->minamount}" />
     </div>
-    <div class="">
+    <div class="form-group">
         <label for="{$descriptionName}">Description</label>
-        <input type="text" name="{$descriptionName}" id="{$descriptionName}" value="{$gift->description}" />
+        <textarea class="form-control" type="text" name="{$descriptionName}" id="{$descriptionName}" value="{$gift->description}" ></textarea>
     </div>
+	<span class="giftDeleteButton btn btn-danger">Supprimer</span>
 </fieldset>
 		
 HTML;
