@@ -1,18 +1,49 @@
 $(document).ready(function ()
 {
-    // sub nav navigation
-    $('.subNav a').click(function ()
+    //
+    // SCROLL NAVIGATION
+    //
+
+    // fine tunning for scroll navigation
+    var offsetTop = 105;
+
+    // subnav click event
+    $('.subNav a').click(function (event)
     {
-        activateLink($(this));
+        var $target = $(this);
+        $('html, body').stop().animate({
+            scrollTop: $($target.attr('href')).offset().top - offsetTop
+        }, 1500);
+        event.preventDefault();
     });
 
-    function activateLink($link)
+    // update subnav display on scroll
+    $('#mainPicture, #description, #movies, #gifts')
+    .on('scrollSpy:enter', function ()
+    {
+        $(this).addClass('scrollVisible');
+        updateActiveLink();
+    })
+    .on('scrollSpy:exit', function ()
+    {
+        $(this).removeClass('scrollVisible');
+        updateActiveLink();
+    })
+    .scrollSpy({
+        offsetTop: offsetTop
+    })
+    ;
+
+    function updateActiveLink()
     {
         $('.subNav a').removeClass('active');
-        $link.addClass('active');
+        var activeId = $('.scrollVisible').first().attr('id');
+        $('.subNav a[href="#' + activeId + '"]').addClass('active');
     }
 
+    //
     // movies
+    //
     var $moviesCarousel = $('#moviesCarousel');
     var $overlay        = $('#overlay');
     var $playButton     = $('#playButton');
@@ -81,7 +112,7 @@ $(document).ready(function ()
         });
     });
     // display corresponding gift on price change
-    $('#price input').change(function ()
+    $('#price input').on('keyup', function ()
     {
         var price    = parseInt($(this).val());
         var minPrice = 1;
