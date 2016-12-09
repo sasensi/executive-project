@@ -10,3 +10,4 @@ nbproject
 composer.phar
 .idea
 /debug
+node_modules

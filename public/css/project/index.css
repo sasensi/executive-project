@@ -179,6 +179,7 @@
     font-style    : italic;
     margin-top    : .3em;
     margin-bottom : .8em;
+    font-weight : normal;
 }
 
 .projectThumbnail {

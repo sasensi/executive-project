@@ -18,7 +18,7 @@ catch (Exception $e)
 
 <html lang="fr">
 <head>
-	<meta charset="utf-8">
+    <meta charset="utf-8">
 	<?php echo $this->headTitle($this->translate('Skeleton Application'))->setSeparator(' - ')->setAutoEscape(false) ?>
 
 	<?php echo $this->headMeta()
@@ -26,111 +26,120 @@ catch (Exception $e)
 	                ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
 	?>
 
-	<!-- styles -->
-	<?php echo $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath().'/img/favicon.ico'])
-	                ->prependStylesheet($this->basePath('css/style.css'))
-	                ->prependStylesheet($this->basePath('fonts/icomoon/style.custom.css'))
-	                ->prependStylesheet($this->basePath('fonts/icomoon/style.css'))
-	                ->prependStylesheet($this->basePath('vendor/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css'))
-	                ->prependStylesheet($this->basePath('vendor/bootstrap-tokenfield/dist/css/tokenfield-typeahead.min.css'))
-	                ->prependStylesheet($this->basePath('vendor/intl-tel-input-7.1.0/build/css/intlTelInput.css'))
-	                ->prependStylesheet($this->basePath('vendor/bootstrap-fileinput-master/css/fileinput.min.css'))
-	                ->prependStylesheet($this->basePath('vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css'))
-	                ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
-	                ->prependStylesheet($this->basePath('css/bootstrap.min.css')) ?>
+    <!-- styles -->
+	<?php
 
-	<!-- scripts -->
-	<?php echo $this->headScript()
-	                ->prependFile($this->basePath('js/main.js'))
-	                ->prependFile($this->basePath('js/form.js'))
-	                ->prependFile($this->basePath('vendor/jquery-scrollspy-master/scrollspy.js'))
-	                ->prependFile($this->basePath('vendor/bootstrap-tokenfield/dist/bootstrap-tokenfield.min.js'))
-	                ->prependFile($this->basePath('vendor/bootstrap-tokenfield/docs-assets/js/typeahead.bundle.min.js'))
-	                ->prependFile($this->basePath('vendor/intl-tel-input-7.1.0/build/js/intlTelInput.min.js'))
-	                ->prependFile($this->basePath('vendor/bootstrap-fileinput-master/js/locales/fr.js'))
-	                ->prependFile($this->basePath('vendor/bootstrap-fileinput-master/js/fileinput.min.js'))
-	                ->prependFile($this->basePath('vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js'))
-	                ->prependFile($this->basePath('js/bootstrap.min.js'))
-	                ->prependFile($this->basePath('js/jquery.min.js'))
-	                ->prependFile($this->basePath('js/respond.min.js'), 'text/javascript', ['conditional' => 'lt IE 9',])
-	                ->prependFile($this->basePath('js/html5shiv.min.js'), 'text/javascript', ['conditional' => 'lt IE 9',]); ?>
+	if (\Application\Util\DevelopementMode::isActive())
+	{
+		// styles
+		echo $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath().'/img/favicon.ico'])
+		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/style.less')])
+		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('fonts/icomoon/style.custom.less')])
+		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('fonts/icomoon/style.less')])
+			//->prependStylesheet($this->basePath('css/style.css'))
+			//      ->prependStylesheet($this->basePath('fonts/icomoon/style.custom.css'))
+		     //     ->prependStylesheet($this->basePath('fonts/icomoon/style.css'))
+		          ->prependStylesheet($this->basePath('vendor/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css'))
+		          ->prependStylesheet($this->basePath('vendor/bootstrap-tokenfield/dist/css/tokenfield-typeahead.min.css'))
+		          ->prependStylesheet($this->basePath('vendor/intl-tel-input-7.1.0/build/css/intlTelInput.css'))
+		          ->prependStylesheet($this->basePath('vendor/bootstrap-fileinput-master/css/fileinput.min.css'))
+		          ->prependStylesheet($this->basePath('vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css'))
+		          ->prependStylesheet($this->basePath('vendor/bootstrap/dist/css/bootstrap-theme.min.css'))
+		          ->prependStylesheet($this->basePath('vendor/bootstrap/dist/css/bootstrap.min.css'));
 
-	<!-- global js variable -->
-	<script>
-		var _App = {
-			rootUrl: '<?= $this->basePath() ?>'
-		};
-	</script>
+		// scripts
+		echo $this->headScript()
+		          ->prependFile($this->basePath('js/main.js'))
+		          ->prependFile($this->basePath('js/form.js'))
+		          ->prependFile('//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js')
+		          ->prependFile($this->basePath('vendor/jquery-scrollspy-master/scrollspy.js'))
+		          ->prependFile($this->basePath('vendor/bootstrap-tokenfield/dist/bootstrap-tokenfield.min.js'))
+		          ->prependFile($this->basePath('vendor/bootstrap-tokenfield/docs-assets/js/typeahead.bundle.min.js'))
+		          ->prependFile($this->basePath('vendor/intl-tel-input-7.1.0/build/js/intlTelInput.min.js'))
+		          ->prependFile($this->basePath('vendor/bootstrap-fileinput-master/js/locales/fr.js'))
+		          ->prependFile($this->basePath('vendor/bootstrap-fileinput-master/js/fileinput.min.js'))
+		          ->prependFile($this->basePath('vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js'))
+		          ->prependFile($this->basePath('vendor/bootstrap/dist/js/bootstrap.min.js'))
+		          ->prependFile($this->basePath('js/jquery.min.js'))
+		          ->prependFile($this->basePath('js/respond.min.js'), 'text/javascript', ['conditional' => 'lt IE 9',])
+		          ->prependFile($this->basePath('js/html5shiv.min.js'), 'text/javascript', ['conditional' => 'lt IE 9',]);
+	}
+	else
+    {
+	    // styles
+	    echo $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath().'/img/favicon.ico'])
+	              ->prependStylesheet($this->basePath('css/style.min.css'));
+
+	    // scripts
+	    echo $this->headScript()
+	              ->prependFile($this->basePath('js/main.min.js'));
+    }
+	?>
+
+    <!-- global js variable -->
+    <script>
+        var _App = {
+            rootUrl: '<?= $this->basePath() ?>'
+        };
+    </script>
 </head>
 <body>
 
 <nav class="container-fluid">
-	<div class="row">
-		<div class="col-xs-2" id="logo">
-			<a href="<?= $this->url('home') ?>">
-				<img src="<?= $this->basePath('img/logo_md.png') ?>" alt="logo" class="visible-md visible-lg">
-				<img src="<?= $this->basePath('img/logo_sm.png') ?>" alt="logo" class="visible-sm">
-				<img src="<?= $this->basePath('img/logo_xs.png') ?>" alt="logo" class="visible-xs">
-			</a>
-		</div>
-		<div class="col-xs-12 col-sm-10">
-			<ul class="list-unstyled">
-				<li>
+    <div class="row">
+        <div class="col-xs-2" id="logo">
+            <a href="<?= $this->url('home') ?>"> <img src="<?= $this->basePath('img/logo_md.png') ?>" alt="logo"
+                        class="visible-md visible-lg"> <img src="<?= $this->basePath('img/logo_sm.png') ?>" alt="logo"
+                        class="visible-sm"> <img src="<?= $this->basePath('img/logo_xs.png') ?>" alt="logo"
+                        class="visible-xs"> </a>
+        </div>
+        <div class="col-xs-12 col-sm-10">
+            <ul class="list-unstyled">
+                <li>
 					<?php if (isset($user) && $user->isCreator()): ?>
-						<a href="<?= $this->url('home/action', ['controller' => 'project', 'action' => 'add']) ?>">
-							<i class="icomoon icon_plus"></i>
-							<span>proposer une idée</span>
-						</a>
+                        <a href="<?= $this->url('home/action', ['controller' => 'project', 'action' => 'add']) ?>"> <i
+                                    class="icomoon icon_plus"></i> <span>proposer une idée</span> </a>
 					<?php endif; ?>
-				</li>
-				<li>
-					<a href="<?= $this->url('home/action', ['controller' => 'about', 'action' => 'index']) ?>">
-						<i class="icomoon icon_question"></i>
-						<span>à propos</span>
-					</a>
-				</li>
-				<li>
+                </li>
+                <li>
+                    <a href="<?= $this->url('home/action', ['controller' => 'about', 'action' => 'index']) ?>"> <i
+                                class="icomoon icon_question"></i> <span>à propos</span> </a>
+                </li>
+                <li>
 					<?php if (isset($user)):
 						$userType = '';
 						if ($user->isFinancer()) $userType = 'Financeur';
 						elseif ($user->isCreator()) $userType = 'Créateur';
 						elseif ($user->isAdmin()) $userType = 'Administrateur';
 						?>
-						<a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'index']) ?>">
-							<i class="icomoon icon_profile"></i>
-							<span>mon compte (<?= $user->name ?> <?= $user->firstname ?> - <?= $userType ?>)</span>
-						</a>
+                        <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'index']) ?>"> <i
+                                    class="icomoon icon_profile"></i>
+                            <span>mon compte (<?= $user->name ?> <?= $user->firstname ?> - <?= $userType ?>)</span> </a>
 					<?php else: ?>
-						<a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'signin']) ?>">
-							<i class="icomoon icon_profile"></i>
-							<span>créer un compte</span>
-						</a>
+                        <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'signin']) ?>"> <i
+                                    class="icomoon icon_profile"></i> <span>créer un compte</span> </a>
 					<?php endif; ?>
-				</li>
-				<li>
+                </li>
+                <li>
 					<?php if (isset($user)): ?>
-						<a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'logout']) ?>">
-							<i class="icomoon icon_power"></i>
-							<span>se déconnecter</span>
-						</a>
+                        <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'logout']) ?>"> <i
+                                    class="icomoon icon_power"></i> <span>se déconnecter</span> </a>
 					<?php else: ?>
-						<a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'login']) ?>">
-							<i class="icomoon icon_power"></i>
-							<span>se connecter</span>
-						</a>
+                        <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'login']) ?>"> <i
+                                    class="icomoon icon_power"></i> <span>se connecter</span> </a>
 					<?php endif; ?>
-				</li>
-			</ul>
-		</div>
-	</div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>
 <div class="container-fluid" id="content">
 	<?php echo $this->content; ?>
 </div>
 <footer>
-	<img src="<?= $this->basePath('/img/logo_footer_reverse.png') ?>" alt="">
-	<img src="<?= $this->basePath('/img/logo_footer.png') ?>" alt="">
-	<p>&copy; 2016</p>
+    <img src="<?= $this->basePath('/img/logo_footer_reverse.png') ?>" alt=""> <img
+            src="<?= $this->basePath('/img/logo_footer.png') ?>" alt="">
+    <p>&copy; 2016</p>
 </footer>
 <?php echo $this->inlineScript() ?>
 </body>
