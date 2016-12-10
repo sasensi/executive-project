@@ -15,13 +15,13 @@ return [
 	'router'          => [
 		'routes' => [
 
+			// main route
 			'home' => [
 				'type'          => 'Segment',
 				'options'       => [
 					'route'       => '/[:controller]',
 					'constraints' => [
-						'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-						'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+						'controller' => '[a-zA-Z][a-zA-Z0-9_-]*'
 					],
 					'defaults'    => [
 						'__NAMESPACE__' => 'Application\Controller',
@@ -70,7 +70,6 @@ return [
 			],
 
 			// web services
-			// ws/content/gift
 			'ws'   => [
 				'type'    => 'Segment',
 				'options' => [
@@ -99,19 +98,6 @@ return [
 			'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
 			'Zend\Log\LoggerAbstractServiceFactory',
 		],
-		'factories'          => [
-			'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
-		],
-	],
-	'translator'      => [
-		'locale'                    => 'en_US',
-		'translation_file_patterns' => [
-			[
-				'type'     => 'gettext',
-				'base_dir' => __DIR__.'/../language',
-				'pattern'  => '%s.mo',
-			],
-		],
 	],
 	'controllers'     => [
 		'invokables' => [
@@ -130,7 +116,6 @@ return [
 		'exception_template'       => 'error/index',
 		'template_map'             => [
 			'layout/layout' => __DIR__.'/../view/layout/layout.phtml',
-			//'application/index/index' => __DIR__.'/../view/application/index/index.phtml',
 			'error/404'     => __DIR__.'/../view/error/404.phtml',
 			'error/index'   => __DIR__.'/../view/error/index.phtml',
 		],
@@ -139,13 +124,6 @@ return [
 		],
 		'strategies'               => [
 			'ViewJsonStrategy',
-		],
-	],
-	// Placeholder for console routes
-	'console'         => [
-		'router' => [
-			'routes' => [
-			],
 		],
 	],
 ];

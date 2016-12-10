@@ -22,6 +22,7 @@ use Zend\Http\Response;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Router\RouteMatch;
+use Zend\ServiceManager\ServiceManager;
 use Zend\Session\Config\SessionConfig;
 use Zend\Session\Container;
 use Zend\Session\SessionManager;
@@ -39,7 +40,7 @@ class Module
 		$moduleRouteListener->attach($eventManager);
 
 		// check user access to current route
-		$eventManager->attach(\Zend\Mvc\MvcEvent::EVENT_ROUTE, function (MvcEvent $event)
+		$eventManager->attach(MvcEvent::EVENT_ROUTE, function (MvcEvent $event)
 		{
 			$match = $event->getRouteMatch();
 
@@ -91,7 +92,7 @@ class Module
 		return [
 			'Zend\Loader\StandardAutoloader' => [
 				'namespaces' => [
-					__NAMESPACE__ => __DIR__.'/src/'.__NAMESPACE__,
+					__NAMESPACE__ => __DIR__.'/src',
 				],
 			],
 		];
@@ -142,16 +143,9 @@ class Module
 		{
 			$capTableName = ucfirst($tableName);
 
-			//$config[ 'Application\Model\\'.$capTableName.'Table' ] = function ($sm) use ($capTableName)
-			//{
-			//	$className    = '\Application\Model\\'.$capTableName.'Table';
-			//	$tableGateway = $sm->get($capTableName.'TableGateway');
-			//	$table        = new $className($tableGateway);
-			//	return $table;
-			//};
-
 			$config[ 'Application\Model\\'.$capTableName.'Table' ] = function ($sm) use ($capTableName, $tableName)
 			{
+				/** @var ServiceManager $sm */
 				$tableClassName     = '\Application\Model\\'.$capTableName.'Table';
 				$dataClassName      = '\Application\Model\\'.$capTableName;
 				$dbAdapter          = $sm->get('Zend\Db\Adapter\Adapter');
@@ -168,8 +162,10 @@ class Module
 	{
 		return [
 			'invokables' => [
+				// override zend hepers
 				'formelement'     => FormElement::class,
 				'formrow'         => FormRow::class,
+				// custom application helpers
 				self::HELPER_TAG  => TagPickerHelper::class,
 				self::HELPER_GIFT => GiftsFormHelper::class,
 				self::HELPER_DATE => Date::class,

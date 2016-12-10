@@ -3,10 +3,14 @@
  * @var \Zend\View\Renderer\PhpRenderer|\Zend\View\Helper\Navigation\AbstractHelper $this
  */
 
+use Application\Controller\UserController;
+use Application\Util\DevelopementMode;
+
+// try to get logged user
 $user = null;
 try
 {
-	$user = \Application\Controller\UserController::getLoggedUser();
+	$user = UserController::getLoggedUser();
 }
 catch (Exception $e)
 {
@@ -14,32 +18,37 @@ catch (Exception $e)
 
 ?>
 
-<?php echo $this->doctype(); ?>
+<?= $this->doctype(); ?>
 
 <html lang="fr">
 <head>
     <meta charset="utf-8">
-	<?php echo $this->headTitle($this->translate('Skeleton Application'))->setSeparator(' - ')->setAutoEscape(false) ?>
+    <!-- page title -->
+	<?= $this->headTitle('Idées À Porter') ?>
 
-	<?php echo $this->headMeta()
-	                ->appendName('viewport', 'width=device-width, initial-scale=1.0')
-	                ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+    <!-- meta -->
+	<?= $this->headMeta()
+	         ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+	         ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
 	?>
 
-    <!-- styles -->
+    <!-- icon -->
+	<?= $this->headLink(['rel' => 'icon', 'type' => 'image/png', 'href' => $this->basePath().'/img/favicon.png']) ?>
+
+    <!-- dependencies -->
 	<?php
 
-	if (\Application\Util\DevelopementMode::isActive())
+	if (DevelopementMode::isActive())
 	{
 		// styles
-		echo $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath().'/img/favicon.ico'])
+		echo $this->headLink()
 		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/style.less')])
 		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('fonts/icomoon/style.custom.less')])
 		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('fonts/icomoon/style.less')])
 			//->prependStylesheet($this->basePath('css/style.css'))
 			//      ->prependStylesheet($this->basePath('fonts/icomoon/style.custom.css'))
-		     //     ->prependStylesheet($this->basePath('fonts/icomoon/style.css'))
-		          ->prependStylesheet($this->basePath('vendor/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css'))
+			//     ->prependStylesheet($this->basePath('fonts/icomoon/style.css'))
+			      ->prependStylesheet($this->basePath('vendor/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css'))
 		          ->prependStylesheet($this->basePath('vendor/bootstrap-tokenfield/dist/css/tokenfield-typeahead.min.css'))
 		          ->prependStylesheet($this->basePath('vendor/intl-tel-input-7.1.0/build/css/intlTelInput.css'))
 		          ->prependStylesheet($this->basePath('vendor/bootstrap-fileinput-master/css/fileinput.min.css'))
@@ -60,20 +69,18 @@ catch (Exception $e)
 		          ->prependFile($this->basePath('vendor/bootstrap-fileinput-master/js/fileinput.min.js'))
 		          ->prependFile($this->basePath('vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js'))
 		          ->prependFile($this->basePath('vendor/bootstrap/dist/js/bootstrap.min.js'))
-		          ->prependFile($this->basePath('js/jquery.min.js'))
-		          ->prependFile($this->basePath('js/respond.min.js'), 'text/javascript', ['conditional' => 'lt IE 9',])
-		          ->prependFile($this->basePath('js/html5shiv.min.js'), 'text/javascript', ['conditional' => 'lt IE 9',]);
+		          ->prependFile($this->basePath('vendor/jquery.min.js'));
 	}
 	else
-    {
-	    // styles
-	    echo $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath().'/img/favicon.ico'])
-	              ->prependStylesheet($this->basePath('css/style.min.css'));
+	{
+		// styles
+		echo $this->headLink()
+		          ->prependStylesheet($this->basePath('css/style.min.css'));
 
-	    // scripts
-	    echo $this->headScript()
-	              ->prependFile($this->basePath('js/main.min.js'));
-    }
+		// scripts
+		echo $this->headScript()
+		          ->prependFile($this->basePath('js/main.min.js'));
+	}
 	?>
 
     <!-- global js variable -->
@@ -88,22 +95,27 @@ catch (Exception $e)
 <nav class="container-fluid">
     <div class="row">
         <div class="col-xs-2" id="logo">
-            <a href="<?= $this->url('home') ?>"> <img src="<?= $this->basePath('img/logo_md.png') ?>" alt="logo"
-                        class="visible-md visible-lg"> <img src="<?= $this->basePath('img/logo_sm.png') ?>" alt="logo"
-                        class="visible-sm"> <img src="<?= $this->basePath('img/logo_xs.png') ?>" alt="logo"
-                        class="visible-xs"> </a>
+            <a href="<?= $this->url('home') ?>">
+                <img src="<?= $this->basePath('img/logo_md.png') ?>" alt="logo" class="visible-md visible-lg">
+                <img src="<?= $this->basePath('img/logo_sm.png') ?>" alt="logo" class="visible-sm">
+                <img src="<?= $this->basePath('img/logo_xs.png') ?>" alt="logo" class="visible-xs">
+            </a>
         </div>
         <div class="col-xs-12 col-sm-10">
             <ul class="list-unstyled">
                 <li>
 					<?php if (isset($user) && $user->isCreator()): ?>
-                        <a href="<?= $this->url('home/action', ['controller' => 'project', 'action' => 'add']) ?>"> <i
-                                    class="icomoon icon_plus"></i> <span>proposer une idée</span> </a>
+                        <a href="<?= $this->url('home/action', ['controller' => 'project', 'action' => 'add']) ?>">
+                            <i class="icomoon icon_plus"></i>
+                            <span>proposer une idée</span>
+                        </a>
 					<?php endif; ?>
                 </li>
                 <li>
-                    <a href="<?= $this->url('home/action', ['controller' => 'about', 'action' => 'index']) ?>"> <i
-                                class="icomoon icon_question"></i> <span>à propos</span> </a>
+                    <a href="<?= $this->url('home/action', ['controller' => 'about', 'action' => 'index']) ?>">
+                        <i class="icomoon icon_question"></i>
+                        <span>à propos</span>
+                    </a>
                 </li>
                 <li>
 					<?php if (isset($user)):
@@ -112,21 +124,28 @@ catch (Exception $e)
 						elseif ($user->isCreator()) $userType = 'Créateur';
 						elseif ($user->isAdmin()) $userType = 'Administrateur';
 						?>
-                        <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'index']) ?>"> <i
-                                    class="icomoon icon_profile"></i>
-                            <span>mon compte (<?= $user->name ?> <?= $user->firstname ?> - <?= $userType ?>)</span> </a>
+                        <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'index']) ?>">
+                            <i class="icomoon icon_profile"></i>
+                            <span>mon compte (<?= $user->name ?> <?= $user->firstname ?> - <?= $userType ?>)</span>
+                        </a>
 					<?php else: ?>
-                        <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'signin']) ?>"> <i
-                                    class="icomoon icon_profile"></i> <span>créer un compte</span> </a>
+                        <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'signin']) ?>">
+                            <i class="icomoon icon_profile"></i>
+                            <span>créer un compte</span>
+                        </a>
 					<?php endif; ?>
                 </li>
                 <li>
 					<?php if (isset($user)): ?>
-                        <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'logout']) ?>"> <i
-                                    class="icomoon icon_power"></i> <span>se déconnecter</span> </a>
+                        <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'logout']) ?>">
+                            <i class="icomoon icon_power"></i>
+                            <span>se déconnecter</span>
+                        </a>
 					<?php else: ?>
-                        <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'login']) ?>"> <i
-                                    class="icomoon icon_power"></i> <span>se connecter</span> </a>
+                        <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'login']) ?>">
+                            <i class="icomoon icon_power"></i>
+                            <span>se connecter</span>
+                        </a>
 					<?php endif; ?>
                 </li>
             </ul>
@@ -134,13 +153,13 @@ catch (Exception $e)
     </div>
 </nav>
 <div class="container-fluid" id="content">
-	<?php echo $this->content; ?>
+	<?= $this->content; ?>
 </div>
 <footer>
-    <img src="<?= $this->basePath('/img/logo_footer_reverse.png') ?>" alt=""> <img
-            src="<?= $this->basePath('/img/logo_footer.png') ?>" alt="">
+    <img src="<?= $this->basePath('/img/logo_footer_reverse.png') ?>" alt="">
+    <img src="<?= $this->basePath('/img/logo_footer.png') ?>" alt="">
     <p>&copy; 2016</p>
 </footer>
-<?php echo $this->inlineScript() ?>
+<?= $this->inlineScript() ?>
 </body>
 </html>
