@@ -7,6 +7,7 @@ use Application\Form\ChangePasswordForm;
 use Application\Form\ForgotPasswordForm;
 use Application\Form\LoginForm;
 use Application\Form\UserForm;
+use Application\Form\View\Helper\ClientValidator;
 use Application\Model\AbstractTable;
 use Application\Model\Project;
 use Application\Model\Transaction;
@@ -160,6 +161,10 @@ class UserController extends AbstractActionCustomController
 		}
 
 		$this->addJsDependency('js/user/signin.js');
+
+		// add client validation
+		$clientValidator = new ClientValidator($form);
+		$this->addJs($clientValidator->render());
 
 		return new ViewModel([
 			'form' => $form

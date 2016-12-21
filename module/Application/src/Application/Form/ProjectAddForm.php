@@ -175,6 +175,16 @@ class ProjectAddForm extends AbstractForm
 		]);
 
 		$inputFilter->add([
+			'name'     => 'deadline',
+			'required' => true,
+		]);
+
+		$inputFilter->add([
+			'name'     => 'category_ids',
+			'required' => true,
+		]);
+
+		$inputFilter->add([
 			'name'       => 'picture_ids',
 			'required'   => false,
 			'validators' => [

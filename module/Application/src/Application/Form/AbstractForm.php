@@ -16,6 +16,7 @@ abstract class AbstractForm extends Form
 		$this->setAttributes([
 			'class'  => 'form-horizontal',
 			'action' => $_SERVER['REQUEST_URI'],
+			'id'     => 'form_'.uniqid()
 		]);
 
 		parent::__construct($name, $options);

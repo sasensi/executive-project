@@ -1,0 +1,21 @@
+label.error {
+    color       : red;
+    font-weight : normal;
+    display     : block;
+    margin      : .5em 0 0 0;
+}
+
+input.error,
+select.error,
+textarea.error,
+.iapInputWrapper.error .kv-fileinput-caption {
+    border-color : red;
+}
+
+input.error:focus,
+select.error:focus,
+textarea.error:focus,
+.iapInputWrapper.error .kv-fileinput-caption:focus {
+    border-color : red;
+    box-shadow   : inset 0 1px 1px rgba(255, 0, 0, .075), 0 0 8px rgba(255, 0, 0, .6);
+}

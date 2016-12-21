@@ -5,6 +5,7 @@ namespace Application\Controller;
 use Application\Form\ProjectAddForm;
 use Application\Form\ProjectSearchFilter;
 use Application\Form\ProjectUpdateForm;
+use Application\Form\View\Helper\ClientValidator;
 use Application\Model\AbstractTable;
 use Application\Model\Category;
 use Application\Model\CategoryTable;
@@ -289,6 +290,10 @@ class ProjectController extends AbstractActionCustomController
 			}
 		}
 
+		// add client validation
+		$clientValidator = new ClientValidator($form);
+		$this->addJs($clientValidator->render());
+
 		return new ViewModel([
 			'form' => $form
 		]);
@@ -469,6 +474,10 @@ class ProjectController extends AbstractActionCustomController
 				return $this->redirectToRoute('project', 'user');
 			}
 		}
+
+		// add client validation
+		$clientValidator = new ClientValidator($form);
+		$this->addJs($clientValidator->render());
 
 		return new ViewModel([
 			'form' => $form

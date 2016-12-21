@@ -13,7 +13,6 @@ abstract class AbstractActionCustomController extends AbstractActionController
 {
 	protected $tables;
 
-
 	//
 	// DEPENDENCIES
 	//
@@ -29,6 +28,13 @@ abstract class AbstractActionCustomController extends AbstractActionController
 		/** @var HeadScript $scriptHelper */
 		$scriptHelper = $this->getServiceLocator()->get('ViewHelperManager')->get('HeadScript');
 		$scriptHelper->appendFile($this->getRenderer()->basePath($pathFromBase));
+	}
+
+	protected function addJs($js)
+	{
+		/** @var HeadScript $scriptHelper */
+		$scriptHelper = $this->getServiceLocator()->get('ViewHelperManager')->get('HeadScript');
+		$scriptHelper->appendScript($js);
 	}
 
 	/**

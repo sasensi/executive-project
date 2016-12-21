@@ -37,7 +37,7 @@ class FormRow extends BaseFormRow
 		return <<<HTML
 <div class="form-group row">
     <label for="{$element->getAttribute('id')}" class="col-sm-2 control-label">{$element->getLabel()}</label>
-    <div class="col-sm-10">
+    <div class="col-sm-10 iapInputWrapper">
         {$elementContent}
 	</div>
 </div>

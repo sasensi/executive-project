@@ -75,7 +75,7 @@ class UserForm extends AbstractForm
 		$sex->setLabel('Sexe*');
 		$sex->setValueOptions([
 			'M' => 'Homme',
-		    'F' => 'Femme',
+			'F' => 'Femme',
 		]);
 		$this->add($sex);
 
@@ -145,6 +145,19 @@ class UserForm extends AbstractForm
 	{
 		$inputFilter = new InputFilter();
 
+		$inputFilter
+			->add((new Input(self::EMAIL))->setRequired(true))
+			->add((new Input(self::PASSWORD))->setRequired(true))
+			->add((new Input(self::NAME))->setRequired(true))
+			->add((new Input(self::FIRSTNAME))->setRequired(true))
+			->add((new Input(self::BIRTHDATE))->setRequired(true))
+			->add((new Input(self::SEX))->setRequired(true))
+			->add((new Input(self::ADRESS))->setRequired(true))
+			->add((new Input(self::POSTCODE))->setRequired(true))
+			->add((new Input(self::CITY))->setRequired(true))
+			->add((new Input(self::COUNTRY_ID))->setRequired(true))
+			;
+
 		$dateFilter = new \Zend\Validator\Date();
 		$dateFilter->setFormat(DateFormatter::FORMAT_FR);
 
@@ -156,10 +169,6 @@ class UserForm extends AbstractForm
 		$input->setRequired(false);
 		$inputFilter->add($input);
 
-
-
 		$this->setInputFilter($inputFilter);
 	}
-
-
 }
