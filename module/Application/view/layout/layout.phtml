@@ -10,7 +10,7 @@ use Application\Util\DevelopementMode;
 $user = null;
 try
 {
-	$user = \Application\Controller\UserController::getLoggedUser();
+	$user = UserController::getLoggedUser();
 }
 catch (Exception $e)
 {
@@ -36,6 +36,12 @@ catch (Exception $e)
 	<?= $this->headLink(['rel' => 'icon', 'type' => 'image/png', 'href' => $this->basePath().'/img/favicon.png']) ?>
 
     <!-- dependencies -->
+    <!-- global js variable -->
+    <script>
+        var _App = {
+            rootUrl: '<?= $this->basePath() ?>'
+        };
+    </script>
 	<?php
 
 	if (DevelopementMode::isActive())
@@ -84,13 +90,6 @@ catch (Exception $e)
 	              ->prependFile($this->basePath('js/main.min.js'));
     }
 	?>
-
-    <!-- global js variable -->
-    <script>
-        var _App = {
-            rootUrl: '<?= $this->basePath() ?>'
-        };
-    </script>
 </head>
 <body>
 
