@@ -7,6 +7,7 @@
 namespace Application\Form\View\Helper;
 
 
+use Application\Util\DateFormatter;
 use Zend\Form\Element;
 use Zend\Form\Form;
 use Zend\Validator\Date;
@@ -46,13 +47,14 @@ class ClientValidator
 					$fieldRules['required'] = true;
 				}
 
-				$validators = $fieldFilter->getValidatorChain();
-				foreach ($validators as $validator)
+				$validators = $fieldFilter->getValidatorChain()->getValidators();
+				foreach ($validators as $validatorConfig)
 				{
-					/*if ($validator instanceof Date)
+					$validator = $validatorConfig['instance'];
+					if ($validator instanceof Date && $validator->getFormat() === DateFormatter::FORMAT_FR)
 					{
-						$rules
-					}*/
+						$fieldRules['dateFr'] = true;
+					}
 				}
 				if (!empty($fieldRules))
 				{
@@ -73,13 +75,6 @@ class ClientValidator
 		return <<<JS
 $(document).ready(function ()
 {
-    // force validation on browser autocomplete
-    $('body').on('input change', 'input, textarea, select', function ()
-    {
-        $(this).valid();
-    });
-
-
     $('#{$formId}').validate({
         rules         : {$jsonRules},
         errorPlacement: function (error, element)

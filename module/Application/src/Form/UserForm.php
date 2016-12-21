@@ -150,7 +150,6 @@ class UserForm extends AbstractForm
 			->add((new Input(self::PASSWORD))->setRequired(true))
 			->add((new Input(self::NAME))->setRequired(true))
 			->add((new Input(self::FIRSTNAME))->setRequired(true))
-			->add((new Input(self::BIRTHDATE))->setRequired(true))
 			->add((new Input(self::SEX))->setRequired(true))
 			->add((new Input(self::ADRESS))->setRequired(true))
 			->add((new Input(self::POSTCODE))->setRequired(true))
@@ -162,6 +161,7 @@ class UserForm extends AbstractForm
 		$dateFilter->setFormat(DateFormatter::FORMAT_FR);
 
 		$input = new Input(self::BIRTHDATE);
+		$input->setRequired(true);
 		$input->getValidatorChain()->attach($dateFilter);
 		$inputFilter->add($input);
 

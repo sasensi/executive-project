@@ -1,6 +1,7 @@
 {
   "name": "IAP",
   "dependencies": {
-	"jquery-validate": "^1"
+	"jquery-validate": "^1",
+	"moment": "*"
   }
 }

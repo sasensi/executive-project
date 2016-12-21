@@ -1,7 +1,58 @@
 /**
  * Created by STAGIAIRE on 21/12/2016.
  */
+
+// force validation on browser autocomplete
+$('body').on('input change', 'input, textarea, select', function ()
+{
+    $(this).valid();
+});
+
+//
+// METHODS
+//
+$.validator.addMethod('phone', function validatePhone(fieldValue, element, ruleValue)
+{
+    if (!this.optional(element))
+    {
+        // use external intlTelInput validation from google database
+        try
+        {
+            // only works if intlTelInput has been initialised
+            return $(element).intlTelInput('isValidNumber');
+        }
+        catch (err)
+        {
+            console.log(err);
+            return false;
+        }
+    }
+    return true;
+});
+$.validator.addMethod('dateFr', function validateRegex(fieldValue, element, ruleValue)
+{
+    if (!this.optional(element))
+    {
+        // requires momentjs
+        try
+        {
+            return moment(fieldValue, 'DD/MM/YYYY', true).isValid();
+        }
+        catch (err)
+        {
+            console.log(err);
+            return false;
+        }
+    }
+    return true;
+});
+
+
+//
+// MESSAGES
+//
 $.extend($.validator.messages, {
+    // existing
     required           : "Ce champ est requis.",
     email              : "Veuillez saisir une adresse mail valide.",
     url                : "Veuillez saisir une URL valide.",
@@ -29,5 +80,9 @@ $.extend($.validator.messages, {
     ipv4               : "Veuillez saisir une adresse IP valide (version 4).",
     ipv6               : "Veuillez saisir une adresse IP valide (version 6).",
     tel                : "Veuillez saisir un numéro de téléphone valide.",
-    remote             : "Veuillez vérifier ce champ."
+    remote             : "Veuillez vérifier ce champ.",
+
+    // custom
+    dateFr: "Veuillez entrer une date valide au format jj/mm/aaaa.",
+    phone : "Veuillez entrer un numéro de téléphone valide."
 });
