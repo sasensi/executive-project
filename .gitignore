@@ -11,3 +11,4 @@ composer.phar
 .idea
 /debug
 node_modules
+/public/vendor/bower_components
