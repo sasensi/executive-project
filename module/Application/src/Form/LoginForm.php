@@ -10,11 +10,9 @@ namespace Application\Form;
 use Zend\Form\Element\Password;
 use Zend\Form\Element\Submit;
 use Zend\Form\Element\Text;
-use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
-use Zend\InputFilter\InputFilterAwareInterface;
 
-class LoginForm extends Form
+class LoginForm extends AbstractForm
 {
 	const EMAIL    = 'email';
 	const PASSWORD = 'password';
@@ -39,13 +37,10 @@ class LoginForm extends Form
 		]);
 		$this->add($submit);
 
-		$this->setDefaultInputFilters();
-	}
 
-	protected function setDefaultInputFilters()
-	{
-		$inputFilter = new InputFilter();
-
-		$this->setInputFilter($inputFilter);
+		$this->setInputFilter((new InputFilter())
+			->add($this->createInputFilter(self::EMAIL))
+			->add($this->createInputFilter(self::PASSWORD))
+		);
 	}
 }
