@@ -6,7 +6,7 @@
  * @var \Application\Model\Gift[]       $gifts
  * @var integer                         $viewsCount
  * @var \Application\Model\Video[]      $videos
- * @var \Application\Model\Picture[]    $pictures
+ * @var \Application\Model\Picture[]|\Zend\Db\ResultSet\ResultSet    $pictures
  * @var \Zend\View\Renderer\PhpRenderer $this
  * @var \Application\Model\User[]       $financers
  * @var \Application\Model\Tag[]        $tags
@@ -127,27 +127,33 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 
 		<?php if (count($pictures) > 0): ?>
 			<div id="pictures" class="col-xs-12 col-md-8">
-				<div id="picturesCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
-					<!-- Slides -->
-					<div class="carousel-inner">
-						<?php foreach ($pictures as $i => $picture): ?>
-							<div class="item <?= $i === 0 ? 'active' : '' ?>">
-								<img src="<?= $this->basePath($picture->url) ?>">
-							</div>
-						<?php endforeach; ?>
-					</div>
-					<!-- Controls -->
-					<ol class="carousel-indicators">
-						<?php for ($i = 0; $i < count($pictures); $i++): ?>
-							<li data-target="#picturesCarousel" data-slide-to="<?= $i ?>" class="<?= $i === 0 ? 'active' : '' ?>"></li>
-						<?php endfor; ?>
-					</ol>
-					<a class="left carousel-control" href="#picturesCarousel" data-slide="prev">
-						<i class="icomoon icon_arrow_filled_left"></i>
-					</a> <a class="right carousel-control" href="#picturesCarousel" data-slide="next">
-						<i class="icomoon icon_arrow_filled_right"></i>
-					</a>
-				</div>
+				<?php if (count($pictures) > 1): ?>
+                    <div id="picturesCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+                        <!-- Slides -->
+                        <div class="carousel-inner">
+                            <?php foreach ($pictures as $i => $picture): ?>
+                                <div class="item <?= $i === 0 ? 'active' : '' ?>">
+                                    <img src="<?= $this->basePath($picture->url) ?>">
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <!-- Controls -->
+                        <ol class="carousel-indicators">
+                            <?php for ($i = 0; $i < count($pictures); $i++): ?>
+                                <li data-target="#picturesCarousel" data-slide-to="<?= $i ?>" class="<?= $i === 0 ? 'active' : '' ?>"></li>
+                            <?php endfor; ?>
+                        </ol>
+                        <a class="left carousel-control" href="#picturesCarousel" data-slide="prev">
+                            <i class="icomoon icon_arrow_filled_left"></i>
+                        </a> <a class="right carousel-control" href="#picturesCarousel" data-slide="next">
+                            <i class="icomoon icon_arrow_filled_right"></i>
+                        </a>
+                    </div>
+                <?php else: ?>
+                    <div id="picture">
+                        <img src="<?= $this->basePath($pictures->current()->url) ?>">
+                    </div>
+				<?php endif; ?>
 				<div class="separator"></div>
 			</div>
 		<?php endif; ?>
