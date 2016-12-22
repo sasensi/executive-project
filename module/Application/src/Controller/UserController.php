@@ -487,6 +487,10 @@ HTML;
 			}
 		}
 
+		// add client validation
+		$clientValidator = new ClientValidator($form);
+		$this->addJs($clientValidator->render());
+
 		return new ViewModel([
 			'form' => $form,
 			'user' => $user,

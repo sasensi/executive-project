@@ -471,6 +471,10 @@ class ProjectController extends AbstractActionCustomController
 
 				$this->commitTransaction();
 
+				// add client validation
+				$clientValidator = new ClientValidator($form);
+				$this->addJs($clientValidator->render());
+
 				return $this->redirectToRoute('project', 'user');
 			}
 		}

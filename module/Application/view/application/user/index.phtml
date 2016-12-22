@@ -2,7 +2,7 @@
 
 /**
  * @var \Zend\View\Renderer\PhpRenderer $this
- * @var \Application\Model\User $user
+ * @var \Application\Model\User         $user
  */
 
 // debug
@@ -13,10 +13,12 @@
 ?>
 
 <h1>mon compte</h1>
-<?php if ($user->isCreator()): ?>
-	<a class="btn btn-primary" href="<?= $this->url('home/action', ['controller' => 'project', 'action' => 'user']) ?>">Mes projets</a>
-<?php else: ?>
-	<a class="btn btn-primary" href="<?= $this->url('home', ['controller' => 'transaction']) ?>">Mes financements</a>
-<?php endif; ?>
-<a class="btn btn-warning" href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'update']) ?>">Modifier mes informations</a>
-<a class="btn btn-warning" href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'delete']) ?>">Supprimer mon compte</a>
+<div class="list-group">
+	<?php if ($user->isCreator()): ?>
+        <a class="list-group-item" href="<?= $this->url('home/action', ['controller' => 'project', 'action' => 'user']) ?>">Mes projets</a>
+	<?php else: ?>
+        <a class="list-group-item" href="<?= $this->url('home', ['controller' => 'transaction']) ?>">Mes financements</a>
+	<?php endif; ?>
+    <a class="list-group-item" href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'update']) ?>">Modifier mes informations</a>
+    <a class="list-group-item" href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'delete']) ?>">Supprimer mon compte</a>
+</div>
