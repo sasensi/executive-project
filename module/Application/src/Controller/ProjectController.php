@@ -146,7 +146,7 @@ class ProjectController extends AbstractActionCustomController
 		// allow looping over tag twice
 		$tags->buffer();
 
-		$form = new ProjectAddForm('projectform', $categories, $tags);
+		$form = new ProjectAddForm($categories, $tags);
 		$user = UserController::getLoggedUser();
 
 		/** @var \Zend\Http\PhpEnvironment\Request $request */

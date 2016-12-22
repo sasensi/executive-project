@@ -19,6 +19,7 @@ use Application\Form\View\Helper\GiftsFormHelper;
 use Application\Form\View\Helper\TagPickerHelper;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Http\Response;
+use Zend\Mvc\I18n\Translator;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Router\RouteMatch;
@@ -26,6 +27,7 @@ use Zend\ServiceManager\ServiceManager;
 use Zend\Session\Config\SessionConfig;
 use Zend\Session\Container;
 use Zend\Session\SessionManager;
+use Zend\Validator\AbstractValidator;
 
 class Module
 {
@@ -71,6 +73,14 @@ class Module
 			'use_cookies'         => true,
 			'cookie_httponly'     => true,
 		]);
+
+		// set form validation translator
+		$translator = new \Zend\I18n\Translator\Translator();
+		$translator->setLocale('FR');
+		// configure the translator...
+		$validationTranslator = new Translator($translator);
+
+		AbstractValidator::setDefaultTranslator($validationTranslator);
 	}
 
 	public function initSession($config)

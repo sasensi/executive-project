@@ -54,5 +54,6 @@ class GiftsFormElement extends Element implements InputProviderInterface
 	public function setGifts($gifts)
 	{
 		$this->gifts = $gifts;
+		return $this;
 	}
 }
