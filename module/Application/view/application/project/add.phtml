@@ -8,13 +8,6 @@
 $form->setAttribute('action', $this->url('home/action', ['controller' => 'project', 'action' => 'add']));
 $form->prepare();
 
-$test = $form->get('mainpicture')->getMessages();
-
-// debug
-//echo '$test =';
-//var_dump($test);
-
-
 ?>
 
 <h1>proposer un projet</h1>
@@ -40,11 +33,3 @@ echo $this->formSubmit($form->get('submit'));
 
 <?php
 echo $this->form()->closeTag($form);
-
-?>
-
-<style>
-	label {
-		display : block;
-	}
-</style>
