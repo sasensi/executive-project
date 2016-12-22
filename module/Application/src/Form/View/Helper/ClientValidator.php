@@ -7,8 +7,10 @@
 namespace Application\Form\View\Helper;
 
 
+use Application\Form\Validator\PhoneValidator;
 use Application\Util\DateFormatter;
 use Zend\Form\Element;
+use Zend\Form\ElementInterface;
 use Zend\Form\Form;
 use Zend\Validator\Date;
 
@@ -26,6 +28,12 @@ class ClientValidator
 
 	public function render()
 	{
+		$formId = $this->form->getAttribute('id');
+		if (empty($formId))
+		{
+			throw new \Exception('Missing form id');
+		}
+
 		$inputfilter = $this->form->getInputFilter();
 
 		$rules = [];
@@ -34,11 +42,7 @@ class ClientValidator
 			if ($field instanceof Element)
 			{
 				// made to handle brackets suffixed multiple fields
-				$fieldValidationName = $fieldName;
-				if ($field->hasAttribute('multiple'))
-				{
-					$fieldValidationName .= '[]';
-				}
+				$fieldValidationName = $this->getFieldValidationName($field);
 
 				$fieldRules  = [];
 				$fieldFilter = $inputfilter->get($fieldName);
@@ -55,6 +59,10 @@ class ClientValidator
 					{
 						$fieldRules['dateFr'] = true;
 					}
+					elseif ($validator instanceof PhoneValidator)
+					{
+						$fieldRules['phone'] = true;
+					}
 				}
 				if (!empty($fieldRules))
 				{
@@ -62,14 +70,19 @@ class ClientValidator
 				}
 			}
 		}
-
 		$jsonRules = json_encode($rules);
 
-		$formId = $this->form->getAttribute('id');
-		if (empty($formId))
+		$messages = [];
+		foreach ($this->form->getMessages() as $fieldName => $fieldMessages)
 		{
-			throw new \Exception('Missing form id');
+			$field = $this->form->get($fieldName);
+			// made to handle brackets suffixed multiple fields
+			$fieldValidationName              = $this->getFieldValidationName($field);
+			$message                          = implode(' ', $fieldMessages);
+			$messages[ $fieldValidationName ] = $message;
 		}
+		$jsonMessages = json_encode($messages);
+
 
 		// render js
 		return <<<JS
@@ -90,8 +103,23 @@ $(document).ready(function ()
             $(element).add($(element).closest('.iapInputWrapper')).removeClass(errorClass).addClass(validClass);
         }
 
-    });
+    })
+    .showErrors({$jsonMessages})
+    ;
 });
 JS;
+	}
+
+	/**
+	 * @param ElementInterface $field
+	 * @return string
+	 */
+	private function getFieldValidationName($field)
+	{
+		if ($field->hasAttribute('multiple'))
+		{
+			return $field->getName().'[]';
+		}
+		return $field->getName();
 	}
 }

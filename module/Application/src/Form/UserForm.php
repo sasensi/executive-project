@@ -11,6 +11,7 @@ use Application\Form\Element\Date;
 use Application\Model\Category;
 use Application\Model\Country;
 use Application\Model\Usertype;
+use Application\Form\Validator\PhoneValidator;
 use Application\Util\DateFormatter;
 use Zend\Form\Element\Email;
 use Zend\Form\Element\File;
@@ -154,8 +155,7 @@ class UserForm extends AbstractForm
 			->add((new Input(self::ADRESS))->setRequired(true))
 			->add((new Input(self::POSTCODE))->setRequired(true))
 			->add((new Input(self::CITY))->setRequired(true))
-			->add((new Input(self::COUNTRY_ID))->setRequired(true))
-			;
+			->add((new Input(self::COUNTRY_ID))->setRequired(true));
 
 		$dateFilter = new \Zend\Validator\Date();
 		$dateFilter->setFormat(DateFormatter::FORMAT_FR);
@@ -166,6 +166,11 @@ class UserForm extends AbstractForm
 		$inputFilter->add($input);
 
 		$input = new Input(self::FAVOURITECATEGORY_ID);
+		$input->setRequired(false);
+		$inputFilter->add($input);
+
+		$input = new Input(self::PHONE);
+		$input->getValidatorChain()->attach(new PhoneValidator());
 		$input->setRequired(false);
 		$inputFilter->add($input);
 
