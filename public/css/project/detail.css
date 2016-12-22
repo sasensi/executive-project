@@ -85,6 +85,10 @@ h2 {
 }
 
 /* MOVIES */
+#moviesCarousel {
+    position : relative;
+}
+
 #movies video, .picture, .picture img {
     width            : 100%;
     background-color : lightgray;

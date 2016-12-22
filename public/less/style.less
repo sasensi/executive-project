@@ -11,9 +11,9 @@ body {
 }
 
 a, a:hover, a:focus {
-  color: inherit;
-  outline: none;
-  text-decoration: none;
+  color           : inherit;
+  outline         : none;
+  text-decoration : none;
 }
 
 #content {
@@ -92,12 +92,12 @@ nav li:first-child {
 }
 
 nav li span {
-  display : none;
-  max-width: 150px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  vertical-align: middle;
+  display        : none;
+  max-width      : 150px;
+  white-space    : nowrap;
+  text-overflow  : ellipsis;
+  overflow       : hidden;
+  vertical-align : middle;
 }
 
 nav li a {
@@ -151,7 +151,7 @@ input[type="number"]:focus {
 /* FOOTER */
 
 footer {
-  background: #333333;
+  background : #333;
   text-align : center;
   color      : white;
   height     : 100px;
@@ -176,6 +176,10 @@ footer > p {
 }
 
 /* FORM */
+form {
+  position : relative;
+}
+
 input[type="submit"] {
   margin  : auto;
   display : block;
@@ -183,6 +187,10 @@ input[type="submit"] {
 
 form > p:last-child {
   text-align : right;
+  position   : absolute;
+  bottom     : 0;
+  right      : 0;
+  margin     : 0;
 }
 
 /* FILE PICKER */

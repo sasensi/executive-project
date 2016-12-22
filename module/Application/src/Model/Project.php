@@ -125,4 +125,9 @@ class Project extends AbstractRow
 		}
 		return null;
 	}
+
+	public function getGoalReachingPercentage()
+	{
+		return round(((int) $this->transactionsum / (int) $this->goal) * 100);
+	}
 }

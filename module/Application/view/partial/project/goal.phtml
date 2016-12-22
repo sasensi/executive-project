@@ -5,24 +5,9 @@
  * @var \Application\Model\Project $project
  */
 
-$ratio = (int) $project->transactionsum / (int) $project->goal;
-if ($ratio < 1 / 4)
-{
-	$index = 1;
-}
-elseif ($ratio < 2 / 4)
-{
-	$index = 2;
-}
-elseif ($ratio < 3 / 4)
-{
-	$index = 3;
-}
-else
-{
-	$index = 4;
-}
+$goalReachingPercentage = $project->getGoalReachingPercentage();
+$index = floor($goalReachingPercentage / 25) + 1;
 
 ?>
 
-<i class="icomoon icon_idea_<?= $index ?>"></i>
+<i class="icomoon icon_idea_<?= $index ?>" title="<?= $goalReachingPercentage ?>%"></i>

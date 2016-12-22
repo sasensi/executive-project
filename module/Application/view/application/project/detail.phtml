@@ -1,17 +1,17 @@
 <?php
 
 /**
- * @var \Application\Model\Project      $project
- * @var \Application\Model\Category[]   $categories
- * @var \Application\Model\Gift[]       $gifts
- * @var integer                         $viewsCount
- * @var \Application\Model\Video[]      $videos
- * @var \Application\Model\Picture[]|\Zend\Db\ResultSet\ResultSet    $pictures
- * @var \Zend\View\Renderer\PhpRenderer $this
- * @var \Application\Model\User[]       $financers
- * @var \Application\Model\Tag[]        $tags
- * @var \Application\Model\User|null    $user
- * @var string                          $paymentUrl
+ * @var \Application\Model\Project                                $project
+ * @var \Application\Model\Category[]                             $categories
+ * @var \Application\Model\Gift[]                                 $gifts
+ * @var integer                                                   $viewsCount
+ * @var \Application\Model\Video[]|\Zend\Db\ResultSet\ResultSet   $videos
+ * @var \Application\Model\Picture[]|\Zend\Db\ResultSet\ResultSet $pictures
+ * @var \Zend\View\Renderer\PhpRenderer                           $this
+ * @var \Application\Model\User[]                                 $financers
+ * @var \Application\Model\Tag[]                                  $tags
+ * @var \Application\Model\User|null                              $user
+ * @var string                                                    $paymentUrl
  */
 
 use Application\Model\Paymentmethod;
@@ -24,228 +24,240 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 
 <!-- NAV -->
 <div class="subNav">
-	<div class="row">
-		<div class="col-xs-5 hidden-xs">
-			<h1><?= $project->title ?></h1>
-		</div>
-		<div class="col-xs-12 col-sm-7">
-			<ul class="list-inline">
-				<li>
-					<a href="#mainPicture" class="active">
-						<i class="icomoon icon_pie"></i>
-						<span>Résumé</span>
-					</a>
-				</li>
-				<li>
-					<a href="#description">
-						<i class="icomoon icon_dots"></i>
-						<span>Description</span>
-					</a>
-				</li>
-				<li>
-					<a href="#movies">
-						<i class="icomoon icon_pictures"></i>
-						<span>Images</span>
-					</a>
-				</li>
-				<li>
-					<a href="#gifts">
-						<i class="icomoon icon_gift"></i>
-						<span>Contreparties</span>
-					</a>
-				</li>
-			</ul>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col-xs-5 hidden-xs">
+            <h1><?= $project->title ?></h1>
+        </div>
+        <div class="col-xs-12 col-sm-7">
+            <ul class="list-inline">
+                <li>
+                    <a href="#mainPicture" class="active">
+                        <i class="icomoon icon_pie"></i>
+                        <span>Résumé</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#description">
+                        <i class="icomoon icon_dots"></i>
+                        <span>Description</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#movies">
+                        <i class="icomoon icon_pictures"></i>
+                        <span>Images</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#gifts">
+                        <i class="icomoon icon_gift"></i>
+                        <span>Contreparties</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 <!-- CONTENT -->
 <div class="offsetContainer">
-	<div class="row">
+    <div class="row">
 
-		<div id="mainPicture" class="col-xs-12 col-md-8">
-			<img class="img-responsive" src="<?= $this->basePath($project->mainpicture) ?>" alt="Image principale - <?= $project->title ?>">
-		</div>
-		<div class="col-xs-12 col-md-8">
-			<h2><?= $project->subtitle ?></h2>
-		</div>
+        <div id="mainPicture" class="col-xs-12 col-md-8">
+            <img class="img-responsive" src="<?= $this->basePath($project->mainpicture) ?>" alt="Image principale - <?= $project->title ?>">
+        </div>
+        <div class="col-xs-12 col-md-8">
+            <h2><?= $project->subtitle ?></h2>
+        </div>
 
-		<div id="stats" class="col-xs-12 col-md-4">
-			<div class="row">
-				<div class="col-xs-4 col-md-12">
-					<div class="iconWrapper"><?= $this->partial('/partial/project/goal.phtml', ['project' => $project]) ?></div>
-					<span><?= $project->transactionsum ?>&nbsp;/&nbsp;<?= $project->goal ?>&nbsp;€</span>
-				</div>
-				<div class="col-xs-4 col-md-12">
-					<div class="iconWrapper"><?= $this->partial('/partial/project/remainingTime.phtml', ['project' => $project]) ?></div>
-					<span><?= $timeLabel ?></span>
-				</div>
-				<div class="col-xs-4 col-md-12">
-					<div class="iconWrapper">
-						<i class="icomoon icon_people"></i>
-					</div>
-					<span><?= count($financers) ?></span>
-				</div>
-			</div>
-			<div class="separator hidden-md hidden-lg"></div>
-		</div>
+        <div id="stats" class="col-xs-12 col-md-4">
+            <div class="row">
+                <div class="col-xs-4 col-md-12">
+                    <div class="iconWrapper"><?= $this->partial('/partial/project/goal.phtml', ['project' => $project]) ?></div>
+                    <span><?= $project->transactionsum ?>&nbsp;/&nbsp;<?= $project->goal ?>&nbsp;€</span>
+                </div>
+                <div class="col-xs-4 col-md-12">
+                    <div class="iconWrapper"><?= $this->partial('/partial/project/remainingTime.phtml', ['project' => $project]) ?></div>
+                    <span><?= $timeLabel ?></span>
+                </div>
+                <div class="col-xs-4 col-md-12">
+                    <div class="iconWrapper">
+                        <i class="icomoon icon_people"></i>
+                    </div>
+                    <span><?= count($financers) ?></span>
+                </div>
+            </div>
+            <div class="separator hidden-md hidden-lg"></div>
+        </div>
 
-		<div id="description" class="col-xs-12 col-md-8">
+        <div id="description" class="col-xs-12 col-md-8">
 			<?= $project->description ?>
-			<div class="separator"></div>
-		</div>
+            <div class="separator"></div>
+        </div>
 
 		<?php if (count($videos) > 0): ?>
-			<div id="movies" class="col-xs-12 col-md-8">
-				<div id="moviesCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
-					<!-- Slides -->
-					<div class="carousel-inner">
-						<?php foreach ($videos as $i => $video): ?>
-							<div class="item <?= $i === 0 ? 'active' : '' ?>">
-								<video src="<?= $this->basePath($video->url) ?>"></video>
-							</div>
-						<?php endforeach; ?>
-					</div>
-					<!-- Controls -->
-					<ol class="carousel-indicators">
-						<?php for ($i = 0; $i < count($videos); $i++): ?>
-							<li data-target="#moviesCarousel" data-slide-to="<?= $i ?>" class="<?= $i === 0 ? 'active' : '' ?>"></li>
-						<?php endfor; ?>
-					</ol>
-					<div id="overlay">
-						<i id="playButton" class="icomoon icon_play"></i>
-						<i id="pauseButton" class="icomoon icon_pause"></i>
-					</div>
-					<a class="left carousel-control" href="#moviesCarousel" data-slide="prev">
-						<i class="icomoon icon_arrow_left"></i>
-					</a> <a class="right carousel-control" href="#moviesCarousel" data-slide="next">
-						<i class="icomoon icon_arrow_right"></i>
-					</a>
-				</div>
-			</div>
+            <div id="movies" class="col-xs-12 col-md-8">
+				<?php if (count($videos) > 1): ?>
+                    <div id="moviesCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+                        <!-- Slides -->
+                        <div class="carousel-inner">
+							<?php foreach ($videos as $i => $video): ?>
+                                <div class="item <?= $i === 0 ? 'active' : '' ?>">
+                                    <video src="<?= $this->basePath($video->url) ?>"></video>
+                                </div>
+							<?php endforeach; ?>
+                        </div>
+                        <!-- Controls -->
+                        <ol class="carousel-indicators">
+							<?php for ($i = 0; $i < count($videos); $i++): ?>
+                                <li data-target="#moviesCarousel" data-slide-to="<?= $i ?>" class="<?= $i === 0 ? 'active' : '' ?>"></li>
+							<?php endfor; ?>
+                        </ol>
+                        <div id="overlay">
+                            <i id="playButton" class="icomoon icon_play"></i>
+                            <i id="pauseButton" class="icomoon icon_pause"></i>
+                        </div>
+                        <a class="left carousel-control" href="#moviesCarousel" data-slide="prev">
+                            <i class="icomoon icon_arrow_left"></i>
+                        </a>
+                        <a class="right carousel-control" href="#moviesCarousel" data-slide="next">
+                            <i class="icomoon icon_arrow_right"></i>
+                        </a>
+                    </div>
+				<?php else: ?>
+                    <div id="moviesCarousel">
+                        <video src="<?= $this->basePath($videos->current()->url) ?>"></video>
+                        <div id="overlay">
+                            <i id="playButton" class="icomoon icon_play"></i>
+                            <i id="pauseButton" class="icomoon icon_pause"></i>
+                        </div>
+                    </div>
+				<?php endif; ?>
+            </div>
 		<?php endif; ?>
 
 		<?php if (count($pictures) > 0): ?>
-			<div id="pictures" class="col-xs-12 col-md-8">
+            <div id="pictures" class="col-xs-12 col-md-8">
 				<?php if (count($pictures) > 1): ?>
                     <div id="picturesCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
                         <!-- Slides -->
                         <div class="carousel-inner">
-                            <?php foreach ($pictures as $i => $picture): ?>
+							<?php foreach ($pictures as $i => $picture): ?>
                                 <div class="item <?= $i === 0 ? 'active' : '' ?>">
                                     <img src="<?= $this->basePath($picture->url) ?>">
                                 </div>
-                            <?php endforeach; ?>
+							<?php endforeach; ?>
                         </div>
                         <!-- Controls -->
                         <ol class="carousel-indicators">
-                            <?php for ($i = 0; $i < count($pictures); $i++): ?>
+							<?php for ($i = 0; $i < count($pictures); $i++): ?>
                                 <li data-target="#picturesCarousel" data-slide-to="<?= $i ?>" class="<?= $i === 0 ? 'active' : '' ?>"></li>
-                            <?php endfor; ?>
+							<?php endfor; ?>
                         </ol>
                         <a class="left carousel-control" href="#picturesCarousel" data-slide="prev">
                             <i class="icomoon icon_arrow_filled_left"></i>
-                        </a> <a class="right carousel-control" href="#picturesCarousel" data-slide="next">
+                        </a>
+                        <a class="right carousel-control" href="#picturesCarousel" data-slide="next">
                             <i class="icomoon icon_arrow_filled_right"></i>
                         </a>
                     </div>
-                <?php else: ?>
+				<?php else: ?>
                     <div id="picture">
                         <img src="<?= $this->basePath($pictures->current()->url) ?>">
                     </div>
 				<?php endif; ?>
-				<div class="separator"></div>
-			</div>
+                <div class="separator"></div>
+            </div>
 		<?php endif; ?>
 
 		<?php if (count($gifts) > 0): ?>
-			<div id="gifts" class="col-xs-12 col-md-4">
+            <div id="gifts" class="col-xs-12 col-md-4">
 				<?php foreach ($gifts as $gift): ?>
-					<div class="gift" data-minamount="<?= $gift->minamount ?>" data-title="<?= $gift->title ?>">
-						<p class="minAmount">
-							<i class="icomoon icon_payment"></i>
-							<span>&#62; <?= $gift->minamount ?> €</span>
-						</p>
-						<p class="title">
-							<i class="icomoon icon_gift"></i>
-							<span><?= $gift->title ?></span>
-						</p>
+                    <div class="gift" data-minamount="<?= $gift->minamount ?>" data-title="<?= $gift->title ?>">
+                        <p class="minAmount">
+                            <i class="icomoon icon_payment"></i>
+                            <span>&#62; <?= $gift->minamount ?> €</span>
+                        </p>
+                        <p class="title">
+                            <i class="icomoon icon_gift"></i>
+                            <span><?= $gift->title ?></span>
+                        </p>
 
-						<p class="description">
+                        <p class="description">
 							<?= $gift->description ?>
-						</p>
-					</div>
+                        </p>
+                    </div>
 				<?php endforeach; ?>
-				<div class="separator hidden-md hidden-lg"></div>
-			</div>
+                <div class="separator hidden-md hidden-lg"></div>
+            </div>
 		<?php endif; ?>
 
-		<div id="categories" class="col-xs-12 col-md-8">
-			<ul class="list-inline">
+        <div id="categories" class="col-xs-12 col-md-8">
+            <ul class="list-inline">
 				<?php foreach ($categories as $category): ?>
-					<li>
-						<a href="<?= $this->url('home/action', ['controller' => 'project', 'action' => 'index']).'?category='.$category->id ?>">
+                    <li>
+                        <a href="<?= $this->url('home/action', ['controller' => 'project', 'action' => 'index']).'?category='.$category->id ?>">
 							<?= $category->name ?>
-						</a>
-					</li>
+                        </a>
+                    </li>
 				<?php endforeach; ?>
-			</ul>
-		</div>
+            </ul>
+        </div>
 
 		<?php if (count($tags) > 0): ?>
-			<div id="tags" class="col-xs-12 col-md-8">
-				<ul class="list-inline">
+            <div id="tags" class="col-xs-12 col-md-8">
+                <ul class="list-inline">
 					<?php foreach ($tags as $tag): ?>
-						<li>
-							<a href="<?= $this->url('home/action', ['controller' => 'project', 'action' => 'index']).'?tag='.$tag->id ?>">
+                        <li>
+                            <a href="<?= $this->url('home/action', ['controller' => 'project', 'action' => 'index']).'?tag='.$tag->id ?>">
 								<?= $tag->name ?>
-							</a>
-						</li>
+                            </a>
+                        </li>
 					<?php endforeach; ?>
-				</ul>
-			</div>
+                </ul>
+            </div>
 		<?php endif; ?>
 
-		<!-- PAYMENT -->
+        <!-- PAYMENT -->
 		<?php if (!isset($user) || $user->isFinancer()): ?>
-			<div id="payButton">
-				<i class="icomoon icon_payment"></i>
-			</div>
-			<div id="payment">
-				<form method="GET" action="<?= $paymentUrl ?>">
-					<input name="projectId" type="hidden" value="<?= $project->id ?>">
+            <div id="payButton">
+                <i class="icomoon icon_payment"></i>
+            </div>
+            <div id="payment">
+                <form method="GET" action="<?= $paymentUrl ?>">
+                    <input name="projectId" type="hidden" value="<?= $project->id ?>">
 
-					<div id="closebutton">
-						<div class="crossBar"></div>
-						<div class="crossBar"></div>
-					</div>
+                    <div id="closebutton">
+                        <div class="crossBar"></div>
+                        <div class="crossBar"></div>
+                    </div>
 
-					<h1><?= $project->title ?></h1>
+                    <h1><?= $project->title ?></h1>
 
-					<section>
-						<div id="price">
-							<input title="amount" name="amount" type="number" value="1">
-							<span>€</span>
-						</div>
-						<div id="gift">
-							<i class="icomoon icon_gift"></i>
-							<span></span>
-						</div>
-					</section>
+                    <section>
+                        <div id="price">
+                            <input title="amount" name="amount" type="number" value="1">
+                            <span>€</span>
+                        </div>
+                        <div id="gift">
+                            <i class="icomoon icon_gift"></i>
+                            <span></span>
+                        </div>
+                    </section>
 
-					<div id="buttons">
-						<button name="paymentMethodId" value="<?= Paymentmethod::PAYPAL ?>" id="paypalButton">
-							<i class="icomoon icon_paypal"></i>
-						</button>
-						<button name="paymentMethodId" value="<?= Paymentmethod::CREDIT_CARD ?>" id="creditCardButton">
-							<i class="icomoon icon_credit_card"></i>
-						</button>
-						<button name="paymentMethodId" value="<?= Paymentmethod::BITCOIN ?>" id="bitcoinButton">
-							<i class="icomoon icon_bitcoin"></i>
-						</button>
-					</div>
-				</form>
-			</div>
+                    <div id="buttons">
+                        <button name="paymentMethodId" value="<?= Paymentmethod::PAYPAL ?>" id="paypalButton">
+                            <i class="icomoon icon_paypal"></i>
+                        </button>
+                        <button name="paymentMethodId" value="<?= Paymentmethod::CREDIT_CARD ?>" id="creditCardButton">
+                            <i class="icomoon icon_credit_card"></i>
+                        </button>
+                        <button name="paymentMethodId" value="<?= Paymentmethod::BITCOIN ?>" id="bitcoinButton">
+                            <i class="icomoon icon_bitcoin"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
 		<?php endif; ?>
-	</div>
+    </div>
 </div>

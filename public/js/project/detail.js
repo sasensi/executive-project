@@ -53,6 +53,11 @@ $(document).ready(function ()
     $overlay.click(function ()
     {
         var $video = $moviesCarousel.find('.item.active video');
+        // single video case
+        if ($video.length === 0)
+        {
+            $video = $moviesCarousel.find('video');
+        }
         var video  = $video.get(0);
 
         if ($video.hasClass('playing'))
