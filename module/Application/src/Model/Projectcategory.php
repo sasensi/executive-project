@@ -4,9 +4,9 @@ namespace Application\Model;
 
 /**
  * Automatically generated class from db schema
- * Date: 30/06/2016
+ * Date: 22/12/2016
  */
-class Projectcategory implements RowInterface
+class Projectcategory extends AbstractRow
 {
 	/**
 	 * @var integer
@@ -19,10 +19,18 @@ class Projectcategory implements RowInterface
 	public $category_id;
 
 
-	public function exchangeArray($arr)
+	public function exchangeArray(array $data)
 	{
-		$this->project_id = (isset($arr['project_id'])) ? $arr['project_id'] : null;
-		$this->category_id = (isset($arr['category_id'])) ? $arr['category_id'] : null;
+		$this->project_id  = (isset($data['project_id'])) ? $data['project_id'] : null;
+		$this->category_id = (isset($data['category_id'])) ? $data['category_id'] : null;
+	}
 
+	public function getArrayCopy()
+	{
+		return [
+			'project_id'  => $this->project_id,
+			'category_id' => $this->category_id,
+
+		];
 	}
 }

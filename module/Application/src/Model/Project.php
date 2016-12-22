@@ -7,9 +7,9 @@ use DateTimeZone;
 
 /**
  * Automatically generated class from db schema
- * Date: 30/06/2016
+ * Date: 22/12/2016
  */
-class Project implements RowInterface
+class Project extends AbstractRow
 {
 	const PROMOTION_PRICE = 15;
 	const PROMOTION_DELAY = 7;
@@ -70,19 +70,37 @@ class Project implements RowInterface
 	public $transactionsum;
 
 
-	public function exchangeArray($arr)
+	public function exchangeArray(array $data)
 	{
-		$this->id             = (isset($arr['id'])) ? $arr['id'] : null;
-		$this->user_id        = (isset($arr['user_id'])) ? $arr['user_id'] : null;
-		$this->title          = (isset($arr['title'])) ? $arr['title'] : null;
-		$this->subtitle       = (isset($arr['subtitle'])) ? $arr['subtitle'] : null;
-		$this->description    = (isset($arr['description'])) ? $arr['description'] : null;
-		$this->mainpicture    = (isset($arr['mainpicture'])) ? $arr['mainpicture'] : null;
-		$this->creationdate   = (isset($arr['creationdate'])) ? $arr['creationdate'] : null;
-		$this->deadline       = (isset($arr['deadline'])) ? $arr['deadline'] : null;
-		$this->goal           = (isset($arr['goal'])) ? $arr['goal'] : null;
-		$this->promotionend   = (isset($arr['promotionend'])) ? $arr['promotionend'] : null;
-		$this->transactionsum = (isset($arr['transactionsum'])) ? $arr['transactionsum'] : null;
+		$this->id             = (isset($data['id'])) ? $data['id'] : null;
+		$this->user_id        = (isset($data['user_id'])) ? $data['user_id'] : null;
+		$this->title          = (isset($data['title'])) ? $data['title'] : null;
+		$this->subtitle       = (isset($data['subtitle'])) ? $data['subtitle'] : null;
+		$this->description    = (isset($data['description'])) ? $data['description'] : null;
+		$this->mainpicture    = (isset($data['mainpicture'])) ? $data['mainpicture'] : null;
+		$this->creationdate   = (isset($data['creationdate'])) ? $data['creationdate'] : null;
+		$this->deadline       = (isset($data['deadline'])) ? $data['deadline'] : null;
+		$this->goal           = (isset($data['goal'])) ? $data['goal'] : null;
+		$this->promotionend   = (isset($data['promotionend'])) ? $data['promotionend'] : null;
+		$this->transactionsum = (isset($data['transactionsum'])) ? $data['transactionsum'] : null;
+	}
+
+	public function getArrayCopy()
+	{
+		return [
+			'id'             => $this->id,
+			'user_id'        => $this->user_id,
+			'title'          => $this->title,
+			'subtitle'       => $this->subtitle,
+			'description'    => $this->description,
+			'mainpicture'    => $this->mainpicture,
+			'creationdate'   => $this->creationdate,
+			'deadline'       => $this->deadline,
+			'goal'           => $this->goal,
+			'promotionend'   => $this->promotionend,
+			'transactionsum' => $this->transactionsum,
+
+		];
 	}
 
 	public function getRemainingDaysCount()

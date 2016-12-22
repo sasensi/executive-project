@@ -4,9 +4,9 @@ namespace Application\Model;
 
 /**
  * Automatically generated class from db schema
- * Date: 30/06/2016
+ * Date: 22/12/2016
  */
-class Projecttag implements RowInterface
+class Projecttag extends AbstractRow
 {
 	/**
 	 * @var integer
@@ -19,10 +19,18 @@ class Projecttag implements RowInterface
 	public $tag_id;
 
 
-	public function exchangeArray($arr)
+	public function exchangeArray(array $data)
 	{
-		$this->project_id = (isset($arr['project_id'])) ? $arr['project_id'] : null;
-		$this->tag_id = (isset($arr['tag_id'])) ? $arr['tag_id'] : null;
+		$this->project_id = (isset($data['project_id'])) ? $data['project_id'] : null;
+		$this->tag_id     = (isset($data['tag_id'])) ? $data['tag_id'] : null;
+	}
 
+	public function getArrayCopy()
+	{
+		return [
+			'project_id' => $this->project_id,
+			'tag_id'     => $this->tag_id,
+
+		];
 	}
 }

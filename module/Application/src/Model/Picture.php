@@ -4,9 +4,9 @@ namespace Application\Model;
 
 /**
  * Automatically generated class from db schema
- * Date: 30/06/2016
+ * Date: 22/12/2016
  */
-class Picture implements RowInterface
+class Picture extends AbstractRow
 {
 	/**
 	 * @var integer
@@ -24,11 +24,20 @@ class Picture implements RowInterface
 	public $project_id;
 
 
-	public function exchangeArray($arr)
+	public function exchangeArray(array $data)
 	{
-		$this->id = (isset($arr['id'])) ? $arr['id'] : null;
-		$this->url = (isset($arr['url'])) ? $arr['url'] : null;
-		$this->project_id = (isset($arr['project_id'])) ? $arr['project_id'] : null;
+		$this->id         = (isset($data['id'])) ? $data['id'] : null;
+		$this->url        = (isset($data['url'])) ? $data['url'] : null;
+		$this->project_id = (isset($data['project_id'])) ? $data['project_id'] : null;
+	}
 
+	public function getArrayCopy()
+	{
+		return [
+			'id'         => $this->id,
+			'url'        => $this->url,
+			'project_id' => $this->project_id,
+
+		];
 	}
 }

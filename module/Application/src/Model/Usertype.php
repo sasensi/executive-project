@@ -4,9 +4,9 @@ namespace Application\Model;
 
 /**
  * Automatically generated class from db schema
- * Date: 30/06/2016
+ * Date: 22/12/2016
  */
-class Usertype implements RowInterface
+class Usertype extends AbstractRow
 {
 	const FINANCER = 1;
 	const CREATOR  = 2;
@@ -23,9 +23,18 @@ class Usertype implements RowInterface
 	public $name;
 
 
-	public function exchangeArray($arr)
+	public function exchangeArray(array $data)
 	{
-		$this->id   = (isset($arr['id'])) ? $arr['id'] : null;
-		$this->name = (isset($arr['name'])) ? $arr['name'] : null;
+		$this->id   = (isset($data['id'])) ? $data['id'] : null;
+		$this->name = (isset($data['name'])) ? $data['name'] : null;
+	}
+
+	public function getArrayCopy()
+	{
+		return [
+			'id'   => $this->id,
+			'name' => $this->name,
+
+		];
 	}
 }

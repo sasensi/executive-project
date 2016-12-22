@@ -10,11 +10,11 @@ class TransactionTable extends AbstractTable
 {
 	public function getAllFromUserId($userId)
 	{
-	    return $this->select(['user_id' => $userId]);
+		return $this->select(['user_id' => $userId]);
 	}
 
 	public function getAllFromProjectId($projectId)
 	{
-	    return $this->select(['project_id' => $projectId]);
+		return $this->select(['project_id' => $projectId]);
 	}
 }

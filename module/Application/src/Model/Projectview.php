@@ -4,9 +4,9 @@ namespace Application\Model;
 
 /**
  * Automatically generated class from db schema
- * Date: 30/06/2016
+ * Date: 22/12/2016
  */
-class Projectview implements RowInterface
+class Projectview extends AbstractRow
 {
 	/**
 	 * @var integer
@@ -24,11 +24,20 @@ class Projectview implements RowInterface
 	public $date;
 
 
-	public function exchangeArray($arr)
+	public function exchangeArray(array $data)
 	{
-		$this->user_id = (isset($arr['user_id'])) ? $arr['user_id'] : null;
-		$this->project_id = (isset($arr['project_id'])) ? $arr['project_id'] : null;
-		$this->date = (isset($arr['date'])) ? $arr['date'] : null;
+		$this->user_id    = (isset($data['user_id'])) ? $data['user_id'] : null;
+		$this->project_id = (isset($data['project_id'])) ? $data['project_id'] : null;
+		$this->date       = (isset($data['date'])) ? $data['date'] : null;
+	}
 
+	public function getArrayCopy()
+	{
+		return [
+			'user_id'    => $this->user_id,
+			'project_id' => $this->project_id,
+			'date'       => $this->date,
+
+		];
 	}
 }

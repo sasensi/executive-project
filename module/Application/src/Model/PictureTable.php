@@ -10,6 +10,6 @@ class PictureTable extends AbstractTable
 {
 	public function getAllFromProjectId($projectId)
 	{
-	    return $this->select(['project_id' => $projectId]);
+		return $this->select(['project_id' => $projectId]);
 	}
 }

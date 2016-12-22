@@ -4,9 +4,9 @@ namespace Application\Model;
 
 /**
  * Automatically generated class from db schema
- * Date: 30/06/2016
+ * Date: 22/12/2016
  */
-class Gift implements RowInterface
+class Gift extends AbstractRow
 {
 	/**
 	 * @var integer
@@ -34,13 +34,24 @@ class Gift implements RowInterface
 	public $project_id;
 
 
-	public function exchangeArray($arr)
+	public function exchangeArray(array $data)
 	{
-		$this->id = (isset($arr['id'])) ? $arr['id'] : null;
-		$this->title = (isset($arr['title'])) ? $arr['title'] : null;
-		$this->minamount = (isset($arr['minamount'])) ? $arr['minamount'] : null;
-		$this->description = (isset($arr['description'])) ? $arr['description'] : null;
-		$this->project_id = (isset($arr['project_id'])) ? $arr['project_id'] : null;
+		$this->id          = (isset($data['id'])) ? $data['id'] : null;
+		$this->title       = (isset($data['title'])) ? $data['title'] : null;
+		$this->minamount   = (isset($data['minamount'])) ? $data['minamount'] : null;
+		$this->description = (isset($data['description'])) ? $data['description'] : null;
+		$this->project_id  = (isset($data['project_id'])) ? $data['project_id'] : null;
+	}
 
+	public function getArrayCopy()
+	{
+		return [
+			'id'          => $this->id,
+			'title'       => $this->title,
+			'minamount'   => $this->minamount,
+			'description' => $this->description,
+			'project_id'  => $this->project_id,
+
+		];
 	}
 }

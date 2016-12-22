@@ -29,7 +29,7 @@ class UserTable extends AbstractTable
 		{
 			$user = new User();
 			$user->exchangeArray($row);
-			$arr[$row['transaction_id']] = $user;
+			$arr[ $row['transaction_id'] ] = $user;
 		}
 		return $arr;
 	}

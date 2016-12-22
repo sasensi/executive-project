@@ -4,9 +4,9 @@ namespace Application\Model;
 
 /**
  * Automatically generated class from db schema
- * Date: 30/06/2016
+ * Date: 22/12/2016
  */
-class User implements RowInterface
+class User extends AbstractRow
 {
 	/**
 	 * @var integer
@@ -109,28 +109,55 @@ class User implements RowInterface
 	public $passwordrecovercode;
 
 
-	public function exchangeArray($arr)
+	public function exchangeArray(array $data)
 	{
-		$this->id                  = (isset($arr['id'])) ? $arr['id'] : null;
-		$this->password            = (isset($arr['password'])) ? $arr['password'] : null;
-		$this->name                = (isset($arr['name'])) ? $arr['name'] : null;
-		$this->firstname           = (isset($arr['firstname'])) ? $arr['firstname'] : null;
-		$this->birthdate           = (isset($arr['birthdate'])) ? $arr['birthdate'] : null;
-		$this->email               = (isset($arr['email'])) ? $arr['email'] : null;
-		$this->sex                 = (isset($arr['sex'])) ? $arr['sex'] : null;
-		$this->adress              = (isset($arr['adress'])) ? $arr['adress'] : null;
-		$this->postcode            = (isset($arr['postcode'])) ? $arr['postcode'] : null;
-		$this->city                = (isset($arr['city'])) ? $arr['city'] : null;
-		$this->country_id          = (isset($arr['country_id'])) ? $arr['country_id'] : null;
-		$this->phone               = (isset($arr['phone'])) ? $arr['phone'] : null;
-		$this->photo               = (isset($arr['photo'])) ? $arr['photo'] : null;
-		$this->facebookid          = (isset($arr['facebookid'])) ? $arr['facebookid'] : null;
-		$this->facebooktoken       = (isset($arr['facebooktoken'])) ? $arr['facebooktoken'] : null;
-		$this->subscriptiondate    = (isset($arr['subscriptiondate'])) ? $arr['subscriptiondate'] : null;
-		$this->confirmed           = (isset($arr['confirmed'])) ? $arr['confirmed'] : null;
-		$this->desactivated        = (isset($arr['desactivated'])) ? $arr['desactivated'] : null;
-		$this->usertype_id         = (isset($arr['usertype_id'])) ? $arr['usertype_id'] : null;
-		$this->passwordrecovercode = (isset($arr['passwordrecovercode'])) ? $arr['passwordrecovercode'] : null;
+		$this->id                  = (isset($data['id'])) ? $data['id'] : null;
+		$this->password            = (isset($data['password'])) ? $data['password'] : null;
+		$this->name                = (isset($data['name'])) ? $data['name'] : null;
+		$this->firstname           = (isset($data['firstname'])) ? $data['firstname'] : null;
+		$this->birthdate           = (isset($data['birthdate'])) ? $data['birthdate'] : null;
+		$this->email               = (isset($data['email'])) ? $data['email'] : null;
+		$this->sex                 = (isset($data['sex'])) ? $data['sex'] : null;
+		$this->adress              = (isset($data['adress'])) ? $data['adress'] : null;
+		$this->postcode            = (isset($data['postcode'])) ? $data['postcode'] : null;
+		$this->city                = (isset($data['city'])) ? $data['city'] : null;
+		$this->country_id          = (isset($data['country_id'])) ? $data['country_id'] : null;
+		$this->phone               = (isset($data['phone'])) ? $data['phone'] : null;
+		$this->photo               = (isset($data['photo'])) ? $data['photo'] : null;
+		$this->facebookid          = (isset($data['facebookid'])) ? $data['facebookid'] : null;
+		$this->facebooktoken       = (isset($data['facebooktoken'])) ? $data['facebooktoken'] : null;
+		$this->subscriptiondate    = (isset($data['subscriptiondate'])) ? $data['subscriptiondate'] : null;
+		$this->confirmed           = (isset($data['confirmed'])) ? $data['confirmed'] : null;
+		$this->desactivated        = (isset($data['desactivated'])) ? $data['desactivated'] : null;
+		$this->usertype_id         = (isset($data['usertype_id'])) ? $data['usertype_id'] : null;
+		$this->passwordrecovercode = (isset($data['passwordrecovercode'])) ? $data['passwordrecovercode'] : null;
+	}
+
+	public function getArrayCopy()
+	{
+		return [
+			'id'                  => $this->id,
+			'password'            => $this->password,
+			'name'                => $this->name,
+			'firstname'           => $this->firstname,
+			'birthdate'           => $this->birthdate,
+			'email'               => $this->email,
+			'sex'                 => $this->sex,
+			'adress'              => $this->adress,
+			'postcode'            => $this->postcode,
+			'city'                => $this->city,
+			'country_id'          => $this->country_id,
+			'phone'               => $this->phone,
+			'photo'               => $this->photo,
+			'facebookid'          => $this->facebookid,
+			'facebooktoken'       => $this->facebooktoken,
+			'subscriptiondate'    => $this->subscriptiondate,
+			'confirmed'           => $this->confirmed,
+			'desactivated'        => $this->desactivated,
+			'usertype_id'         => $this->usertype_id,
+			'passwordrecovercode' => $this->passwordrecovercode,
+
+		];
 	}
 
 	public function isFinancer()

@@ -62,7 +62,19 @@ PHP;
 		foreach ($this->columns as $columnName => $type)
 		{
 			$result .= <<<PHP
-		\$this->{$columnName} = (isset(\$arr['{$columnName}'])) ? \$arr['{$columnName}'] : null;
+		\$this->{$columnName} = (isset(\$data['{$columnName}'])) ? \$data['{$columnName}'] : null;
+
+PHP;
+		}
+		return $result;
+	}
+
+	protected function buildRowArrayKeyValuePairs() {
+		$result = '';
+		foreach ($this->columns as $columnName => $type)
+		{
+			$result .= <<<PHP
+			'{$columnName}' => \$this->{$columnName},
 
 PHP;
 		}
@@ -83,12 +95,19 @@ namespace Application\Model;
  * Automatically generated class from db schema
  * Date: {$date}
  */
-class {$capitalizedTableName} implements RowInterface
+class {$capitalizedTableName} extends AbstractRow
 {
 {$this->buildRowProperties()}
-	public function exchangeArray(\$arr)
+	public function exchangeArray(array \$data)
 	{
 {$this->buildRowPropertiesSet()}
+	}
+	
+	public function getArrayCopy()
+	{
+		return [
+{$this->buildRowArrayKeyValuePairs()}
+		];
 	}
 }
 
