@@ -8,6 +8,7 @@ use Application\Form\Element\TagPicker;
 use Application\Model\Category;
 use Application\Model\Gift;
 use Application\Model\Tag;
+use Application\Util\DateFormatter;
 use Zend\Form\Element\File;
 use Zend\Form\Element\Number;
 use Zend\Form\Element\Select;
@@ -121,7 +122,7 @@ class ProjectAddForm extends AbstractForm
 			->add($this->createInputFilter(self::DESCRIPTION, true, [(new StringLength())->setMax(10000)]))
 			->add($this->createInputFilter(self::MAINPICTURE, true, [$pictureExtensionValidator, $pictureSizeValidator]))
 			->add($this->createInputFilter(self::GOAL, true, [new LessThan(['max' => 1000000])]))
-			->add($this->createInputFilter(self::DEADLINE))
+			->add($this->createInputFilter(self::DEADLINE, true, [(new \Zend\Validator\Date())->setFormat(DateFormatter::FORMAT_FR)]))
 			->add($this->createInputFilter(self::CATEGORY_IDS))
 			->add($this->createInputFilter(self::PICTURE_IDS, false, [$pictureExtensionValidator, $pictureSizeValidator]))
 			->add($this->createInputFilter(self::VIDEO_IDS, false, [new Extension('mp4'), new Size('1MB')]))
