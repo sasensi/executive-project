@@ -1,0 +1,10 @@
+#content > div {
+    text-align : center;
+    margin-top : 1em;
+}
+
+#loginWithFacebookBtn {
+    background: #427df9;
+    color: white;
+    text-shadow: none;
+}

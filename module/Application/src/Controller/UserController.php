@@ -225,6 +225,8 @@ class UserController extends AbstractActionCustomController
 			}
 		}
 
+		$this->addCssDependency('css/user/login.css');
+
 		return new ViewModel([
 			'form'             => $form,
 			'facebookLoginUrl' => $facebookLoginUrl,
