@@ -33,6 +33,22 @@ $(document).ready(function ()
         });
     });
 
+    //
+    // TEXT AREA
+    //
+    $('textarea').summernote({
+        lang     : 'fr-FR',
+        toolbar  : [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+            ['paragraph', ['ul', 'paragraph']],
+            ['insert', ['link']],
+            ['misc', ['fullscreen', 'codeview']]
+        ],
+        shortcuts: false,
+        minHeight: 100
+    });
+
     $('body').on('click', '.giftDeleteButton', function (e)
     {
         e.preventDefault();

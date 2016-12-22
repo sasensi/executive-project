@@ -283,7 +283,6 @@ class ProjectController extends AbstractActionCustomController
 					]);
 				}
 
-
 				$this->commitTransaction();
 
 				return $this->redirectToRoute('project', 'user');
