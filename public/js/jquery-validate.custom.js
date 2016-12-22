@@ -3,9 +3,19 @@
  */
 
 // force validation on browser autocomplete
-$('body').on('input change', 'input, textarea, select', function ()
-{
-    $(this).valid();
+$(document).ready(function(){
+    $('body').on('input change', 'input, textarea, select', function ()
+    {
+        // try to get validator
+        var validator = $(this).closest('form').data('validator');
+        if (!validator)
+        {
+            return;
+        }
+
+        // trigger field validation
+        validator.element(this);
+    });
 });
 
 //
