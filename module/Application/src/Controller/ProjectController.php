@@ -24,6 +24,7 @@ use Application\Util\DateFormatter;
 use Application\Util\ExcelTable;
 use Application\Util\Hashtable;
 use Application\Util\MultiArray;
+use Zend\Db\Sql\Ddl\Column\Datetime;
 use Zend\View\Model\ViewModel;
 
 class ProjectController extends AbstractActionCustomController
@@ -122,20 +123,23 @@ class ProjectController extends AbstractActionCustomController
 			$paymentUrl = $this->url()->fromRoute('home/action', ['controller' => 'user', 'action' => 'login_to_pay']);
 		}
 
+		$paymentIsAllowed = !$project->deadLineIsPassed() && (!isset($user) || $user->isFinancer());
+
 		$this->addJsDependency('js/project/detail.js');
 		$this->addCssDependency('css/project/detail.css');
 
 		return new ViewModel([
-			'project'    => $project,
-			'categories' => $categories,
-			'gifts'      => $gifts,
-			'tags'       => $tags,
-			'viewsCount' => $viewsCount,
-			'videos'     => $videos,
-			'pictures'   => $pictures,
-			'financers'  => $financers,
-			'user'       => $user,
-			'paymentUrl' => $paymentUrl,
+			'project'          => $project,
+			'categories'       => $categories,
+			'gifts'            => $gifts,
+			'tags'             => $tags,
+			'viewsCount'       => $viewsCount,
+			'videos'           => $videos,
+			'pictures'         => $pictures,
+			'financers'        => $financers,
+			'user'             => $user,
+			'paymentUrl'       => $paymentUrl,
+			'paymentIsAllowed' => $paymentIsAllowed,
 		]);
 	}
 
@@ -318,10 +322,32 @@ class ProjectController extends AbstractActionCustomController
 	{
 		$user = UserController::getLoggedUser();
 
-		$projects = $this->getProjectTable()->getAllFromUserId($user->id);
+		/** @var Project[] $projects */
+		$projects = $this->getProjectTable()->getAllFromUserId($user->id)->buffer();
+
+		// check if project is deletable/editable
+		$editableProjectsIds = [];
+		foreach ($projects as $project)
+		{
+			$transactions = $this->getTable('transaction')->select(['project_id' => $project->id]);
+			// projects with at least one transaction are not editable
+			if ($transactions->count() > 0)
+			{
+				continue;
+			}
+
+			// projects for which deadline is passed are not editable
+			if ($project->deadLineIsPassed())
+			{
+				continue;
+			}
+
+			$editableProjectsIds[] = $project->id;
+		}
 
 		return new ViewModel([
-			'projects' => $projects
+			'projects'            => $projects,
+			'editableProjectsIds' => $editableProjectsIds
 		]);
 	}
 

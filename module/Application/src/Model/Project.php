@@ -2,6 +2,7 @@
 
 namespace Application\Model;
 
+use Application\Util\DateFormatter;
 use DateTime;
 use DateTimeZone;
 
@@ -129,5 +130,13 @@ class Project extends AbstractRow
 	public function getGoalReachingPercentage()
 	{
 		return round(((int) $this->transactionsum / (int) $this->goal) * 100);
+	}
+
+	public function deadLineIsPassed()
+	{
+		$deadlineDate = \DateTime::createFromFormat(DateFormatter::FORMAT_US, $this->deadline, DateFormatter::getTimeZone());
+		$nowDate      = DateFormatter::getNowDate();
+
+		return $deadlineDate < $nowDate;
 	}
 }

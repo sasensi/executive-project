@@ -12,6 +12,7 @@
  * @var \Application\Model\Tag[]                                  $tags
  * @var \Application\Model\User|null                              $user
  * @var string                                                    $paymentUrl
+ * @var boolean                                                   $paymentIsAllowed
  */
 
 use Application\Model\Paymentmethod;
@@ -219,7 +220,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 		<?php endif; ?>
 
         <!-- PAYMENT -->
-		<?php if (!isset($user) || $user->isFinancer()): ?>
+		<?php if ($paymentIsAllowed): ?>
             <div id="payButton">
                 <i class="icomoon icon_payment"></i>
             </div>
