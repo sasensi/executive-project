@@ -2,7 +2,9 @@
   "name": "IAP",
   "dependencies": {
 	"jquery-validate": "^1",
-	"moment": "*",
-	"summernote": "latest"
+	"moment": "latest",
+	"summernote": "latest",
+	"basictable": "latest",
+	"fontawesome": "latest"
   }
 }

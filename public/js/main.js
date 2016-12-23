@@ -86,4 +86,11 @@ $(document).ready(function ()
         utilsScript   : "../vendor/intl-tel-input-7.1.0/lib/libphonenumber/build/utils.js",
         initialCountry: 'fr'
     });
+
+    //
+    // RESPONSIVE TABLES
+    //
+    $('table').basictable({
+        breakpoint: 768
+    });
 });

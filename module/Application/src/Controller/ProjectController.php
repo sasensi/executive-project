@@ -169,6 +169,8 @@ class ProjectController extends AbstractActionCustomController
 			{
 				$data = $form->getData();
 
+				$data[ProjectAddForm::DEADLINE] = DateFormatter::frToUs($data[ProjectAddForm::DEADLINE]);
+
 				$project = new Project();
 				$project->exchangeArray($data);
 				$project->creationdate   = date('Y-m-d');
