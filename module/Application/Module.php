@@ -17,6 +17,7 @@ use Application\Form\View\Helper\FormElement;
 use Application\Form\View\Helper\FormRow;
 use Application\Form\View\Helper\GiftsFormHelper;
 use Application\Form\View\Helper\TagPickerHelper;
+use Application\Util\BasePathOrUrl;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Http\Response;
 use Zend\Mvc\I18n\Translator;
@@ -28,12 +29,14 @@ use Zend\Session\Config\SessionConfig;
 use Zend\Session\Container;
 use Zend\Session\SessionManager;
 use Zend\Validator\AbstractValidator;
+use Zend\View\HelperPluginManager;
 
 class Module
 {
-	const HELPER_GIFT = 'giftform';
-	const HELPER_TAG  = 'tagpicker';
-	const HELPER_DATE = 'datepicker';
+	const HELPER_GIFT             = 'giftform';
+	const HELPER_TAG              = 'tagpicker';
+	const HELPER_DATE             = 'datepicker';
+	const HELPER_BASE_PATH_OR_URL = 'basePathOrUrl';
 
 	public function onBootstrap(MvcEvent $e)
 	{
@@ -173,12 +176,13 @@ class Module
 		return [
 			'invokables' => [
 				// override zend hepers
-				'formelement'     => FormElement::class,
-				'formrow'         => FormRow::class,
+				'formelement'                 => FormElement::class,
+				'formrow'                     => FormRow::class,
 				// custom application helpers
-				self::HELPER_TAG  => TagPickerHelper::class,
-				self::HELPER_GIFT => GiftsFormHelper::class,
-				self::HELPER_DATE => Date::class,
+				self::HELPER_TAG              => TagPickerHelper::class,
+				self::HELPER_GIFT             => GiftsFormHelper::class,
+				self::HELPER_DATE             => Date::class,
+				self::HELPER_BASE_PATH_OR_URL => BasePathOrUrl::class,
 			],
 		];
 	}

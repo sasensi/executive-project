@@ -2,12 +2,21 @@
 
 /**
  * @var \Zend\View\Renderer\PhpRenderer $this
- * @var \Application\Model\Project $project
+ * @var \Application\Model\Project      $project
  */
 
 $goalReachingPercentage = $project->getGoalReachingPercentage();
-$index = floor($goalReachingPercentage / 25) + 1;
+$percentage             = $goalReachingPercentage > 100 ? 100 : $goalReachingPercentage;
+
+$index = floor($percentage / 25) + 1;
+if ($percentage < 100 / 3) $index = 1;
+elseif ($percentage < 100 / 2) $index = 2;
+elseif ($percentage < 100) $index = 3;
+else  $index = 4;
 
 ?>
 
-<i class="icomoon icon_idea_<?= $index ?>" title="<?= $goalReachingPercentage ?>%"></i>
+<i title="<?= $goalReachingPercentage ?>%" class="icomoon icon_idea_<?= $index ?>">
+    <span class="path1"></span>
+    <span class="path2"></span>
+</i>

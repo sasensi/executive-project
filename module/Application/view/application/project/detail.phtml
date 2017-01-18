@@ -65,7 +65,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
     <div class="row">
 
         <div id="mainPicture" class="col-xs-12 col-md-8">
-            <img class="img-responsive" src="<?= $this->basePath($project->mainpicture) ?>" alt="Image principale - <?= $project->title ?>">
+            <img class="img-responsive" src="<?= $this->basePathOrUrl($project->mainpicture) ?>" alt="Image principale - <?= $project->title ?>">
         </div>
         <div class="col-xs-12 col-md-8">
             <h2><?= $project->subtitle ?></h2>
@@ -104,7 +104,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
                         <div class="carousel-inner">
 							<?php foreach ($videos as $i => $video): ?>
                                 <div class="item <?= $i === 0 ? 'active' : '' ?>">
-                                    <video src="<?= $this->basePath($video->url) ?>"></video>
+                                    <video src="<?= $this->basePathOrUrl($video->url) ?>"></video>
                                 </div>
 							<?php endforeach; ?>
                         </div>
@@ -127,7 +127,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
                     </div>
 				<?php else: ?>
                     <div id="moviesCarousel">
-                        <video src="<?= $this->basePath($videos->current()->url) ?>"></video>
+                        <video src="<?= $this->basePathOrUrl($videos->current()->url) ?>"></video>
                         <div id="overlay">
                             <i id="playButton" class="icomoon icon_play"></i>
                             <i id="pauseButton" class="icomoon icon_pause"></i>
@@ -144,8 +144,8 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
                         <!-- Slides -->
                         <div class="carousel-inner">
 							<?php foreach ($pictures as $i => $picture): ?>
-                                <div class="item <?= $i === 0 ? 'active' : '' ?>">
-                                    <img src="<?= $this->basePath($picture->url) ?>">
+                                <div class="item <?= $i === 0 ? 'active' : '' ?>" style="background: url('<?= $this->basePathOrUrl($picture->url) ?>')  no-repeat center center">
+                                    <img src="<?= $this->basePathOrUrl($picture->url) ?>">
                                 </div>
 							<?php endforeach; ?>
                         </div>
@@ -164,7 +164,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
                     </div>
 				<?php else: ?>
                     <div id="picture">
-                        <img src="<?= $this->basePath($pictures->current()->url) ?>">
+                        <img src="<?= $this->basePathOrUrl($pictures->current()->url) ?>">
                     </div>
 				<?php endif; ?>
                 <div class="separator"></div>

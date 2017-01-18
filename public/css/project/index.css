@@ -7,7 +7,7 @@
 #search input[type="text"] {
     background    : inherit;
     border        : none;
-    border-bottom: 2px solid;
+    border-bottom : 2px solid;
     color         : inherit;
     width         : 100%;
     padding       : 0 5px;
@@ -166,7 +166,10 @@
 
 #projectsWrapper h1,
 #projectsWrapper h2 {
-    font-size : inherit;
+    font-size     : inherit;
+    white-space   : nowrap;
+    text-overflow : ellipsis;
+    overflow      : hidden;
 }
 
 #projectsWrapper h1 {
@@ -179,7 +182,7 @@
     font-style    : italic;
     margin-top    : .3em;
     margin-bottom : .8em;
-    font-weight : normal;
+    font-weight   : normal;
 }
 
 .projectThumbnail {
@@ -195,9 +198,9 @@
 }
 
 .projectInfo > i {
-    font-size: 1.3em;
-    vertical-align: middle;
-    margin-top: -.05em;
+    font-size      : 1.3em;
+    vertical-align : middle;
+    margin-top     : -.05em;
 }
 
 .projectGoal {
