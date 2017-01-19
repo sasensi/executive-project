@@ -81,6 +81,14 @@ class ProjectTable extends AbstractTable
 			{
 				$orders[] = 'deadline DESC';
 			}
+			elseif ($order === ProjectSearchFilter::ORDER_GOAL_ASC)
+			{
+				$orders[] = 'goal ASC';
+			}
+			elseif ($order === ProjectSearchFilter::ORDER_GOAL_DESC)
+			{
+				$orders[] = 'goal DESC';
+			}
 			$select->order($orders);
 
 			$select->group('project.id');

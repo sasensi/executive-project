@@ -16,6 +16,8 @@ class ProjectSearchFilter
 {
 	const ORDER_DATE_ASC  = 'ORDER_DATE_ASC';
 	const ORDER_DATE_DESC = 'ORDER_DATE_DESC';
+	const ORDER_GOAL_ASC  = 'ORDER_GOAL_ASC';
+	const ORDER_GOAL_DESC = 'ORDER_GOAL_DESC';
 
 	const STATUS_FINISHED = 'STATUS_FINISHED';
 	const STATUS_CURRENT  = 'STATUS_CURRENT';
@@ -32,6 +34,8 @@ class ProjectSearchFilter
 	protected $orders   = [
 		self::ORDER_DATE_ASC  => 'date ordre croissant',
 		self::ORDER_DATE_DESC => 'date ordre décroissant',
+		self::ORDER_GOAL_ASC  => 'objectif ordre croissant',
+		self::ORDER_GOAL_DESC => 'objectif ordre décroissant',
 	];
 	protected $categories;
 	/**
