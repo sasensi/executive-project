@@ -173,7 +173,7 @@ catch (Exception $e)
 <footer>
     <img src="<?= $this->basePath('/img/logo_footer_reverse.png') ?>" alt="">
     <img src="<?= $this->basePath('/img/logo_footer.png') ?>" alt="">
-    <p>&copy; 2016</p>
+    <p>&copy; 2016 - <a href="<?= $this->url('home/action', ['controller' => 'about', 'action' => 'legal']) ?>">mentions légales</a></p>
 </footer>
 <?= $this->inlineScript() ?>
 </body>

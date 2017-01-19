@@ -19,6 +19,11 @@ class AboutController extends AbstractActionController
 		return new ViewModel();
 	}
 
+	public function legalAction()
+	{
+		return new ViewModel();
+	}
+
 	public function teamAction()
 	{
 	    return new ViewModel();
