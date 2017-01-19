@@ -73,11 +73,11 @@ class ProjectTable extends AbstractTable
 		// order
 		$orders = ['promotionend DESC'];
 		$order  = $searchFilter->getSelectedOrder();
-		if ($order === ProjectSearchFilter::ORDER_DATE_ASC)
+		if ($order === ProjectSearchFilter::ORDER_DEADLINE_ASC)
 		{
 			$orders[] = 'deadline ASC';
 		}
-		elseif ($order === ProjectSearchFilter::ORDER_DATE_DESC)
+		elseif ($order === ProjectSearchFilter::ORDER_DEADLINE_DESC)
 		{
 			$orders[] = 'deadline DESC';
 		}
@@ -88,6 +88,14 @@ class ProjectTable extends AbstractTable
 		elseif ($order === ProjectSearchFilter::ORDER_GOAL_DESC)
 		{
 			$orders[] = 'goal DESC';
+		}
+		elseif ($order === ProjectSearchFilter::ORDER_CREATIONDATE_ASC)
+		{
+			$orders[] = 'creationdate ASC';
+		}
+		elseif ($order === ProjectSearchFilter::ORDER_CREATIONDATE_DESC)
+		{
+			$orders[] = 'creationdate DESC';
 		}
 		$select->order($orders);
 

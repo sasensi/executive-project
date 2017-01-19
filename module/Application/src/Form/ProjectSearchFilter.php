@@ -15,10 +15,12 @@ use Application\Model\TagTable;
 
 class ProjectSearchFilter
 {
-	const ORDER_DATE_ASC  = 'ORDER_DATE_ASC';
-	const ORDER_DATE_DESC = 'ORDER_DATE_DESC';
-	const ORDER_GOAL_ASC  = 'ORDER_GOAL_ASC';
-	const ORDER_GOAL_DESC = 'ORDER_GOAL_DESC';
+	const ORDER_DEADLINE_ASC      = 'ORDER_DEADLINE_ASC';
+	const ORDER_DEADLINE_DESC     = 'ORDER_DEADLINE_DESC';
+	const ORDER_CREATIONDATE_ASC  = 'ORDER_CREATIONDATE_ASC';
+	const ORDER_CREATIONDATE_DESC = 'ORDER_CREATIONDATE_DESC';
+	const ORDER_GOAL_ASC          = 'ORDER_GOAL_ASC';
+	const ORDER_GOAL_DESC         = 'ORDER_GOAL_DESC';
 
 	const STATUS_FINISHED = 'STATUS_FINISHED';
 	const STATUS_CURRENT  = 'STATUS_CURRENT';
@@ -35,10 +37,12 @@ class ProjectSearchFilter
 		self::STATUS_FINISHED => 'terminé',
 	];
 	protected $orders   = [
-		self::ORDER_DATE_ASC  => 'date ordre croissant',
-		self::ORDER_DATE_DESC => 'date ordre décroissant',
-		self::ORDER_GOAL_ASC  => 'objectif ordre croissant',
-		self::ORDER_GOAL_DESC => 'objectif ordre décroissant',
+		self::ORDER_CREATIONDATE_ASC  => 'date de création ↗',
+		self::ORDER_CREATIONDATE_DESC => 'date de création ↘',
+		self::ORDER_DEADLINE_ASC      => 'date butoire ↗',
+		self::ORDER_DEADLINE_DESC     => 'date butoire ↘',
+		self::ORDER_GOAL_ASC          => 'objectif ↗',
+		self::ORDER_GOAL_DESC         => 'objectif ↘',
 	];
 	protected $categories;
 	/**
@@ -56,9 +60,9 @@ class ProjectSearchFilter
 	public function __construct($categories)
 	{
 		$this->categories       = $categories;
-		$this->selectedOrder    = self::ORDER_DATE_DESC;
+		$this->selectedOrder    = self::ORDER_CREATIONDATE_DESC;
 		$this->selectedKeyWords = [];
-		$this->offset = 0;
+		$this->offset           = 0;
 	}
 
 	/**
@@ -185,7 +189,8 @@ class ProjectSearchFilter
 	 * @param array    $params
 	 * @param TagTable $tagTable
 	 */
-	public function fillFromParams($params, $tagTable) {
+	public function fillFromParams($params, $tagTable)
+	{
 		if (!empty($params['keywords']))
 		{
 			$keyWords = preg_split('/[^a-zA-Z]+/', $params['keywords'], -1, PREG_SPLIT_NO_EMPTY);

@@ -55,22 +55,27 @@ HTML;
 		$displayIndex = $i+1;
 
 		return <<<HTML
-
 <fieldset data-index="{$i}">
-	<legend>Contrepartie n°{$displayIndex}</legend>
-    <div class="form-group">
-        <label for="$titleName">Titre</label>
-        <input class="form-control" type="text" name="$titleName" id="$titleName" value="{$gift->title}" />
+    <legend>Contrepartie n°{$displayIndex}</legend>
+    <div class="form-group row">
+        <label class="col-sm-2 control-label" for="$titleName">Titre</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="text" name="$titleName" id="$titleName" value="{$gift->title}"/>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="{$amountName}">Montant minimum</label>
-        <input class="form-control" type="number" name="{$amountName}" id="{$amountName}" value="{$gift->minamount}" />
+    <div class="form-group row">
+        <label class="col-sm-2 control-label" for="{$amountName}">Montant minimum</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="number" name="{$amountName}" id="{$amountName}" value="{$gift->minamount}"/>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="{$descriptionName}">Description</label>
-        <textarea class="form-control" type="text" name="{$descriptionName}" id="{$descriptionName}" value="{$gift->description}" ></textarea>
+    <div class="form-group row">
+        <label class="col-sm-2 control-label" for="{$descriptionName}">Description</label>
+        <div class="col-sm-10">
+            <textarea class="form-control" type="text" name="{$descriptionName}" id="{$descriptionName}" value="{$gift->description}"></textarea>
+        </div>
     </div>
-	<span class="giftDeleteButton btn btn-danger">Supprimer</span>
+    <span class="giftDeleteButton btn btn-danger">Supprimer</span>
 </fieldset>
 		
 HTML;

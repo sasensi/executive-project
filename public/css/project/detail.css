@@ -18,6 +18,7 @@
     font-weight : 600;
     position    : relative;
     top         : 3px;
+    white-space : nowrap;
 }
 
 .subNav img {
@@ -71,7 +72,7 @@ h2 {
 }
 
 .iconWrapper > i {
-    font-size      : 2em;
+    font-size: 1.5em;
     vertical-align : middle;
     margin-right   : .25em;
     margin-top     : -.05em;
@@ -470,7 +471,7 @@ h2 {
     #stats, #gifts {
         position : absolute;
         right    : 0;
-        top      : 1em;
+        top: 1em;
     }
 
     #stats {
@@ -478,20 +479,30 @@ h2 {
     }
 
     #gifts {
-        margin-top     : 9em;
+        margin-top: 8.5em;
         width          : calc(33.33333333333333% - 15px);
-        border-left    : 3px solid blue;
+        border-left: 2px solid blue;
         padding-top    : .5em;
         padding-bottom : .5em;
     }
 
+    .gift > .description {
+        margin-bottom: 0;
+    }
+    .gift {
+        margin-top: 2em
+    }
+    .gift:first-child {
+        margin-top: 0
+    }
+
     #stats > .row > div {
         text-align    : left;
-        margin-bottom : 1em;
+        margin-bottom: .8em;
     }
 
     .iconWrapper {
-        width      : 3em;
+        width: 2.5em;
         text-align : center;
     }
 }

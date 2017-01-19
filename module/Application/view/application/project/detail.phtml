@@ -65,7 +65,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
     <div class="row">
 
         <div id="mainPicture" class="col-xs-12 col-md-8">
-            <img class="img-responsive" src="<?= $this->basePathOrUrl($project->mainpicture) ?>" alt="Image principale - <?= $project->title ?>">
+	        <?= $this->partial('/partial/project/cover.phtml', ['project' => $project]) ?>
         </div>
         <div class="col-xs-12 col-md-8">
             <h2><?= $project->subtitle ?></h2>

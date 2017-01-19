@@ -6,21 +6,21 @@
 
 $remainingDays = $project->getRemainingDaysCount();
 
-if ($remainingDays < 15)
+if ($remainingDays === 0)
 {
-	$index = 1;
+	$index = 4;
 }
-elseif ($remainingDays < 30)
-{
-	$index = 2;
-}
-elseif ($remainingDays < 45)
+elseif ($remainingDays < 10)
 {
 	$index = 3;
 }
+elseif ($remainingDays < 20)
+{
+	$index = 2;
+}
 else
 {
-	$index = 4;
+	$index = 1;
 }
 
 ?>

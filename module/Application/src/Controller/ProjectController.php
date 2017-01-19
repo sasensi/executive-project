@@ -259,7 +259,7 @@ class ProjectController extends AbstractActionCustomController
 				}
 
 				// gifts
-				$gifts = $data['gift_ids'];
+				$gifts = $data['gift_ids'] ?: [];
 				foreach ($gifts as $gift)
 				{
 					$this->getTable('gift')->insert([

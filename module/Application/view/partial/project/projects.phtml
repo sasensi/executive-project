@@ -6,9 +6,7 @@
 
 <?php foreach ($projects as $project): ?>
 	<a href="<?= $this->url('home/action/id', ['controller' => 'project', 'action' => 'detail', 'id' => $project->id]) ?>" class="col-xs-12 col-sm-6 col-md-4 project">
-		<div class="projectThumbnail">
-			<img src="<?= $this->basePathOrUrl($project->mainpicture) ?>" alt="<?= $project->title ?>" class="img-responsive">
-		</div>
+		<?= $this->partial('/partial/project/cover.phtml', ['project' => $project]) ?>
 		<h1><?= $project->title ?></h1>
 		<h2><?= $project->subtitle ?></h2>
 		<div class="row">

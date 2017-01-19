@@ -20,21 +20,23 @@
 
 /* placeholder color fix */
 #search input[type="text"]::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color : white;
+    color   : white;
+    opacity : .65;
 }
 
 #search input[type="text"]:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
     color   : white;
-    opacity : 1;
+    opacity : .65;
 }
 
 #search input[type="text"]::-moz-placeholder { /* Mozilla Firefox 19+ */
     color   : white;
-    opacity : 1;
+    opacity : .65;
 }
 
 #search input[type="text"]:-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color : white;
+    color   : white;
+    opacity : .65;
 }
 
 #search select {
@@ -156,10 +158,6 @@
 
 /* PROJECTS */
 
-#projectsWrapper {
-    /* padding    : 15px; */
-}
-
 .project {
     margin-bottom : 30px;
 }
@@ -185,26 +183,10 @@
     font-weight   : normal;
 }
 
-.projectThumbnail {
-    width : 100%;
-}
-
-.projectThumbnail > img {
-    width : 100%;
-}
-
-.projectInfo > span {
-    /* margin-left : 2px; */
-}
-
 .projectInfo > i {
     font-size      : 1.3em;
     vertical-align : middle;
     margin-top     : -.05em;
-}
-
-.projectGoal {
-    /* float : left; */
 }
 
 .projectRemainingTime {
