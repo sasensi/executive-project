@@ -11,6 +11,13 @@
       <sourceFolder url="file://$MODULE_DIR$/vendor/zendframework/zendxml/library" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/vendor/doctrine/instantiator/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/vendor/phpspec/prophecy/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/public/vendor/bootstrap/docs" />
+      <excludeFolder url="file://$MODULE_DIR$/public/vendor/bootstrap/fonts" />
+      <excludeFolder url="file://$MODULE_DIR$/public/vendor/bootstrap/grunt" />
+      <excludeFolder url="file://$MODULE_DIR$/public/vendor/bootstrap/js" />
+      <excludeFolder url="file://$MODULE_DIR$/public/vendor/bootstrap/less" />
+      <excludeFolder url="file://$MODULE_DIR$/public/vendor/bootstrap/nuget" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/container-interop/container-interop" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/instantiator" />
