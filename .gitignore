@@ -1,4 +1,3 @@
-nbproject
 ._*
 .vagrant
 .~lock.*
@@ -7,8 +6,7 @@ nbproject
 .project
 .settings
 /vendor
-composer.phar
-.idea
-/debug
+/tools/dataGenrator/ulule/vendor
 node_modules
 /public/vendor/bower_components
+/.idea
