@@ -122,7 +122,7 @@ class Project extends AbstractRow
 		{
 			$formattedDate = $date->format('d / m / Y');
 			// prevent date line breaking
-			return str_replace(' ', '&nbsp;', $formattedDate);
+			return str_replace(' ', '&#8239;', $formattedDate);
 		}
 		return null;
 	}

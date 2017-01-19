@@ -12,22 +12,22 @@ class MultiArray
 	/**
 	 * @param array|object $array
 	 * @param string       $key
+	 * @param bool         $unique
 	 * @return array
 	 */
-	public static function getArrayOfValues($array, $key)
+	public static function getArrayOfValues($array, $key, $unique = true)
 	{
 		$result = [];
 
 		foreach ($array as $subArray)
 		{
-			if (is_object($subArray))
+			$value = is_object($subArray) ? $subArray->$key : $subArray[ $key ];
+			if ($unique && in_array($value, $result))
 			{
-				$result[] = $subArray->$key;
+				continue;
 			}
-			elseif (is_array($subArray))
-			{
-				$result[] = $subArray[ $key ];
-			}
+
+			$result[] = $value;
 		}
 
 		return $result;

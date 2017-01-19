@@ -174,4 +174,13 @@ class User extends AbstractRow
 	{
 		return $this->usertype_id == Usertype::ADMIN;
 	}
+
+	public function getPhotoOrDefault()
+	{
+		if (empty($this->photo))
+		{
+			return '/img/profile.png';
+		}
+		return $this->photo;
+	}
 }

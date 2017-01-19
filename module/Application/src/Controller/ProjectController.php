@@ -104,6 +104,8 @@ class ProjectController extends AbstractActionCustomController
 			$paymentUrl = $this->url()->fromRoute('home/action', ['controller' => 'user', 'action' => 'login_to_pay']);
 		}
 
+		$projectUser = $this->getTable('user')->selectFirstById($project->user_id);
+
 		$paymentIsAllowed = !$project->deadLineIsPassed() && (!isset($user) || $user->isFinancer());
 
 		$this->addJsDependency('js/project/detail.js');
@@ -121,6 +123,7 @@ class ProjectController extends AbstractActionCustomController
 			'user'             => $user,
 			'paymentUrl'       => $paymentUrl,
 			'paymentIsAllowed' => $paymentIsAllowed,
+			'projectUser' => $projectUser,
 		]);
 	}
 
@@ -498,6 +501,17 @@ class ProjectController extends AbstractActionCustomController
 
 	public function userDeleteAction()
 	{
+		$project = $this->getProjectFromRouteId();
+
+		// delet linked rows first
+		$this->getTable('projectcategory')->delete(['project_id' => $project->id]);
+		$this->getTable('projecttag')->delete(['project_id' => $project->id]);
+		$this->getTable('gift')->delete(['project_id' => $project->id]);
+		$this->getTable('picture')->delete(['project_id' => $project->id]);
+		$this->getTable('video')->delete(['project_id' => $project->id]);
+		$this->getTable('projectview')->delete(['project_id' => $project->id]);
+		$this->getTable('project')->deleteFromId($project->id);
+
 		return new ViewModel();
 	}
 
@@ -601,13 +615,20 @@ class ProjectController extends AbstractActionCustomController
 		/** @var Transaction[] $transactions */
 		foreach ($transactions as $transaction)
 		{
-			$financer = $financersHt[ $transaction->user_id ];
+			$financerName = $financerEmail = '?';
+
+			if (isset($financersHt[ $transaction->user_id ]))
+			{
+				$financer      = $financersHt[ $transaction->user_id ];
+				$financerName  = $financer->name.' '.$financer->firstname;
+				$financerEmail = $financer->email;
+			}
 
 			$excelTable->addRow([
 				DateFormatter::usToFr($transaction->paymentdate),
 				$transaction->amount,
-				$financer->name.' '.$financer->firstname,
-				$financer->email,
+				$financerName,
+				$financerEmail,
 			]);
 		}
 

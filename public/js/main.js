@@ -93,4 +93,9 @@ $(document).ready(function ()
     $('table').basictable({
         breakpoint: 768
     });
+
+    //
+    // TOOLTIPS
+    //
+    $('[data-toggle="tooltip"]').tooltip();
 });

@@ -15,20 +15,13 @@
 				<span><?= $project->goal ?> €</span>
 			</div>
 			<div class="col-xs-6 projectInfo projectRemainingTime">
-				<?= $this->partial('/partial/project/remainingTime.phtml', ['project' => $project]) ?>
 				<span>
 					<?php
 					$remainingDaysCount = $project->getRemainingDaysCount();
-					if ($remainingDaysCount > 0)
-					{
-						echo 'J - '.$remainingDaysCount;
-					}
-					else
-					{
-						echo 'terminé';
-					}
+					echo ($remainingDaysCount > 0) ? 'J - '.$remainingDaysCount : 'terminé';
 					?>
 				</span>
+				<?= $this->partial('/partial/project/remainingTime.phtml', ['project' => $project]) ?>
 			</div>
 		</div>
 		<hr class="horizontalSeparator">
