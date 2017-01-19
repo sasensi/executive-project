@@ -21,6 +21,8 @@ class ProjectSearchFilter
 	const ORDER_CREATIONDATE_DESC = 'ORDER_CREATIONDATE_DESC';
 	const ORDER_GOAL_ASC          = 'ORDER_GOAL_ASC';
 	const ORDER_GOAL_DESC         = 'ORDER_GOAL_DESC';
+	const ORDER_TRANSACTION_ASC   = 'ORDER_TRANSACTION_ASC';
+	const ORDER_TRANSACTION_DESC  = 'ORDER_TRANSACTION_DESC';
 
 	const STATUS_FINISHED = 'STATUS_FINISHED';
 	const STATUS_CURRENT  = 'STATUS_CURRENT';
@@ -43,6 +45,8 @@ class ProjectSearchFilter
 		self::ORDER_DEADLINE_DESC     => 'date butoire ↘',
 		self::ORDER_GOAL_ASC          => 'objectif ↗',
 		self::ORDER_GOAL_DESC         => 'objectif ↘',
+		self::ORDER_TRANSACTION_ASC   => 'somme récoltée ↗',
+		self::ORDER_TRANSACTION_DESC  => 'somme récoltée ↘',
 	];
 	protected $categories;
 	/**

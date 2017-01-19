@@ -31,7 +31,7 @@ class ProjectTable extends AbstractTable
 	public function getAllFromSearchFilters($searchFilter)
 	{
 		$select = new Select($this->table);
-		$where = new Where();
+		$where  = new Where();
 
 		$keyWords = $searchFilter->getSelectedKeyWords();
 		if (!empty($keyWords))
@@ -96,6 +96,14 @@ class ProjectTable extends AbstractTable
 		elseif ($order === ProjectSearchFilter::ORDER_CREATIONDATE_DESC)
 		{
 			$orders[] = 'creationdate DESC';
+		}
+		elseif ($order === ProjectSearchFilter::ORDER_TRANSACTION_ASC)
+		{
+			$orders[] = 'transactionsum ASC';
+		}
+		elseif ($order === ProjectSearchFilter::ORDER_TRANSACTION_DESC)
+		{
+			$orders[] = 'transactionsum DESC';
 		}
 		$select->order($orders);
 
