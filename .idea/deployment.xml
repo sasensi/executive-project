@@ -2,21 +2,7 @@
 <project version="4">
   <component name="PublishConfigData" serverName="localhost">
     <serverData>
-      <paths name=".com">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
       <paths name=".net">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name=".net root">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />

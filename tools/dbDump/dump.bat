@@ -1,2 +1,1 @@
-# database dump
 mysqldump --compress --user=root --result-file=dump.sql crowdfunding
