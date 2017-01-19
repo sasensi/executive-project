@@ -42,29 +42,10 @@ class ProjectController extends AbstractActionCustomController
 		$request = $this->getRequest();
 		if ($request->isGet())
 		{
-			$filterdata = $request->getQuery()->toArray();
-			if (!empty($filterdata))
-			{
-				if (!empty($filterdata['keywords']))
-				{
-					$keyWords = preg_split('/[^a-zA-Z]+/', $filterdata['keywords'], -1, PREG_SPLIT_NO_EMPTY);
-					$searchFilter->setSelectedKeyWords($keyWords);
-				}
-				if (!empty($filterdata['category'])) $searchFilter->setSelectedCategory($filterdata['category']);
-				if (!empty($filterdata['order'])) $searchFilter->setSelectedOrder($filterdata['order']);
-				if (!empty($filterdata['status'])) $searchFilter->setSelectedStatus($filterdata['status']);
-				if (!empty($filterdata['tag']))
-				{
-					try
-					{
-						$tag = $this->getTable('tag')->selectFirstById($filterdata['tag']);
-						$searchFilter->setTag($tag);
-					}
-					catch (\Exception $e)
-					{
-					}
-				}
-			}
+			$params = $request->getQuery()->toArray();
+			/** @var TagTable $tagTable */
+			$tagTable = $this->getTable('tag');
+			$searchFilter->fillFromParams($params, $tagTable);
 		}
 
 		$projects = $this->getProjectTable()->getAllFromSearchFilters($searchFilter);
@@ -169,7 +150,7 @@ class ProjectController extends AbstractActionCustomController
 			{
 				$data = $form->getData();
 
-				$data[ProjectAddForm::DEADLINE] = DateFormatter::frToUs($data[ProjectAddForm::DEADLINE]);
+				$data[ ProjectAddForm::DEADLINE ] = DateFormatter::frToUs($data[ ProjectAddForm::DEADLINE ]);
 
 				$project = new Project();
 				$project->exchangeArray($data);

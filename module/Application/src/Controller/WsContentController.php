@@ -8,10 +8,16 @@ namespace Application\Controller;
 
 
 use Application\Form\Element\GiftsFormElement;
+use Application\Form\ProjectSearchFilter;
 use Application\Form\View\Helper\GiftsFormHelper;
+use Application\Model\Category;
 use Application\Model\Gift;
+use Application\Model\ProjectTable;
+use Application\Model\TagTable;
 use Application\Module;
+use Zend\Http\Request;
 use Zend\View\Model\JsonModel;
+use Zend\View\Model\ViewModel;
 
 class WsContentController extends AbstractActionCustomController
 {
@@ -45,6 +51,73 @@ class WsContentController extends AbstractActionCustomController
 		return $this->sendSuccess($content);
 	}
 
+	public function projectAction()
+	{
+		try
+		{
+			$this->requireParametters(['offset', 'url']);
+
+			/** @var Request $request */
+			$request = $this->getRequest();
+			$get     = $request->getQuery();
+
+			$query = parse_url($get->get('url'), PHP_URL_QUERY);
+			parse_str($query, $searchParams);
+
+			/** @var TagTable $tagTable */
+			$tagTable = $this->getTable('tag');
+			/** @var Category[] $categories */
+			$categories = $this->getTable('category')->select();
+
+			$searchFilter = new ProjectSearchFilter($categories);
+			$searchFilter->fillFromParams($searchParams, $tagTable);
+			$searchFilter->setOffset($get->get('offset'));
+
+			/** @var ProjectTable $projectTable */
+			$projectTable = $this->getTable('project');
+			$projects     = $projectTable->getAllFromSearchFilters($searchFilter);
+
+			$partial = (new ViewModel())
+				->setTerminal(true)
+				->setTemplate('partial/project/projects')
+				->setVariables([
+					'projects' => $projects
+				]);
+
+			$htmlOutput = $this->getServiceLocator()
+			                   ->get('viewrenderer')
+			                   ->render($partial);
+
+			$additionalData = [];
+			// check if these were the last projects for this query
+			if (count($projects) < ProjectSearchFilter::PROJECT_PER_REQUEST)
+			{
+				$additionalData['end'] = true;
+			}
+
+			return $this->sendSuccess($htmlOutput, $additionalData);
+		}
+		catch (\Exception $e)
+		{
+			return $this->sendError($e->getMessage());
+		}
+	}
+
+	protected function requireParametters($requiredParams)
+	{
+		/** @var Request $request */
+		$request = $this->getRequest();
+		$params  = $request->getQuery()->toArray();
+
+		foreach ($requiredParams as $requiredParam)
+		{
+			if (!array_key_exists($requiredParam, $params))
+			{
+				throw new \Exception("Missing \"{$requiredParam}\" parameter.");
+			}
+		}
+	}
+
 	protected function sendError($msg)
 	{
 		return new JsonModel([
@@ -53,11 +126,13 @@ class WsContentController extends AbstractActionCustomController
 		]);
 	}
 
-	protected function sendSuccess($data)
+	protected function sendSuccess($data, array $additionalData = [])
 	{
-		return new JsonModel([
-			'success' => true,
-			'data'    => $data
-		]);
+		$response = $additionalData + [
+				'success' => true,
+				'data'    => $data
+			];
+
+		return new JsonModel($response);
 	}
 }

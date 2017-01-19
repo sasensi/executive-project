@@ -11,6 +11,7 @@ namespace Application\Form;
 
 use Application\Model\Category;
 use Application\Model\Tag;
+use Application\Model\TagTable;
 
 class ProjectSearchFilter
 {
@@ -21,6 +22,8 @@ class ProjectSearchFilter
 
 	const STATUS_FINISHED = 'STATUS_FINISHED';
 	const STATUS_CURRENT  = 'STATUS_CURRENT';
+
+	const PROJECT_PER_REQUEST = 12;
 
 	protected $selectedKeyWords;
 	protected $selectedCategory;
@@ -43,6 +46,8 @@ class ProjectSearchFilter
 	 */
 	protected $tag;
 
+	protected $offset;
+
 	/**
 	 * ProjectSearchFilter constructor.
 	 *
@@ -53,6 +58,7 @@ class ProjectSearchFilter
 		$this->categories       = $categories;
 		$this->selectedOrder    = self::ORDER_DATE_DESC;
 		$this->selectedKeyWords = [];
+		$this->offset = 0;
 	}
 
 	/**
@@ -157,6 +163,49 @@ class ProjectSearchFilter
 	public function setTag(Tag $tag)
 	{
 		$this->tag = $tag;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getOffset()
+	{
+		return $this->offset;
+	}
+
+	/**
+	 * @param mixed $offset
+	 */
+	public function setOffset($offset)
+	{
+		$this->offset = $offset;
+	}
+
+	/**
+	 * @param array    $params
+	 * @param TagTable $tagTable
+	 */
+	public function fillFromParams($params, $tagTable) {
+		if (!empty($params['keywords']))
+		{
+			$keyWords = preg_split('/[^a-zA-Z]+/', $params['keywords'], -1, PREG_SPLIT_NO_EMPTY);
+			$this->setSelectedKeyWords($keyWords);
+		}
+		if (!empty($params['category'])) $this->setSelectedCategory($params['category']);
+		if (!empty($params['order'])) $this->setSelectedOrder($params['order']);
+		if (!empty($params['status'])) $this->setSelectedStatus($params['status']);
+		if (!empty($params['tag']))
+		{
+			try
+			{
+				/** @var Tag $tag */
+				$tag = $tagTable->selectFirstById($params['tag']);
+				$this->setTag($tag);
+			}
+			catch (\Exception $e)
+			{
+			}
+		}
 	}
 
 }

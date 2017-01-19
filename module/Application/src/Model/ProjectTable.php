@@ -3,7 +3,9 @@
 namespace Application\Model;
 
 use Application\Form\ProjectSearchFilter;
+use Zend\Db\ResultSet\ResultSetInterface;
 use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Where;
 
 /**
@@ -24,75 +26,89 @@ class ProjectTable extends AbstractTable
 
 	/**
 	 * @param ProjectSearchFilter $searchFilter
-	 * @return \Zend\Db\ResultSet\ResultSet
+	 * @return ResultSetInterface
 	 */
 	public function getAllFromSearchFilters($searchFilter)
 	{
-		$resultSet = $this->select(function (Select $select) use ($searchFilter)
+		$select = new Select($this->table);
+		$where = new Where();
+
+		$keyWords = $searchFilter->getSelectedKeyWords();
+		if (!empty($keyWords))
 		{
-			$select->where(function (Where $where) use ($searchFilter, $select)
+			foreach ($keyWords as $keyWord)
 			{
-				$keyWords = $searchFilter->getSelectedKeyWords();
-				if (!empty($keyWords))
-				{
-					foreach ($keyWords as $keyWord)
-					{
-						$keyWord = strtoupper($keyWord);
-						$where->OR->expression('UPPER(title) LIKE ?', '%'.$keyWord.'%');
-					}
-				}
-
-				$categoryId = $searchFilter->getSelectedCategory();
-				if (isset($categoryId))
-				{
-					$select->join('projectcategory', 'projectcategory.project_id = project.id');
-					//$select->join('projectcategory', 'projectcategory.project_id = project.id', Select::SQL_STAR, Select::JOIN_LEFT);
-					$where->AND->equalTo('projectcategory.category_id', $categoryId);
-				}
-
-				// status
-				$status = $searchFilter->getSelectedStatus();
-				if ($status === ProjectSearchFilter::STATUS_CURRENT)
-				{
-					$where->AND->literal('deadline > now()');
-				}
-				elseif ($status === ProjectSearchFilter::STATUS_FINISHED)
-				{
-					$where->AND->literal('deadline < now()');
-				}
-
-				// tag
-				$tag = $searchFilter->getTag();
-				if (isset($tag))
-				{
-					$select->join('projecttag', 'projecttag.project_id = project.id');
-					$where->AND->equalTo('projecttag.tag_id', $tag->id);
-				}
-			});
-
-			// order
-			$orders = ['promotionend DESC'];
-			$order  = $searchFilter->getSelectedOrder();
-			if ($order === ProjectSearchFilter::ORDER_DATE_ASC)
-			{
-				$orders[] = 'deadline ASC';
+				$keyWord = strtoupper($keyWord);
+				$where->OR->expression('UPPER(title) LIKE ?', '%'.$keyWord.'%');
 			}
-			elseif ($order === ProjectSearchFilter::ORDER_DATE_DESC)
-			{
-				$orders[] = 'deadline DESC';
-			}
-			elseif ($order === ProjectSearchFilter::ORDER_GOAL_ASC)
-			{
-				$orders[] = 'goal ASC';
-			}
-			elseif ($order === ProjectSearchFilter::ORDER_GOAL_DESC)
-			{
-				$orders[] = 'goal DESC';
-			}
-			$select->order($orders);
+		}
 
-			$select->group('project.id');
-		});
+		$categoryId = $searchFilter->getSelectedCategory();
+		if (isset($categoryId))
+		{
+			$select->join('projectcategory', 'projectcategory.project_id = project.id');
+			//$select->join('projectcategory', 'projectcategory.project_id = project.id', Select::SQL_STAR, Select::JOIN_LEFT);
+			$where->AND->equalTo('projectcategory.category_id', $categoryId);
+		}
+
+		// status
+		$status = $searchFilter->getSelectedStatus();
+		if ($status === ProjectSearchFilter::STATUS_CURRENT)
+		{
+			$where->AND->literal('deadline > now()');
+		}
+		elseif ($status === ProjectSearchFilter::STATUS_FINISHED)
+		{
+			$where->AND->literal('deadline < now()');
+		}
+
+		// tag
+		$tag = $searchFilter->getTag();
+		if (isset($tag))
+		{
+			$select->join('projecttag', 'projecttag.project_id = project.id');
+			$where->AND->equalTo('projecttag.tag_id', $tag->id);
+		}
+
+		// order
+		$orders = ['promotionend DESC'];
+		$order  = $searchFilter->getSelectedOrder();
+		if ($order === ProjectSearchFilter::ORDER_DATE_ASC)
+		{
+			$orders[] = 'deadline ASC';
+		}
+		elseif ($order === ProjectSearchFilter::ORDER_DATE_DESC)
+		{
+			$orders[] = 'deadline DESC';
+		}
+		elseif ($order === ProjectSearchFilter::ORDER_GOAL_ASC)
+		{
+			$orders[] = 'goal ASC';
+		}
+		elseif ($order === ProjectSearchFilter::ORDER_GOAL_DESC)
+		{
+			$orders[] = 'goal DESC';
+		}
+		$select->order($orders);
+
+		// limit & offset
+		$select->offset($searchFilter->getOffset());
+		$select->limit(ProjectSearchFilter::PROJECT_PER_REQUEST);
+
+		// group by
+		$select->group('project.id');
+
+		$select->where($where);
+
+		// workaround for zend quotting limit and offset bug
+		$sqlObject = new Sql($this->adapter);
+		$sqlString = $sqlObject->buildSqlString($select, $this->adapter);
+
+		$statement = $this->getAdapter()->getDriver()->createStatement($sqlString);
+		$result    = $statement->execute();
+
+		$resultSet = clone $this->resultSetPrototype;
+		$resultSet->initialize($result);
 
 		return $resultSet;
 	}
