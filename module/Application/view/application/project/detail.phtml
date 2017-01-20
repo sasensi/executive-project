@@ -70,6 +70,7 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
             <a id="user" class="avatar" href="<?= $this->url('home/action/id', ['controller' => 'user', 'action' => 'profile', 'id' => $projectUser->id]) ?>" style="background-image: url('<?= $this->basePathOrUrl($projectUser->getPhotoOrDefault()) ?>')" data-toggle="tooltip" data-placement="left auto" title="<?= $projectUser->firstname.' '.$projectUser->name ?>"></a>
         </div>
         <div class="col-xs-12 col-md-8">
+            <h1 id="projectTitleXs" class="visible-xs"><?= $project->title ?></h1>
             <h2><?= $project->subtitle ?></h2>
         </div>
 
