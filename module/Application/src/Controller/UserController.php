@@ -14,6 +14,8 @@ use Application\Model\Transaction;
 use Application\Model\User;
 use Application\Model\UserTable;
 use Application\Util\DateFormatter;
+use Application\Util\DisplayableException;
+use Application\Util\MultiArray;
 use Facebook\Facebook;
 use Facebook\GraphNodes\GraphUser;
 use Zend\Crypt\BlockCipher;
@@ -86,14 +88,13 @@ class UserController extends AbstractActionCustomController
 
 				// check email unicity
 				// todo: do this check with a validator
-				$existingUserWithSameEmail = $this->getTable('user')->selectFirst(['email' => $data[UserForm::EMAIL]]);
+				$existingUserWithSameEmail = $this->getTable('user')->selectFirst(['email' => $data[ UserForm::EMAIL ]]);
 				if (isset($existingUserWithSameEmail))
 				{
-
 				}
 
 				// format birthdate
-				$data[UserForm::BIRTHDATE] = DateFormatter::frToUs($data[UserForm::BIRTHDATE]);
+				$data[ UserForm::BIRTHDATE ] = DateFormatter::frToUs($data[ UserForm::BIRTHDATE ]);
 
 				$nowDate = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
 
@@ -225,7 +226,7 @@ class UserController extends AbstractActionCustomController
 			}
 		}
 
-		$this->addCssDependency('css/user/login.css');
+		$this->addLessDependency('less/user_login.less');
 
 		// add client validation
 		$clientValidator = new ClientValidator($form);
@@ -594,6 +595,45 @@ HTML;
 		return new ViewModel([
 			'user'    => $user,
 			'success' => $success
+		]);
+	}
+
+	public function profileAction()
+	{
+		/** @var User $user */
+		$id       = $this->params()->fromRoute('id');
+		$user     = $this->getTable('user')->selectFirstById($id);
+		if (!isset($user))
+		{
+			throw new DisplayableException("Cet utilisateur n'existe pas.");
+		}
+
+		$usertype = $this->getTable('usertype')->selectFirstById($user->usertype_id);
+
+		if ($user->isAdmin())
+		{
+			throw new DisplayableException("Vous n'avez pas le droit de consulter le profil de cet utilisateur.");
+		}
+
+		$projects = [];
+		if ($user->isCreator())
+		{
+			$projects = $this->getTable('project')->select(['user_id' => $user->id]);
+		}
+		elseif ($user->isFinancer())
+		{
+			/** @var Transaction[] $transactions */
+			$transactions    = $this->getTable('transaction')->select(['user_id' => $user->id]);
+			$transactionsIds = MultiArray::getArrayOfValues($transactions, 'project_id');
+			$projects        = $this->getTable('project')->selectFromIds($transactionsIds);
+		}
+
+		$this->addLessDependency('less/user_profile.less');
+
+		return new ViewModel([
+			'user'     => $user,
+			'usertype' => $usertype,
+			'projects' => $projects,
 		]);
 	}
 

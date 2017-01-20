@@ -1,0 +1,530 @@
+@import "src/variables";
+
+/* NAV */
+.subNav ul {
+  text-align    : right;
+  margin-bottom : 0;
+}
+
+.subNav li {
+  display     : inline-block;
+  margin-left : 50px;
+  padding     : 0;
+  color       : #9B9BFF;
+}
+
+.subNav h1 {
+  font-size   : 1.2em;
+  margin      : 0;
+  padding     : 0;
+  font-weight : 600;
+  position    : relative;
+  top         : 3px;
+  white-space : nowrap;
+}
+
+.subNav img {
+  width : 30px;
+}
+
+.subNav img, .subNav span {
+  display        : inline-block;
+  vertical-align : middle;
+}
+
+.subNav span {
+  margin-left : 10px;
+}
+
+.subNav a:focus {
+  color           : inherit;
+  outline         : none;
+  text-decoration : none;
+}
+
+.subNav i {
+  font-size      : 1.5em;
+  vertical-align : middle;
+}
+
+.subNav .icon_dots {
+  font-size : .65em;
+}
+
+.subNav .active, .subNav a:focus.active {
+  color : white;
+}
+
+/* CONTENT */
+
+#user {
+  position : absolute;
+  bottom   : -@grid-gutter-width-half;
+  right    : @grid-gutter-width;
+  z-index  : 1;
+  display  : block;
+}
+
+#mainPicture img {
+  width : 100%;
+}
+
+h2 {
+  font-size     : inherit;
+  font-style    : italic;
+  text-align    : center;
+  font-weight   : 600;
+  margin-bottom : 2em;
+}
+
+.iconWrapper {
+  display        : inline-block;
+  vertical-align : middle;
+}
+
+.iconWrapper > i {
+  font-size      : 1.5em;
+  vertical-align : middle;
+  margin-right   : .25em;
+  margin-top     : -.05em;
+}
+
+#stats > .row > div {
+  /* margin-bottom : 1em; */
+  text-align : center;
+}
+
+#stats span {
+  font-size : 1.2em;
+}
+
+#description {
+  overflow : hidden;
+}
+
+/* MOVIES */
+#moviesCarousel {
+  position : relative;
+}
+
+#movies video, .picture, .picture img {
+  width            : 100%;
+  background-color : lightgray;
+}
+
+/* GIFTS */
+.gift .title, .gift .minAmount {
+  font-weight : 600;
+}
+
+.gift .minAmount {
+  color : blue;
+}
+
+.gift i {
+  font-size  : 1.2em;
+  margin-top : -4px;
+}
+
+.gift .title i {
+  margin-right : .15em;
+}
+
+.gift > .description {
+  margin-bottom : 2em;
+}
+
+.gift:last-child > .description {
+  margin-bottom : 0;
+}
+
+/* MOVIES */
+#movies {
+  margin-bottom : 1em;
+}
+
+#overlay {
+  background-color : rgba(0, 0, 255, 0.25);
+  width            : 100%;
+  color            : white;
+  height           : 100%;
+  position         : absolute;
+  top              : 0;
+  left             : 0;
+  text-align       : center;
+  line-height      : 100%;
+  font-size        : 2em;
+  cursor           : pointer;
+}
+
+#overlay i {
+  opacity : .5;
+}
+
+#overlay:hover i {
+  opacity : 1;
+}
+
+#pauseButton {
+  display : none;
+}
+
+/* playing state */
+#moviesCarousel #overlay,
+#moviesCarousel .carousel-control,
+#moviesCarousel .carousel-indicators li {
+  transition : opacity .5s
+}
+
+#moviesCarousel.playing #overlay,
+#moviesCarousel.playing .carousel-control,
+#moviesCarousel.playing .carousel-indicators li {
+  opacity : 0;
+}
+
+#moviesCarousel .carousel-indicators li,
+#moviesCarousel.playing:hover .carousel-control,
+#moviesCarousel.playing:hover .carousel-indicators li {
+  opacity : .5;
+}
+
+#moviesCarousel.playing:hover #overlay,
+#moviesCarousel .carousel-indicators li:hover,
+#moviesCarousel.playing .carousel-control:hover,
+#moviesCarousel.playing .carousel-indicators li:hover {
+  opacity : 1;
+}
+
+/* vertical align hack */
+#overlay:before,
+#moviesCarousel .left:before,
+#moviesCarousel .right:before {
+  content        : '';
+  display        : inline-block;
+  height         : 100%;
+  vertical-align : middle;
+  margin-right   : -0.25em;
+}
+
+/* PICTURES */
+#picturesCarousel {
+  padding       : 0 1em;
+  margin-bottom : 2em;
+}
+
+#pictures .arrow {
+  width        : 2em;
+  height       : 2em;
+  /* background-color : blue; */
+  position     : absolute;
+  top          : 50%;
+  margin-top   : -1em;
+  transform    : rotate(45deg);
+  border-right : 1em solid blue;
+}
+
+#pictures .carousel-control.left,
+#pictures .carousel-control.right {
+  width      : 50%;
+  color      : blue;
+  opacity    : 1;
+  background : none;
+  font-size  : 2em;
+}
+
+#pictures .carousel-control i {
+  position   : absolute;
+  top        : 50%;
+  margin-top : -.5em;
+}
+
+#pictures .carousel-control.left i {
+  left : 0;
+}
+
+#pictures .carousel-control.right i {
+  right : 0;
+}
+
+#pictures img {
+  width : 100%;
+}
+
+#pictures .carousel-indicators {
+  bottom        : -2em;
+  margin-bottom : 0;
+}
+
+#pictures .carousel-indicators li {
+  /* background-color : blue; */
+  border-color : blue;
+}
+
+#pictures .carousel-indicators li.active {
+  background-color : blue;
+}
+
+#pictures .carousel-inner .item {
+  width  : 100%;
+  height : 400px;
+}
+
+#pictures .carousel-inner .item img {
+  display : none;
+}
+
+/* CATEGORIES/TAGS */
+#categories,
+#tags {
+  text-align : center;
+}
+
+#categories li {
+  border        : 1px solid blue;
+  border-radius : 3px;
+  padding       : .125em .25em;
+  margin        : .25em;
+  cursor        : pointer;
+}
+
+#tags li {
+  border-bottom : 1px solid blue;
+  padding       : 0 3px;
+  margin        : .25em;
+}
+
+/* PAYMENT */
+#payButton {
+  position         : fixed;
+  top              : 104px;
+  right            : @grid-gutter-width-half;
+  font-size        : 40px;
+  color            : white;
+  background-color : lightcoral;
+  height           : 60px;
+  width            : 60px;
+  line-height      : 60px;
+  text-align       : center;
+  border-radius    : 50%;
+  cursor           : pointer;
+  z-index          : 2;
+}
+
+#payment {
+  position         : fixed;
+  background-color : lightcoral;
+  height           : calc(100vh - 55px);
+  width            : 100%;
+  top              : 100%;
+  z-index          : 100;
+  padding          : 1em;
+  text-align       : center;
+  transition       : top 1s;
+}
+
+#payment.active {
+  top : 55px;
+}
+
+/* wrapper */
+#payment > form {
+  border   : 4px solid white;
+  width    : 100%;
+  height   : 100%;
+  position : relative;
+  color    : white;
+}
+
+#closebutton {
+  width         : 3em;
+  height        : 3em;
+  border        : 4px solid white;
+  border-radius : 50%;
+  position      : absolute;
+  cursor        : pointer;
+  top           : @grid-gutter-width-half;
+  right         : @grid-gutter-width-half;
+}
+
+#closebutton .crossBar {
+  position    : absolute;
+  width       : 1.8em;
+  border      : 2px solid white;
+  top         : 50%;
+  margin-top  : -3px;
+  left        : 50%;
+  margin-left : -.9em;
+  transform   : rotate(45deg);
+}
+
+#closebutton .crossBar:last-child {
+  transform : rotate(-45deg);
+}
+
+#payment h1 {
+  font-size   : 1.2em;
+  font-weight : 600;
+  margin      : 0;
+  position    : absolute;
+  top         : 23%;
+  text-align  : center;
+  width       : 100%;
+}
+
+#payment section {
+  height     : 6em;
+  top        : 50%;
+  margin-top : -4em;
+  position   : relative;
+}
+
+#price {
+  font-size : 2em;
+  position  : relative;
+  left      : .35em;
+}
+
+#payment input {
+  border-width  : 4px;
+  width         : 4em;
+  text-align    : center;
+  background    : inherit;
+  border        : none;
+  border-bottom : 3px solid;
+  color         : inherit;
+  padding       : 0 5px;
+  margin-bottom : 5px;
+}
+
+#payment input:focus {
+  outline : none;
+}
+
+#gift {
+  font-size : 1.2em;
+  position  : absolute;
+  bottom    : 0;
+  width     : 100%;
+  opacity   : .5;
+}
+
+#gift.active {
+  opacity : 1;
+}
+
+#gift i {
+  margin-top   : -3px;
+  margin-right : .25em;
+}
+
+#buttons {
+  position : absolute;
+  bottom   : 23%;
+  width    : 100%;
+}
+
+#buttons > button {
+  display    : inline-block;
+  margin     : 0px 20px;
+  font-size  : 3em;
+  background : none;
+  border     : none;
+  color      : inherit;
+  padding    : 0;
+}
+
+/* RESPONSIVE */
+
+/* <= SM */
+@media (max-width : 991px) {
+  #content .offsetContainer {
+    margin-top : 21px;
+  }
+
+  #mainPicture,
+  #movies {
+    padding : 0;
+  }
+
+  .subNav span {
+    display : none;
+  }
+
+  .subNav li {
+    margin-left : 43px;
+  }
+
+  #picturesCarousel {
+    padding : 0;
+  }
+
+  #pictures .carousel-control.left i {
+    left : -.5em;
+  }
+
+  #pictures .carousel-control.right i {
+    right : -.5em;
+  }
+
+  #user {
+    right : @grid-gutter-width-half;
+  }
+}
+
+/* XS */
+@media (max-width : 767px) {
+  .subNav ul {
+    text-align : center;
+  }
+
+  .subNav li {
+    margin : 0 calc(12.5% - 17px);
+  }
+}
+
+/* >= MD */
+@media (min-width : 992px) {
+  .subNav ul > li:nth-child(4) {
+    display : none;
+  }
+
+  #stats, #gifts {
+    position : absolute;
+    right    : 0;
+    top      : 1em;
+  }
+
+  #stats {
+    height : 8em;
+  }
+
+  #gifts {
+    margin-top     : 8.5em;
+    width          : calc(33.33333333333333% ~"-" @grid-gutter-width-half);
+    border-left    : 2px solid blue;
+    padding-top    : .5em;
+    padding-bottom : .5em;
+  }
+
+  .gift > .description {
+    margin-bottom : 0;
+  }
+
+  .gift {
+    margin-top : 2em
+  }
+
+  .gift:first-child {
+    margin-top : 0
+  }
+
+  #stats > .row > div {
+    text-align    : left;
+    margin-bottom : .8em;
+  }
+
+  .iconWrapper {
+    width      : 2.5em;
+    text-align : center;
+  }
+}

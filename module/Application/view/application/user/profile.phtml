@@ -1,0 +1,26 @@
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Application\Model\User         $user
+ * @var \Application\Model\Usertype     $usertype
+ * @var \Application\Model\Project[]    $projects
+ */
+?>
+
+<h1>Profil de l'utilisateur</h1>
+
+<div id="wrapper">
+    <div id="photo" class="avatar" style="background-image: url('<?= $this->basePathOrUrl($user->getPhotoOrDefault()) ?>')"></div>
+    <div id="infos">
+        <p><?= $user->firstname ?> <?= $user->name ?></p>
+        <p><i class="fa fa-user"></i><?= $usertype->name ?></p>
+        <p><i class="fa fa-clock-o"></i>membre depuis le <?= \Application\Util\DateFormatter::usToFr($user->subscriptiondate) ?></p>
+        <p><i class="fa fa-map-marker"></i><?= $user->city ?></p>
+    </div>
+</div>
+<?php if (!empty($projects)): ?>
+    <div id="projects">
+        <legend>Projets <?= $user->isCreator() ? 'créés' : 'financés' ?></legend>
+        <?= $this->partial('/partial/project/projects', ['projects' => $projects]) ?>
+    </div>
+<?php endif; ?>

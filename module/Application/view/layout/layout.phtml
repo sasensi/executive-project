@@ -5,6 +5,7 @@
 
 use Application\Controller\UserController;
 use Application\Util\DevelopementMode;
+use Zend\View\Helper\Placeholder\Container\AbstractContainer;
 
 // try to get logged user
 $user = null;
@@ -48,14 +49,15 @@ catch (Exception $e)
 	{
 		// styles
 		echo $this->headLink()
-		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/style.less')])
-		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/button.less')])
-		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/projectDescription.less')])
-		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/formValidation.less')])
-		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/basictable.custom.less')])
-		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/summernote.custom.less')])
-		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('fonts/icomoon/style.custom.less')])
-		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('fonts/icomoon/style.less')])
+		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/projects.less')], AbstractContainer::PREPEND)
+		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/style.less')], AbstractContainer::PREPEND)
+		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/button.less')], AbstractContainer::PREPEND)
+		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/projectDescription.less')], AbstractContainer::PREPEND)
+		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/formValidation.less')], AbstractContainer::PREPEND)
+		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/basictable.custom.less')], AbstractContainer::PREPEND)
+		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/summernote.custom.less')], AbstractContainer::PREPEND)
+		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('fonts/icomoon/style.custom.less')], AbstractContainer::PREPEND)
+		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('fonts/icomoon/style.less')], AbstractContainer::PREPEND)
 			//->prependStylesheet($this->basePath('css/style.css'))
 			//      ->prependStylesheet($this->basePath('fonts/icomoon/style.custom.css'))
 			//     ->prependStylesheet($this->basePath('fonts/icomoon/style.css'))
@@ -96,7 +98,7 @@ catch (Exception $e)
 	else
     {
 	    // styles
-	    echo $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath().'/img/favicon.ico'])
+	    echo $this->headLink()
 	              ->prependStylesheet($this->basePath('css/style.min.css'));
 
 	    // scripts

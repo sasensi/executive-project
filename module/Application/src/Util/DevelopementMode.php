@@ -11,9 +11,6 @@ class DevelopementMode
 {
 	public static function isActive()
 	{
-		// debug
-		// todo: remove this
-		return true;
-		//return (isset($_SERVER['APPLICATION_ENV']) && $_SERVER['APPLICATION_ENV'] === 'development');
+		return strpos($_SERVER['HTTP_HOST'], 'localhost') === 0;
 	}
 }

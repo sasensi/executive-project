@@ -50,7 +50,7 @@ class ProjectController extends AbstractActionCustomController
 
 		$projects = $this->getProjectTable()->getAllFromSearchFilters($searchFilter);
 
-		$this->addCssDependency('css/project/index.css');
+		$this->addCssDependency('less/project_index.less');
 		$this->addJsDependency('js/project/index.js');
 
 		return new ViewModel([
@@ -109,7 +109,7 @@ class ProjectController extends AbstractActionCustomController
 		$paymentIsAllowed = !$project->deadLineIsPassed() && (!isset($user) || $user->isFinancer());
 
 		$this->addJsDependency('js/project/detail.js');
-		$this->addCssDependency('css/project/detail.css');
+		$this->addLessDependency('less/project_detail.less');
 
 		return new ViewModel([
 			'project'          => $project,

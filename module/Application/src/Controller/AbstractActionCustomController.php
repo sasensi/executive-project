@@ -4,6 +4,7 @@ namespace Application\Controller;
 
 use Application\Model\AbstractTable;
 use Zend\Db\Adapter\Adapter;
+use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Helper\HeadLink;
 use Zend\View\Helper\HeadScript;
@@ -21,6 +22,13 @@ abstract class AbstractActionCustomController extends AbstractActionController
 		/** @var HeadLink $headLinkHelper */
 		$headLinkHelper = $this->getServiceLocator()->get('ViewHelperManager')->get('HeadLink');
 		$headLinkHelper->appendStylesheet($this->getRenderer()->basePath($pathFromBase));
+	}
+
+	protected function addLessDependency($pathFromBase)
+	{
+		/** @var HeadLink $headLinkHelper */
+		$headLinkHelper = $this->getServiceLocator()->get('ViewHelperManager')->get('HeadLink');
+		$headLinkHelper(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->getRenderer()->basePath($pathFromBase)]);
 	}
 
 	protected function addJsDependency($pathFromBase)

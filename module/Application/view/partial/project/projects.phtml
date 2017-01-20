@@ -3,27 +3,30 @@
  * @var \Application\Model\Project[] $projects
  */
 ?>
-
-<?php foreach ($projects as $project): ?>
-	<a href="<?= $this->url('home/action/id', ['controller' => 'project', 'action' => 'detail', 'id' => $project->id]) ?>" class="col-xs-12 col-sm-6 col-md-4 project">
-		<?= $this->partial('/partial/project/cover.phtml', ['project' => $project]) ?>
-		<h1><?= $project->title ?></h1>
-		<h2><?= $project->subtitle ?></h2>
-		<div class="row">
-			<div class="col-xs-6 projectInfo projectGoal">
-				<?= $this->partial('/partial/project/goal.phtml', ['project' => $project]) ?>
-				<span><?= $project->goal ?> €</span>
-			</div>
-			<div class="col-xs-6 projectInfo projectRemainingTime">
-				<span>
-					<?php
-					$remainingDaysCount = $project->getRemainingDaysCount();
-					echo ($remainingDaysCount > 0) ? 'J - '.$remainingDaysCount : 'terminé';
-					?>
-				</span>
-				<?= $this->partial('/partial/project/remainingTime.phtml', ['project' => $project]) ?>
-			</div>
-		</div>
-		<hr class="horizontalSeparator">
-	</a>
-<?php endforeach; ?>
+<div id="projectsWrapper" class="offsetContainer">
+    <div class="row">
+		<?php foreach ($projects as $project): ?>
+            <a href="<?= $this->url('home/action/id', ['controller' => 'project', 'action' => 'detail', 'id' => $project->id]) ?>" class="col-xs-12 col-sm-6 col-md-4 project">
+				<?= $this->partial('/partial/project/cover.phtml', ['project' => $project]) ?>
+                <h1><?= $project->title ?></h1>
+                <h2><?= $project->subtitle ?></h2>
+                <div class="row">
+                    <div class="col-xs-6 projectInfo projectGoal">
+						<?= $this->partial('/partial/project/goal.phtml', ['project' => $project]) ?>
+                        <span><?= $project->goal ?> €</span>
+                    </div>
+                    <div class="col-xs-6 projectInfo projectRemainingTime">
+                        <span>
+							<?php
+							$remainingDaysCount = $project->getRemainingDaysCount();
+							echo ($remainingDaysCount > 0) ? 'J - '.$remainingDaysCount : 'terminé';
+							?>
+                        </span>
+						<?= $this->partial('/partial/project/remainingTime.phtml', ['project' => $project]) ?>
+                    </div>
+                </div>
+                <hr class="horizontalSeparator">
+            </a>
+		<?php endforeach; ?>
+    </div>
+</div>

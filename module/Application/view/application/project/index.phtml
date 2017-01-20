@@ -87,11 +87,7 @@
 </div>
 
 <!-- projects list -->
-<div id="projectsWrapper" class="offsetContainer">
-	<div class="row">
-        <?= $this->partial('/partial/project/projects.phtml', ['projects' => $projects]) ?>
-	</div>
-</div>
+<?= $this->partial('/partial/project/projects.phtml', ['projects' => $projects]) ?>
 
 <!-- infinite scroll -->
 <div id="loading">

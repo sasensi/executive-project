@@ -1,68 +1,88 @@
-<h1><?php echo $this->translate('An error occurred') ?></h1>
-<h2><?php echo $this->message ?></h2>
-
-<?php if (isset($this->display_exceptions) && $this->display_exceptions): ?>
-
-<?php if(isset($this->exception) && $this->exception instanceof Exception): ?>
-<hr/>
-<h2><?php echo $this->translate('Additional information') ?>:</h2>
-<h3><?php echo get_class($this->exception); ?></h3>
-<dl>
-    <dt><?php echo $this->translate('File') ?>:</dt>
-    <dd>
-        <pre class="prettyprint linenums"><?php echo $this->exception->getFile() ?>:<?php echo $this->exception->getLine() ?></pre>
-    </dd>
-    <dt><?php echo $this->translate('Message') ?>:</dt>
-    <dd>
-        <pre class="prettyprint linenums"><?php echo $this->escapeHtml($this->exception->getMessage()) ?></pre>
-    </dd>
-    <dt><?php echo $this->translate('Stack trace') ?>:</dt>
-    <dd>
-        <pre class="prettyprint linenums"><?php echo $this->escapeHtml($this->exception->getTraceAsString()) ?></pre>
-    </dd>
-</dl>
 <?php
-    $e = $this->exception->getPrevious();
-    $icount = 0;
-    if ($e) :
+/**
+ * @var Exception $e
+ */
+use Application\Util\DevelopementMode;
+
 ?>
-<hr/>
-<h2><?php echo $this->translate('Previous exceptions') ?>:</h2>
-<ul class="unstyled">
-    <?php while($e) : ?>
-    <li>
-        <h3><?php echo get_class($e); ?></h3>
-        <dl>
-            <dt><?php echo $this->translate('File') ?>:</dt>
-            <dd>
-                <pre class="prettyprint linenums"><?php echo $e->getFile() ?>:<?php echo $e->getLine() ?></pre>
-            </dd>
-            <dt><?php echo $this->translate('Message') ?>:</dt>
-            <dd>
-                <pre class="prettyprint linenums"><?php echo $this->escapeHtml($e->getMessage()) ?></pre>
-            </dd>
-            <dt><?php echo $this->translate('Stack trace') ?>:</dt>
-            <dd>
-                <pre class="prettyprint linenums"><?php echo $this->escapeHtml($e->getTraceAsString()) ?></pre>
-            </dd>
-        </dl>
-    </li>
-    <?php
-        $e = $e->getPrevious();
-        $icount += 1;
-        if ($icount >= 50) {
-            echo "<li>There may be more exceptions, but we have no enough memory to proccess it.</li>";
-            break;
-        }
-        endwhile;
-    ?>
-</ul>
+
+<?php if ($this->exception instanceof \Application\Util\DisplayableException): ?>
+
+    <h1>Erreur</h1>
+    <p><?= $this->exception->getMessage() ?></p>
+
+<?php elseif (DevelopementMode::isActive()): ?>
+
+    <h1><?= $this->translate('An error occurred') ?></h1>
+    <h2><?= $this->message ?></h2>
+
+	<?php if (isset($this->display_exceptions) && $this->display_exceptions): ?>
+
+		<?php if (isset($this->exception) && $this->exception instanceof Exception): ?>
+            <hr/>
+            <h2><?= $this->translate('Additional information') ?>:</h2>
+            <h3><?= get_class($this->exception); ?></h3>
+            <dl>
+                <dt><?= $this->translate('File') ?>:</dt>
+                <dd>
+                    <pre class="prettyprint linenums"><?= $this->exception->getFile() ?>:<?= $this->exception->getLine() ?></pre>
+                </dd>
+                <dt><?= $this->translate('Message') ?>:</dt>
+                <dd>
+                    <pre class="prettyprint linenums"><?= $this->escapeHtml($this->exception->getMessage()) ?></pre>
+                </dd>
+                <dt><?= $this->translate('Stack trace') ?>:</dt>
+                <dd>
+                    <pre class="prettyprint linenums"><?= $this->escapeHtml($this->exception->getTraceAsString()) ?></pre>
+                </dd>
+            </dl>
+			<?php
+			$e      = $this->exception->getPrevious();
+			$icount = 0;
+			if ($e) :
+				?>
+                <hr/>
+                <h2><?= $this->translate('Previous exceptions') ?>:</h2>
+                <ul class="unstyled">
+					<?php while ($e) : ?>
+                        <li>
+                            <h3><?= get_class($e); ?></h3>
+                            <dl>
+                                <dt><?= $this->translate('File') ?>:</dt>
+                                <dd>
+                                    <pre class="prettyprint linenums"><?= $e->getFile() ?>:<?= $e->getLine() ?></pre>
+                                </dd>
+                                <dt><?= $this->translate('Message') ?>:</dt>
+                                <dd>
+                                    <pre class="prettyprint linenums"><?= $this->escapeHtml($e->getMessage()) ?></pre>
+                                </dd>
+                                <dt><?= $this->translate('Stack trace') ?>:</dt>
+                                <dd>
+                                    <pre class="prettyprint linenums"><?= $this->escapeHtml($e->getTraceAsString()) ?></pre>
+                                </dd>
+                            </dl>
+                        </li>
+						<?php
+						$e = $e->getPrevious();
+						$icount += 1;
+						if ($icount >= 50)
+						{
+							echo "<li>There may be more exceptions, but we have no enough memory to proccess it.</li>";
+							break;
+						}
+					endwhile;
+					?>
+                </ul>
+			<?php endif; ?>
+
+		<?php else: ?>
+
+            <h3><?= $this->translate('No Exception available') ?></h3>
+
+		<?php endif ?>
+
+	<?php endif ?><?php else: ?>
+    <h1>Erreur</h1>
+    <p>Une erreur inconnue est survenue.</p>
 <?php endif; ?>
 
-<?php else: ?>
-
-<h3><?php echo $this->translate('No Exception available') ?></h3>
-
-<?php endif ?>
-
-<?php endif ?>

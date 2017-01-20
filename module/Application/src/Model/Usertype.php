@@ -34,7 +34,6 @@ class Usertype extends AbstractRow
 		return [
 			'id'   => $this->id,
 			'name' => $this->name,
-
 		];
 	}
 }

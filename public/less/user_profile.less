@@ -1,0 +1,66 @@
+@import "src/variables";
+
+#photo {
+  width  : 8em;
+  height : 8em;
+  margin : auto;
+}
+
+#infos {
+  text-align : center;
+  margin-top : 1em;
+}
+
+#infos > p:first-child {
+  font-weight : bold;
+}
+
+#infos > p {
+  margin-bottom : .2em;
+}
+
+legend {
+  text-align : center;
+  font-size  : 1em;
+}
+
+#projects {
+  margin-top : 1.5em;
+}
+
+.offsetContainer {
+  margin-top : 0;
+}
+
+#infos i {
+  margin-right : .3em;
+}
+
+/* RESPONSIVE */
+
+/* > XS */
+@media (min-width : @screen-sm-min) {
+  #wrapper {
+    text-align : center;
+  }
+
+  #photo, #infos {
+    display        : inline-block;
+    vertical-align : middle;
+  }
+
+  #photo {
+    margin-left : 0;
+  }
+
+  #infos {
+    text-align  : left;
+    margin-left : 1em;
+    margin-top  : 0;
+  }
+
+  #infos i {
+    width      : 1em;
+    text-align : center;
+  }
+}
