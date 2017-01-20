@@ -45,8 +45,8 @@ div.container a.brand {
 
 /* PAGE TITLE */
 #content h1 {
-  font-size : @font-size-big;
-  font-weight: bold;
+  font-size   : @font-size-big;
+  font-weight : bold;
 }
 
 #content > h1 {
@@ -296,5 +296,20 @@ form > p:last-child {
 
   #logo img {
     height : 30px;
+  }
+}
+
+/* LG ONLY */
+@media (min-width : @screen-lg-min) {
+  #content {
+    max-width    : @screen-lg;
+    margin-left  : auto;
+    margin-right : auto;
+  }
+
+  body > nav > .row {
+    max-width    : @screen-lg;
+    margin-left  : ~"calc(((100% - 1200px) / 2) - 15px)";
+    margin-right : ~"calc(((100% - 1200px) / 2) - 15px)";
   }
 }
