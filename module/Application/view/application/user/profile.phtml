@@ -21,6 +21,10 @@
 <?php if (!empty($projects)): ?>
     <div id="projects">
         <legend>Projets <?= $user->isCreator() ? 'créés' : 'financés' ?></legend>
-        <?= $this->partial('/partial/project/projects', ['projects' => $projects]) ?>
+        <div id="projectsWrapper" class="offsetContainer">
+            <div class="row">
+			    <?= $this->partial('/partial/project/projects.phtml', ['projects' => $projects]) ?>
+            </div>
+        </div>
     </div>
 <?php endif; ?>

@@ -105,6 +105,7 @@ class ProjectTable extends AbstractTable
 		{
 			$orders[] = 'transactionsum DESC';
 		}
+		$orders[] = 'id DESC';
 		$select->order($orders);
 
 		// limit & offset

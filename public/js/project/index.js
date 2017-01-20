@@ -29,7 +29,7 @@ $(document).ready(function ()
         var delta = $(document).height() - $window.height() - $window.scrollTop();
         if (delta < 30 && !$loading.data('active'))
         {
-            $loading.show().data('active',true);
+            $loading.show().data('active', true);
 
             $.ajax({
                 dataType: "json",
@@ -41,7 +41,7 @@ $(document).ready(function ()
                 },
                 success : function (response)
                 {
-                    $loading.hide().data('active',false);
+                    $loading.hide().data('active', false);
 
                     if (!response.success)
                     {

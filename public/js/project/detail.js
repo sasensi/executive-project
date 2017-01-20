@@ -5,7 +5,7 @@ $(document).ready(function ()
     //
 
     // fine tunning for scroll navigation
-    var offsetTop = 105;
+    var offsetTop = 104;
 
     // subnav click event
     $('.subNav a').click(function (event)
@@ -18,7 +18,7 @@ $(document).ready(function ()
     });
 
     // update subnav display on scroll
-    $('#mainPicture, #description, #movies, #gifts')
+    $('#mainPicture, #description, #medias, #gifts')
     .on('scrollSpy:enter', function ()
     {
         $(this).addClass('scrollVisible');
@@ -30,7 +30,7 @@ $(document).ready(function ()
         updateActiveLink();
     })
     .scrollSpy({
-        offsetTop: offsetTop
+        offsetTop: offsetTop + 1
     })
     ;
 
@@ -58,7 +58,7 @@ $(document).ready(function ()
         {
             $video = $moviesCarousel.find('video');
         }
-        var video  = $video.get(0);
+        var video = $video.get(0);
 
         if ($video.hasClass('playing'))
         {

@@ -13,6 +13,9 @@ class Db extends \PDO
 	{
 		parent::__construct('mysql:dbname=crowdfunding;host=127.0.0.1', 'root', '');
 		$this->setAttribute(self::ATTR_ERRMODE, self::ERRMODE_EXCEPTION);
-		$this->exec('SET NAMES utf8');
+		$this->exec('
+			SET NAMES utf8;
+			SET CHARACTER SET utf8;
+		');
 	}
 }

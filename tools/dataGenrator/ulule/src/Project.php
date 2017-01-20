@@ -95,18 +95,6 @@ class Project
 		{
 			$pictures[] = $picturesElement->nodeValue;
 		}
-		$descriptionParagraphs = $this->xpath->query("//div[@id='project-description']//section[@class='from-editor']//*[text()[normalize-space()]][string-length() > 30]");
-		$descriptions          = '';
-		$descriptionMaxLength  = 6000;
-		foreach ($descriptionParagraphs as $descriptionParagraph)
-		{
-			$description = "<p>$descriptionParagraph->nodeValue</p>";
-			if ((strlen($descriptions) + strlen($description)) > $descriptionMaxLength)
-			{
-				break;
-			}
-			$descriptions .= $description;
-		}
 
 		$goal = $this->xpath->query("//p[@class='progress']/b")[0]->nodeValue;
 		$goal = preg_replace('/[^0-9]/', '', $goal);
@@ -123,7 +111,7 @@ class Project
 			'userId'         => $userId,
 			'title'          => $title,
 			'subtitle'       => $subtitle,
-			'description'    => $descriptions,
+			'description'    => $this->getDescription(),
 			'mainpicture'    => $mainPicture,
 			'startDateDelay' => rand(30, 45),
 			'projectTime'    => rand(15, 45),
@@ -294,6 +282,46 @@ class Project
 		{
 			return $string;
 		}
-		return substr($string, 0, ($maxLength-3)).'...';
+		return substr($string, 0, ($maxLength - 3)).'...';
+	}
+
+	protected function getDescription()
+	{
+		$result                  = '';
+		$descriptionMaxLength    = 6000;
+		$subdescriptionMaxLength = 1000;
+
+		$titles = $this->xpath->query("//div[@id='project-description']/h3");
+		foreach ($titles as $title)
+		{
+			if (strlen($result) + $subdescriptionMaxLength > $descriptionMaxLength)
+			{
+				break;
+			}
+			$subdescription = '';
+			$contents       = $this->xpath->query("./following-sibling::section[1]//*[text()[normalize-space()]][string-length() > 30]", $title);
+			foreach ($contents as $content)
+			{
+				$content = $content->nodeValue;
+				$content = trim(str_replace("\xC2\xA0", ' ', html_entity_decode($content)));
+				if (strpos($content, '(') === 0)
+				{
+					continue;
+				}
+				$content = preg_replace('/\s+/', ' ', $content);
+				if (strlen($subdescription) + strlen($content) > $subdescriptionMaxLength)
+				{
+					break;
+				}
+				$subdescription .= "<p>".$content."</p>";
+			}
+			if (empty($subdescription))
+			{
+				continue;
+			}
+			$titleText = trim($this->xpath->query("./text()", $title)[0]->nodeValue);
+			$result .= "<h1>{$titleText}</h1>".$subdescription;
+		}
+		return $result;
 	}
 }
