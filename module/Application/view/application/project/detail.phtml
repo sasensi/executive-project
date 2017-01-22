@@ -26,37 +26,42 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 
 <!-- NAV -->
 <div class="subNav box-shadow">
-    <div class="row">
-        <div class="col-xs-5 hidden-xs">
-            <h1><?= $project->title ?></h1>
+    <div class="max-width-lg">
+        <div class="row">
+            <div class="col-xs-5 hidden-xs">
+                <h1><?= $project->title ?></h1>
+            </div>
+            <div class="col-xs-12 col-sm-7">
+                <ul class="list-inline">
+                    <li>
+                        <a href="#mainPicture" class="active">
+                            <i class="icomoon icon_pie"></i>
+                            <span>Résumé</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#description">
+                            <i class="icomoon icon_dots"></i>
+                            <span>Description</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#medias">
+                            <i class="icomoon icon_pictures"></i>
+                            <span>Images</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#gifts">
+                            <i class="icomoon icon_gift"></i>
+                            <span>Contreparties</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="col-xs-12 col-sm-7">
-            <ul class="list-inline">
-                <li>
-                    <a href="#mainPicture" class="active">
-                        <i class="icomoon icon_pie"></i>
-                        <span>Résumé</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#description">
-                        <i class="icomoon icon_dots"></i>
-                        <span>Description</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#medias">
-                        <i class="icomoon icon_pictures"></i>
-                        <span>Images</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#gifts">
-                        <i class="icomoon icon_gift"></i>
-                        <span>Contreparties</span>
-                    </a>
-                </li>
-            </ul>
+        <div id="payButton" class="box-shadow" data-toggle="tooltip" data-placement="left auto" title="financer ce projet">
+            <i class="icomoon icon_payment"></i>
         </div>
     </div>
 </div>
@@ -227,9 +232,6 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
 
         <!-- PAYMENT -->
 		<?php if ($paymentIsAllowed): ?>
-            <div id="payButton" class="box-shadow" data-toggle="tooltip" data-placement="left auto" title="financer ce projet">
-                <i class="icomoon icon_payment"></i>
-            </div>
             <div id="payment">
                 <form method="GET" action="<?= $paymentUrl ?>">
                     <input name="projectId" type="hidden" value="<?= $project->id ?>">

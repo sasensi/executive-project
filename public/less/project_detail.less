@@ -298,11 +298,15 @@ h2 {
 }
 
 /* PAYMENT */
+.subNav > .max-width-lg {
+  position : relative;
+}
+
 #payButton {
-  position         : fixed;
-  top              : 104px;
-  right            : @grid-gutter-width-half;
-  font-size        : 40px;
+  position         : absolute;
+  right            : 0;
+  top              : 46px;
+  font-size        : 25px;
   color            : white;
   background-color : lightcoral;
   height           : 60px;
@@ -320,6 +324,7 @@ h2 {
   height           : calc(100vh ~"-" 55px);
   width            : 100%;
   top              : 100%;
+  left             : 0;
   z-index          : 100;
   padding          : 1em;
   text-align       : center;
@@ -390,7 +395,7 @@ h2 {
 
 #payment input {
   border-width  : 4px;
-  width         : 4em;
+  width         : 3em;
   text-align    : center;
   background    : inherit;
   border        : none;

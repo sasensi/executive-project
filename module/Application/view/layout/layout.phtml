@@ -109,67 +109,69 @@ catch (Exception $e)
 </head>
 <body>
 
-<nav class="container-fluid">
-    <div class="row">
-        <div class="col-xs-2" id="logo">
-            <a href="<?= $this->url('home') ?>">
-                <img src="<?= $this->basePath('img/logo_md.png') ?>" alt="logo" class="visible-md visible-lg">
-                <img src="<?= $this->basePath('img/logo_sm.png') ?>" alt="logo" class="visible-sm">
-                <img src="<?= $this->basePath('img/logo_xs.png') ?>" alt="logo" class="visible-xs">
-            </a>
-        </div>
-        <div class="col-xs-12 col-sm-10">
-            <ul class="list-unstyled">
-                <li>
-					<?php if (isset($user) && $user->isCreator()): ?>
-                        <a href="<?= $this->url('home/action', ['controller' => 'project', 'action' => 'add']) ?>">
-                            <i class="icomoon icon_plus"></i>
-                            <span>proposer une idée</span>
+<nav>
+    <div class="container-fluid max-width-lg">
+        <div class="row">
+            <div class="col-xs-2" id="logo">
+                <a href="<?= $this->url('home') ?>">
+                    <img src="<?= $this->basePath('img/logo_md.png') ?>" alt="logo" class="visible-md visible-lg">
+                    <img src="<?= $this->basePath('img/logo_sm.png') ?>" alt="logo" class="visible-sm">
+                    <img src="<?= $this->basePath('img/logo_xs.png') ?>" alt="logo" class="visible-xs">
+                </a>
+            </div>
+            <div class="col-xs-12 col-sm-10">
+                <ul class="list-unstyled">
+                    <li>
+						<?php if (isset($user) && $user->isCreator()): ?>
+                            <a href="<?= $this->url('home/action', ['controller' => 'project', 'action' => 'add']) ?>">
+                                <i class="icomoon icon_plus"></i>
+                                <span>proposer une idée</span>
+                            </a>
+						<?php endif; ?>
+                    </li>
+                    <li>
+                        <a href="<?= $this->url('home/action', ['controller' => 'about', 'action' => 'index']) ?>">
+                            <i class="icomoon icon_question"></i>
+                            <span>à propos</span>
                         </a>
-					<?php endif; ?>
-                </li>
-                <li>
-                    <a href="<?= $this->url('home/action', ['controller' => 'about', 'action' => 'index']) ?>">
-                        <i class="icomoon icon_question"></i>
-                        <span>à propos</span>
-                    </a>
-                </li>
-                <li>
-					<?php if (isset($user)):
-						$userType = '';
-						if ($user->isFinancer()) $userType = 'Financeur';
-						elseif ($user->isCreator()) $userType = 'Créateur';
-						elseif ($user->isAdmin()) $userType = 'Administrateur';
-						?>
-                        <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'index']) ?>">
-                            <i class="icomoon icon_profile"></i>
-                            <span>mon compte (<?= $user->name ?> <?= $user->firstname ?> - <?= $userType ?>)</span>
-                        </a>
-					<?php else: ?>
-                        <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'signin']) ?>">
-                            <i class="icomoon icon_profile_add"></i>
-                            <span>créer un compte</span>
-                        </a>
-					<?php endif; ?>
-                </li>
-                <li>
-					<?php if (isset($user)): ?>
-                        <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'logout']) ?>">
-                            <i class="icomoon icon_logout"></i>
-                            <span>se déconnecter</span>
-                        </a>
-					<?php else: ?>
-                        <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'login']) ?>">
-                            <i class="icomoon icon_power"></i>
-                            <span>se connecter</span>
-                        </a>
-					<?php endif; ?>
-                </li>
-            </ul>
+                    </li>
+                    <li>
+						<?php if (isset($user)):
+							$userType = '';
+							if ($user->isFinancer()) $userType = 'Financeur';
+							elseif ($user->isCreator()) $userType = 'Créateur';
+							elseif ($user->isAdmin()) $userType = 'Administrateur';
+							?>
+                            <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'index']) ?>">
+                                <i class="icomoon icon_profile"></i>
+                                <span>mon compte (<?= $user->name ?> <?= $user->firstname ?> - <?= $userType ?>)</span>
+                            </a>
+						<?php else: ?>
+                            <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'signin']) ?>">
+                                <i class="icomoon icon_profile_add"></i>
+                                <span>créer un compte</span>
+                            </a>
+						<?php endif; ?>
+                    </li>
+                    <li>
+						<?php if (isset($user)): ?>
+                            <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'logout']) ?>">
+                                <i class="icomoon icon_logout"></i>
+                                <span>se déconnecter</span>
+                            </a>
+						<?php else: ?>
+                            <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'login']) ?>">
+                                <i class="icomoon icon_power"></i>
+                                <span>se connecter</span>
+                            </a>
+						<?php endif; ?>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>
-<div class="container-fluid" id="content">
+<div class="container-fluid max-width-lg" id="content">
 	<?= $this->content; ?>
 </div>
 <footer>
