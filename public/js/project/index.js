@@ -49,7 +49,9 @@ $(document).ready(function ()
                         return false;
                     }
 
-                    $projectsParent.append(response.data);
+                    var $content = $(response.data);
+                    $projectsParent.append($content);
+                    $content.find('[data-toggle="tooltip"]').tooltip();
 
                     if (response.end)
                     {
