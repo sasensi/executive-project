@@ -123,7 +123,7 @@ class ProjectController extends AbstractActionCustomController
 			'user'             => $user,
 			'paymentUrl'       => $paymentUrl,
 			'paymentIsAllowed' => $paymentIsAllowed,
-			'projectUser' => $projectUser,
+			'projectUser'      => $projectUser,
 		]);
 	}
 
@@ -633,6 +633,21 @@ class ProjectController extends AbstractActionCustomController
 		}
 
 		$excelTable->output();
+	}
+
+	public function financersAction()
+	{
+		/** @var UserTable $userTable */
+		$project   = $this->getProjectFromRouteId();
+		$userTable = $this->getTable('user');
+		$financers = $userTable->getAllForProject($project->id);
+
+		$this->addLessDependency('less/project_financers.less');
+
+		return new ViewModel([
+			'financers' => $financers,
+			'project'   => $project,
+		]);
 	}
 
 

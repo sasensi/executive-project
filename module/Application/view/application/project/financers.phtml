@@ -1,0 +1,17 @@
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Application\Model\User[]       $financers
+ * @var \Application\Model\Project      $project
+ */
+?>
+
+<h1>financeurs du projet</h1>
+<legend><?= $project->title ?></legend>
+<ul class="list-unstyled">
+	<?php foreach ($financers as $financer): ?>
+        <li>
+            <a class="avatar" href="<?= $this->url('home/action/id', ['controller' => 'user', 'action' => 'profile', 'id' => $financer->id]) ?>" style="background-image: url('<?= $this->basePathOrUrl($financer->getPhotoOrDefault()) ?>')" data-toggle="tooltip" data-placement="top" title="<?= $financer->firstname.' '.$financer->name ?>"></a>
+        </li>
+	<?php endforeach; ?>
+</ul>

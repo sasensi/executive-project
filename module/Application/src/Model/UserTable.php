@@ -2,8 +2,6 @@
 
 namespace Application\Model;
 
-use Zend\Db\Sql\Select;
-
 /**
  * Automatically generated class from db schema
  * Date: 30/06/2016
@@ -21,6 +19,7 @@ class UserTable extends AbstractTable
 			    INNER JOIN project ON transaction.project_id = project.id)
 			  ON user.id = transaction.user_id
 			WHERE project.id = ?
+			GROUP BY user.id
 		');
 		$result = $stmt->execute([$projectId]);
 

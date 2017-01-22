@@ -22,6 +22,8 @@ $remainingDaysCount = $project->getRemainingDaysCount();
 
 $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLine() : 'terminé';
 
+$financersCount = count($financers);
+
 ?>
 
 <!-- NAV -->
@@ -90,10 +92,12 @@ $timeLabel = $remainingDaysCount > 0 ? 'Jusqu\'au '.$project->getFormattedDeadLi
                     <span><?= $timeLabel ?></span>
                 </div>
                 <div class="col-xs-4 col-md-12">
-                    <div class="iconWrapper">
-                        <i class="icomoon icon_people"></i>
-                    </div>
-                    <span><?= count($financers) ?></span>
+                    <a href="<?= $this->url('home/action/id', ['controller' => 'project', 'action' => 'financers', 'id' => $project->id]) ?>">
+                        <div class="iconWrapper" title="<?= $financersCount ?> financeurs" data-toggle="tooltip">
+                            <i class="icomoon icon_people"></i>
+                        </div>
+                        <span><?= $financersCount ?></span>
+                    </a>
                 </div>
             </div>
             <div class="separator hidden-md hidden-lg"></div>
