@@ -32,6 +32,11 @@ class AbstractTable extends TableGateway
 
 	public function selectFromIds(array $ids)
 	{
+		if (empty($ids))
+		{
+			return [];
+		}
+
 		$where = new Where();
 		$where->in('id', $ids);
 
