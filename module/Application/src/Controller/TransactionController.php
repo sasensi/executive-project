@@ -94,9 +94,9 @@ class TransactionController extends AbstractActionCustomController
 			$data['lc']              = 'fr_FR';
 			$data['cbt']             = 'Revenir sur le site';
 			$data['rm']              = 2;
-			$data['notify_url']      = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'paypal_callback']);
-			$data['return']          = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'payment_success']);
-			$data['cancel_return']   = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'payment_cancel']);
+			$data['notify_url']      = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'paypal_callback'], ['force_canonical' => true]);
+			$data['return']          = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'payment_success'], ['force_canonical' => true]);
+			$data['cancel_return']   = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'payment_cancel'], ['force_canonical' => true]);
 			$data['projectId']       = $project->id;
 			$data['paymentMethodId'] = $paymentMethodId;
 
