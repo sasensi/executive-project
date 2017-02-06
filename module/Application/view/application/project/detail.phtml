@@ -62,9 +62,11 @@ $financersCount = count($financers);
                 </ul>
             </div>
         </div>
-        <div id="payButton" class="box-shadow" data-toggle="tooltip" data-placement="left auto" title="financer ce projet">
-            <i class="icomoon icon_payment"></i>
-        </div>
+		<?php if ($paymentIsAllowed): ?>
+            <div id="payButton" class="box-shadow" data-toggle="tooltip" data-placement="left auto" title="financer ce projet">
+                <i class="icomoon icon_payment"></i>
+            </div>
+		<?php endif; ?>
     </div>
 </div>
 

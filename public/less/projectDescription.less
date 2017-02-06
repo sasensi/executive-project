@@ -1,7 +1,10 @@
+@import "src/variables";
+
 .note-editor,
-#description {
+#content #description {
   h1 {
-    font-size     : 1.8em;
+    font-size     : @font-size-big;
+    font-weight   : @font-weight-semibold;
     margin-bottom : .5em;
     margin-top    : 1em;
   }
@@ -11,11 +14,12 @@
   }
 
   h2 {
-    font-size     : 1.4em;
+    font-size     : 1em;
     margin-bottom : .4em;
     margin-top    : .8em;
     text-align    : inherit;
-    font-style    : inherit;
+    font-weight   : @font-weight-semibold;
+    font-style    : italic;
   }
 }
 

@@ -7,7 +7,7 @@ body {
 }
 
 body {
-  font-size : 16px;
+  font-size : @font-size-default;
 }
 
 a, a:hover, a:focus {
@@ -15,6 +15,19 @@ a, a:hover, a:focus {
   outline         : none;
   text-decoration : none;
 }
+
+/* BOOTSTRAP THEME */
+.btn {
+  font-weight    : @font-weight-semibold;
+  text-transform : lowercase;
+}
+
+.control-label {
+  font-weight    : bold;
+  text-transform : lowercase;
+}
+
+/* APPLICATION */
 
 #content {
   margin-top : 53px;
@@ -72,7 +85,7 @@ div.container a.brand {
 
 nav {
   padding       : 10px 0;
-  font-weight   : 500;
+  font-weight   : @font-weight-semibold;
   height        : 53px;
   border-bottom : 3px solid @color-primary;
   position      : fixed;
@@ -102,7 +115,7 @@ nav li span {
   white-space    : nowrap;
   text-overflow  : ellipsis;
   overflow       : hidden;
-  vertical-align : middle;
+  vertical-align : top;
 }
 
 nav li a {
