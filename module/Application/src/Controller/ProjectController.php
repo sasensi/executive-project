@@ -50,8 +50,8 @@ class ProjectController extends AbstractActionCustomController
 
 		$projects = $this->getProjectTable()->getAllFromSearchFilters($searchFilter);
 
-		$this->addCssDependency('less/project_index.less');
-		$this->addJsDependency('js/project/index.js');
+		$this->addCssDependency('css/project/index.min.css');
+		$this->addJsDependency('js/project/index.min.js');
 
 		return new ViewModel([
 			'projects'     => $projects,
@@ -108,8 +108,8 @@ class ProjectController extends AbstractActionCustomController
 
 		$paymentIsAllowed = !$project->deadLineIsPassed() && (!isset($user) || $user->isFinancer());
 
-		$this->addJsDependency('js/project/detail.js');
-		$this->addLessDependency('less/project_detail.less');
+		$this->addJsDependency('js/project/detail.min.js');
+		$this->addCssDependency('css/project/detail.min.css');
 
 		return new ViewModel([
 			'project'          => $project,
@@ -642,7 +642,7 @@ class ProjectController extends AbstractActionCustomController
 		$userTable = $this->getTable('user');
 		$financers = $userTable->getAllForProject($project->id);
 
-		$this->addLessDependency('less/project_financers.less');
+		$this->addCssDependency('css/project/financers.min.css');
 
 		return new ViewModel([
 			'financers' => $financers,

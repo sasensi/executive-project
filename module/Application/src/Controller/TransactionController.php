@@ -6,6 +6,7 @@ use Application\Model\AbstractTable;
 use Application\Model\Paymentmethod;
 use Application\Model\Transaction;
 use Application\Model\TransactionTable;
+use Application\Model\UserTable;
 use Application\Util\Hashtable;
 use Application\Util\MultiArray;
 use Zend\View\Model\ViewModel;
@@ -120,5 +121,23 @@ class TransactionController extends AbstractActionCustomController
 	public function paymentCancelAction()
 	{
 		return new ViewModel();
+	}
+
+	public function analyseAction()
+	{
+		/** @var UserTable $userTable */
+		$userTable  = $this->getTable('user');
+		$result = $userTable->getFinancersSexsForPieChart('sex', 'count');
+
+		// convert data for display
+		$sexPieData = [];
+		foreach ($result as $item)
+		{
+			$sexPieData[] = ['name' => $item['sex'] === 'M' ? 'Hommes' : 'Femmes', 'y' => (int) $item['count']];
+		}
+
+		return new ViewModel([
+			'sexPieData' => $sexPieData
+		]);
 	}
 }

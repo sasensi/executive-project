@@ -4,8 +4,6 @@
  */
 
 use Application\Controller\UserController;
-use Application\Util\DevelopementMode;
-use Zend\View\Helper\Placeholder\Container\AbstractContainer;
 
 // try to get logged user
 $user = null;
@@ -45,67 +43,37 @@ catch (Exception $e)
     </script>
 	<?php
 
-	if (DevelopementMode::isActive())
-	{
-		// styles
-		echo $this->headLink()
-		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/projects.less')], AbstractContainer::PREPEND)
-		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/style.less')], AbstractContainer::PREPEND)
-		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/button.less')], AbstractContainer::PREPEND)
-		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/projectDescription.less')], AbstractContainer::PREPEND)
-		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/formValidation.less')], AbstractContainer::PREPEND)
-		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/basictable.custom.less')], AbstractContainer::PREPEND)
-		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('less/summernote.custom.less')], AbstractContainer::PREPEND)
-		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('fonts/icomoon/style.custom.less')], AbstractContainer::PREPEND)
-		          ->headLink(['rel' => 'stylesheet/less', 'type' => 'text/css', 'href' => $this->basePath('fonts/icomoon/style.less')], AbstractContainer::PREPEND)
-			//->prependStylesheet($this->basePath('css/style.css'))
-			//      ->prependStylesheet($this->basePath('fonts/icomoon/style.custom.css'))
-			//     ->prependStylesheet($this->basePath('fonts/icomoon/style.css'))
-			      ->prependStylesheet($this->basePath('vendor/bower_components/basictable/basictable.css'))
-			      ->prependStylesheet($this->basePath('vendor/bower_components/summernote/dist/summernote.css'))
-			      ->prependStylesheet($this->basePath('vendor/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css'))
-		          ->prependStylesheet($this->basePath('vendor/bootstrap-tokenfield/dist/css/tokenfield-typeahead.min.css'))
-		          ->prependStylesheet($this->basePath('vendor/intl-tel-input-7.1.0/build/css/intlTelInput.css'))
-		          ->prependStylesheet($this->basePath('vendor/bootstrap-fileinput-master/css/fileinput.min.css'))
-		          ->prependStylesheet($this->basePath('vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css'))
-		          //->prependStylesheet($this->basePath('vendor/bootstrap/dist/css/bootstrap-theme.min.css'))
-		          ->prependStylesheet($this->basePath('vendor/bower_components/fontawesome/css/font-awesome.min.css'))
-		          ->prependStylesheet($this->basePath('fonts/myriad_pro/stylesheet.custom.css'))
-		          ->prependStylesheet($this->basePath('vendor/bootstrap/dist/css/bootstrap.min.css'));
+	// styles
+	echo $this->headLink()
+	          ->prependStylesheet($this->basePath('css/main.min.css'))
+	          ->prependStylesheet($this->basePath('fonts/myriad_pro/myriad_pro.css'))
+	          ->prependStylesheet($this->basePath('vendor/bower_components/basictable/basictable.css'))
+	          ->prependStylesheet($this->basePath('vendor/bower_components/summernote/dist/summernote.css'))
+	          ->prependStylesheet($this->basePath('vendor/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css'))
+	          ->prependStylesheet($this->basePath('vendor/bootstrap-tokenfield/dist/css/tokenfield-typeahead.min.css'))
+	          ->prependStylesheet($this->basePath('vendor/intl-tel-input-7.1.0/build/css/intlTelInput.css'))
+	          ->prependStylesheet($this->basePath('vendor/bootstrap-fileinput-master/css/fileinput.min.css'))
+	          ->prependStylesheet($this->basePath('vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css'))
+	          ->prependStylesheet($this->basePath('vendor/bower_components/fontawesome/css/font-awesome.min.css'))
+	          ->prependStylesheet($this->basePath('vendor/bootstrap/dist/css/bootstrap.min.css'));
 
-		// scripts
-		echo $this->headScript()
-		          ->prependFile($this->basePath('js/main.js'))
-		          ->prependFile($this->basePath('js/form.js'))
-		          ->prependFile($this->basePath('js/jquery-validate.custom.js'))
-
-		          ->prependFile('//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js')
-
-		          ->prependFile($this->basePath('vendor/bower_components/basictable/jquery.basictable.min.js'))
-		          ->prependFile($this->basePath('vendor/bower_components/summernote/dist/lang/summernote-fr-FR.min.js'))
-		          ->prependFile($this->basePath('vendor/bower_components/summernote/dist/summernote.min.js'))
-		          ->prependFile($this->basePath('vendor/bower_components/jquery-validate/dist/jquery.validate.min.js'))
-		          ->prependFile($this->basePath('vendor/bower_components/moment/min/moment-with-locales.min.js'))
-		          ->prependFile($this->basePath('vendor/jquery-scrollspy-master/scrollspy.js'))
-		          ->prependFile($this->basePath('vendor/bootstrap-tokenfield/dist/bootstrap-tokenfield.min.js'))
-		          ->prependFile($this->basePath('vendor/bootstrap-tokenfield/docs-assets/js/typeahead.bundle.min.js'))
-		          ->prependFile($this->basePath('vendor/intl-tel-input-7.1.0/build/js/intlTelInput.min.js'))
-		          ->prependFile($this->basePath('vendor/bootstrap-fileinput-master/js/locales/fr.js'))
-		          ->prependFile($this->basePath('vendor/bootstrap-fileinput-master/js/fileinput.min.js'))
-		          ->prependFile($this->basePath('vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js'))
-		          ->prependFile($this->basePath('vendor/bootstrap/dist/js/bootstrap.min.js'))
-		          ->prependFile($this->basePath('vendor/jquery.min.js'));
-	}
-	else
-    {
-	    // styles
-	    echo $this->headLink()
-	              ->prependStylesheet($this->basePath('css/style.min.css'));
-
-	    // scripts
-	    echo $this->headScript()
-	              ->prependFile($this->basePath('js/main.min.js'));
-    }
+	// scripts
+	echo $this->headScript()
+	          ->prependFile($this->basePath('js/main.min.js'))
+	          ->prependFile($this->basePath('vendor/bower_components/basictable/jquery.basictable.min.js'))
+	          ->prependFile($this->basePath('vendor/bower_components/summernote/dist/lang/summernote-fr-FR.min.js'))
+	          ->prependFile($this->basePath('vendor/bower_components/summernote/dist/summernote.min.js'))
+	          ->prependFile($this->basePath('vendor/bower_components/jquery-validate/dist/jquery.validate.min.js'))
+	          ->prependFile($this->basePath('vendor/bower_components/moment/min/moment-with-locales.min.js'))
+	          ->prependFile($this->basePath('vendor/jquery-scrollspy-master/scrollspy.js'))
+	          ->prependFile($this->basePath('vendor/bootstrap-tokenfield/dist/bootstrap-tokenfield.min.js'))
+	          ->prependFile($this->basePath('vendor/bootstrap-tokenfield/docs-assets/js/typeahead.bundle.min.js'))
+	          ->prependFile($this->basePath('vendor/intl-tel-input-7.1.0/build/js/intlTelInput.min.js'))
+	          ->prependFile($this->basePath('vendor/bootstrap-fileinput-master/js/locales/fr.js'))
+	          ->prependFile($this->basePath('vendor/bootstrap-fileinput-master/js/fileinput.min.js'))
+	          ->prependFile($this->basePath('vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js'))
+	          ->prependFile($this->basePath('vendor/bootstrap/dist/js/bootstrap.min.js'))
+	          ->prependFile($this->basePath('vendor/jquery.min.js'));
 	?>
 </head>
 <body>

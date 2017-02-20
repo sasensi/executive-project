@@ -5,19 +5,17 @@
  * @var \Application\Model\User         $user
  */
 
-// debug
-//echo '$user =';
-//var_dump($user);
-
-
 ?>
 
 <h1>mon compte</h1>
 <div class="list-group">
 	<?php if ($user->isCreator()): ?>
         <a class="list-group-item" href="<?= $this->url('home/action', ['controller' => 'project', 'action' => 'user']) ?>">Mes projets</a>
-	<?php else: ?>
+	<?php elseif ($user->isFinancer()): ?>
         <a class="list-group-item" href="<?= $this->url('home', ['controller' => 'transaction']) ?>">Mes financements</a>
+    <?php else: ?>
+        <a class="list-group-item" href="<?= $this->url('home/action', ['controller' => 'project', 'action' => 'analyse']) ?>">Analyser les projets</a>
+        <a class="list-group-item" href="<?= $this->url('home/action', ['controller' => 'transaction', 'action' => 'analyse']) ?>">Analyser les financeurs</a>
 	<?php endif; ?>
     <a class="list-group-item" href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'update']) ?>">Modifier mes informations</a>
     <a class="list-group-item" href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'delete']) ?>">Supprimer mon compte</a>

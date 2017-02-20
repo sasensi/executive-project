@@ -262,7 +262,6 @@ class Module
 
 		$user = UserController::getLoggedUser();
 
-		// not creator
 		if (
 			($this->checkIsInBlacklist($creatorBlacklist, $controller, $action) && !$user->isCreator())
 			|| ($this->checkIsInBlacklist($financerBlacklist, $controller, $action) && !$user->isFinancer())

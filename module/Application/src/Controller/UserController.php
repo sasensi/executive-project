@@ -161,7 +161,7 @@ class UserController extends AbstractActionCustomController
 			}
 		}
 
-		$this->addJsDependency('js/user/signin.js');
+		$this->addJsDependency('js/user/signin.min.js');
 
 		// add client validation
 		$clientValidator = new ClientValidator($form);
@@ -226,7 +226,7 @@ class UserController extends AbstractActionCustomController
 			}
 		}
 
-		$this->addLessDependency('less/user_login.less');
+		$this->addCssDependency('css/user/login.min.css');
 
 		// add client validation
 		$clientValidator = new ClientValidator($form);
@@ -628,7 +628,7 @@ HTML;
 			$projects        = $this->getTable('project')->selectFromIds($transactionsIds);
 		}
 
-		$this->addLessDependency('less/user_profile.less');
+		$this->addCssDependency('css/user/profile.min.css');
 
 		return new ViewModel([
 			'user'     => $user,

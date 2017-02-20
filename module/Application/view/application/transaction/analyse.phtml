@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var array[]                         $sexPieData
+ */
+
+$this->headScript()
+     ->appendFile('https://code.highcharts.com/highcharts.js')
+     ->appendScript('var sexPieData = '.json_encode($sexPieData).';')
+     ->appendFile($this->basePath('js/transaction/analyse.min.js'));
+
+?>
+
+<h1>analyse des financeurs</h1>
+
+<div id="sexPie"></div>
+
+<div id="ageChart"></div>

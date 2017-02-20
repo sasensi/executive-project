@@ -10,10 +10,9 @@ class UserTable extends AbstractTable
 {
 	public function getAllForProject($projectId)
 	{
-
 		$stmt = $this->getAdapter()->getDriver()->createStatement();
 		$stmt->prepare('
-			SELECT user.*, transaction.id as transaction_id
+			SELECT user.*, transaction.id AS transaction_id
 			FROM user
 			  INNER JOIN (transaction
 			    INNER JOIN project ON transaction.project_id = project.id)
@@ -42,5 +41,17 @@ class UserTable extends AbstractTable
 		]);
 	}
 
+	public function getFinancersSexsforPieChart($sexKey, $countKey)
+	{
+		$stmt = $this->getAdapter()->getDriver()->createStatement();
+		$stmt->prepare('
+			SELECT sex AS ?, count(*) AS ?
+			FROM user
+			WHERE usertype_id = ?
+			GROUP BY sex
+			ORDER BY sex DESC
+		');
 
+		return $stmt->execute([$sexKey, $countKey, Usertype::FINANCER]);
+	}
 }
