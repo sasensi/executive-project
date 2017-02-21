@@ -305,25 +305,33 @@ class ProjectController extends AbstractActionCustomController
 	public function analyseAction()
 	{
 		/** @var TransactionTable $transactionTable */
+		$transactionTable = $this->getTable('transaction');
+		$projectTable     = $this->getProjectTable();
 
-		$projectsResult             = $this->getProjectTable()->getCreationCountByDay();
-		$transactionTable           = $this->getTable('transaction');
+		$projectsResult             = $projectTable->getCreationCountByDay();
 		$transactionsResult         = $transactionTable->getCountByDay();
 		$transactionAmountSumResult = $transactionTable->getTotalAmountByDay();
 
-		// replace value with cumulated sum
+			// replace value with cumulated sum
 		$transactionsAmountData = $this->convertDbDataForClientBarChart($transactionAmountSumResult);
-		$sum                    = 0;
+		$sum                        = 0;
 		foreach ($transactionsAmountData as &$item)
 		{
 			$sum += $item[1];
 			$item[1] = $sum;
 		}
 
+		$statusData = [
+			['name' => 'En cours', 'y' => $projectTable->getActiveCount()],
+			['name' => 'Terminé - objectif atteint', 'y' => $projectTable->getFinishedCompletedCount()],
+			['name' => 'Terminé - objectif non atteint', 'y' => $projectTable->getFinishedUncompletedCount()],
+		];
+
 		return new ViewModel([
 			'createdProjectsData'    => $this->convertDbDataForClientBarChart($projectsResult),
 			'transactionsData'       => $this->convertDbDataForClientBarChart($transactionsResult),
 			'transactionsAmountData' => $transactionsAmountData,
+			'statusData' => $statusData,
 		]);
 	}
 

@@ -81,7 +81,6 @@ $(document).ready(function ()
         colors : [ Colors.primary, Colors.secondary ]
     });
 
-    //transactionsAmountData
 
     //
     // TRANSACTIONS AMOUNT
@@ -114,5 +113,30 @@ $(document).ready(function ()
             }
         ],
         colors : [ Colors.secondary ]
+    });
+
+
+    //
+    // STATUS PIE
+    //
+
+    Highcharts.chart('status', {
+        chart      : {
+            type: 'pie'
+        },
+        title      : {
+            text: 'statut des projets'
+        },
+        tooltip    : {
+            headerFormat: '',
+            pointFormat : '{point.percentage:.1f}%'
+        },
+        series     : [
+            {
+                colorByPoint: true,
+                data        : statusData
+            }
+        ],
+        colors     : [ Colors.primary, Colors.secondary, '#333333' ]
     });
 });

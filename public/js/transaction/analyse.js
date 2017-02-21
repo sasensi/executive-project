@@ -25,33 +25,22 @@ $(document).ready(function ()
     // SEX PIE
     //
     Highcharts.chart('sexPie', {
-        chart      : {
-            plotBackgroundColor: null,
-            plotBorderWidth    : null,
-            plotShadow         : false,
-            type               : 'pie'
+        chart  : {
+            type: 'pie'
         },
-        title      : {
+        title  : {
             text: 'sexe des financeurs'
         },
-        tooltip    : {
-            headerFormat  : '<strong>{point.y}</strong><br/>',
-            pointFormat: '{point.percentage:.1f}%'
+        tooltip: {
+            headerFormat: '',
+            pointFormat : '{point.percentage:.1f}%'
         },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor          : 'pointer'
-            }
-        },
-        series     : [
+        series : [
             {
-                name        : 'Financeurs',
-                colorByPoint: true,
-                data        : sexPieData
+                data: sexPieData
             }
         ],
-        colors     : [ Colors.primary, Colors.secondary ]
+        colors : [ Colors.primary, Colors.secondary ]
     });
 
 

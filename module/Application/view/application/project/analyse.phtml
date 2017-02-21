@@ -5,6 +5,7 @@
  * @var array[]                         $createdProjectsData
  * @var array[]                         $transactionsData
  * @var array[]                         $transactionsAmountData
+ * @var array[]                         $statusData
  */
 
 $this->headScript()
@@ -15,6 +16,7 @@ $this->headScript()
         var createdProjectsData = '.json_encode($createdProjectsData).';
         var transactionsData = '.json_encode($transactionsData).';
         var transactionsAmountData = '.json_encode($transactionsAmountData).';
+        var statusData = '.json_encode($statusData).';
         ')
      ->appendFile($this->basePath('js/project/analyse.js'));
 
@@ -24,8 +26,9 @@ $this->headLink()->appendStylesheet($this->basePath('css/transaction/analyse.min
 
 <h1>analyse des projets</h1>
 
+<div id="status"></div>
+
 <div id="createdProjects"></div>
 
-<div id="transactions"></div>
-
 <div id="transactionsAmount"></div>
+

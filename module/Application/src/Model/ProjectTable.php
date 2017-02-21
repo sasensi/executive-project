@@ -141,4 +141,22 @@ class ProjectTable extends AbstractTable
 
 		return $stmt->execute();
 	}
+
+	public function getActiveCount()
+	{
+		$result = $this->prepareAndExecute('SELECT count(*) AS count FROM project WHERE deadline >= now()');
+		return $result->count() > 0 ? (int) $result->current()['count'] : 0;
+	}
+
+	public function getFinishedCompletedCount()
+	{
+		$result = $this->prepareAndExecute('SELECT count(*) AS count FROM project WHERE deadline < now() AND transactionsum >= goal');
+		return $result->count() > 0 ? (int) $result->current()['count'] : 0;
+	}
+
+	public function getFinishedUncompletedCount()
+	{
+		$result = $this->prepareAndExecute('SELECT count(*) AS count FROM project WHERE deadline < now() AND transactionsum < goal');
+		return $result->count() > 0 ? (int) $result->current()['count'] : 0;
+	}
 }
