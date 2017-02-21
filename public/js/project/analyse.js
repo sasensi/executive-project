@@ -12,7 +12,26 @@ $(document).ready(function ()
     // global options
     Highcharts.setOptions({
         lang   : {
-            decimalPoint: ','
+            contextButtonTitle    : "Menu contextuel",
+            decimalPoint          : ",",
+            downloadJPEG          : "Télécharger une image JPEG",
+            downloadPDF           : "Télécharger un document PDF",
+            downloadPNG           : "Télécharger une image PNG",
+            downloadSVG           : "Télécharger une image vectorielle SVG",
+            drillUpText           : "Revenir à {series.name}",
+            invalidDate           : 'Date invalide',
+            loading               : "Chargement...",
+            months                : [ "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" ],
+            noData                : "Aucune données",
+            numericSymbolMagnitude: 1000,
+            numericSymbols        : [ "k", "M", "G", "T", "P", "E" ],
+            printChart            : "Imprimer",
+            resetZoom             : "Réinitialiser le zoom",
+            resetZoomTitle        : "Réinitialiser le zoom niveau 1:1",
+            shortMonths           : [ "Jan", "Fév", "Mar", "Avr", "Mai", "Ju", "Juil", "Aoû", "Sep", "Oct", "Nov", "Déc" ],
+            shortWeekdays         : [ 'Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam' ],
+            thousandsSep          : " ",
+            weekdays              : [ "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi" ]
         },
         credits: {
             enabled: false
@@ -25,43 +44,40 @@ $(document).ready(function ()
     //
     Highcharts.chart('createdProjects', {
         chart  : {
-            type: 'spline'
+            type: 'column'
         },
         title  : {
-            text: 'Projets créés par jour'
+            text: 'nombre de projets et financements par jour'
+        },
+        tooltip: {
+            headerFormat: '<strong>{point.x:%d %B %Y}</strong>',
+            pointFormat : '<div><strong style="color:{series.color};">{point.y}</strong> {series.name}</div>',
+            shared      : true,
+            useHTML     : true
         },
         xAxis  : {
             type : 'datetime',
             title: {
                 text: 'Date'
-            }
+            },
+            max  : Date.now()
         },
         yAxis  : {
+            min  : 0,
             title: {
                 text: 'Nombre'
-            },
-            min  : 0
-        },
-        tooltip: {
-            headerFormat: '<b>{point.x:%d %B %Y}</b><br>',
-            pointFormat : '{point.y}'
-        },
-
-        plotOptions: {
-            spline: {
-                marker: {
-                    enabled: true
-                }
             }
         },
-
-        series: [
+        series : [
             {
-                data        : createdProjectsData,
-                showInLegend: false
+                name: 'projets',
+                data: createdProjectsData
+            },
+            {
+                name: 'financements',
+                data: transactionsData
             }
         ],
-
-        colors : [Colors.primary]
+        colors : [ Colors.primary, Colors.secondary ]
     });
 });

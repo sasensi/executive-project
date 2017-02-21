@@ -13,7 +13,7 @@ module.exports = function (grunt)
 
             global: {
                 files: {
-                    'public/js/main.min.js': [ 'public/js/*.js' ]
+                    'public/js/main.min.js': [ 'public/js/*.js', '!**/*.min.js' ]
                 }
             },
 

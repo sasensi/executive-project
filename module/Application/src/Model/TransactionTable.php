@@ -17,4 +17,16 @@ class TransactionTable extends AbstractTable
 	{
 		return $this->select(['project_id' => $projectId]);
 	}
+
+	public function getCountByDay()
+	{
+		$stmt = $this->getAdapter()->getDriver()->createStatement();
+		$stmt->prepare('
+			SELECT paymentdate AS date, count(*) AS count
+			FROM transaction
+			GROUP BY paymentdate
+		');
+
+		return $stmt->execute();
+	}
 }

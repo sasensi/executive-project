@@ -17,6 +17,7 @@ use Application\Model\ProjectviewTable;
 use Application\Model\Tag;
 use Application\Model\TagTable;
 use Application\Model\Transaction;
+use Application\Model\TransactionTable;
 use Application\Model\User;
 use Application\Model\UserTable;
 use Application\Model\VideoTable;
@@ -24,6 +25,8 @@ use Application\Util\DateFormatter;
 use Application\Util\ExcelTable;
 use Application\Util\Hashtable;
 use Application\Util\MultiArray;
+use Zend\Db\Adapter\Driver\ResultInterface;
+use Zend\Db\ResultSet\ResultSetInterface;
 use Zend\Db\Sql\Ddl\Column\Datetime;
 use Zend\View\Model\ViewModel;
 
@@ -301,18 +304,30 @@ class ProjectController extends AbstractActionCustomController
 
 	public function analyseAction()
 	{
-		$projectsResult = $this->getProjectTable()->getCreationDateCountForChart();
+		/** @var TransactionTable $transactionTable */
 
-		$createdProjectsData = [];
-		foreach ($projectsResult as $item)
-		{
-			$date                  = \DateTime::createFromFormat(DateFormatter::FORMAT_US, $item['date'], new \DateTimeZone('UTC'));
-			$createdProjectsData[] = [(int) gmmktime(0, 0, 0, $date->format('m'), $date->format('d'), $date->format('Y')) * 1000, (int) $item['count']];
-		}
+		$projectsResult     = $this->getProjectTable()->getCreationCountByDay();
+		$transactionTable   = $this->getTable('transaction');
+		$transactionsResult = $transactionTable->getCountByDay();
 
 		return new ViewModel([
-			'createdProjectsData' => $createdProjectsData
+			'createdProjectsData' => $this->convertDbDataForClientBarChart($projectsResult),
+			'transactionsData'    => $this->convertDbDataForClientBarChart($transactionsResult),
 		]);
+	}
+
+	/**
+	 * @param ResultInterface $data
+	 */
+	protected function convertDbDataForClientBarChart($data)
+	{
+		$result = [];
+		foreach ($data as $item)
+		{
+			$date     = \DateTime::createFromFormat(DateFormatter::FORMAT_US, $item['date'], new \DateTimeZone('UTC'));
+			$result[] = [(int) gmmktime(0, 0, 0, $date->format('m'), $date->format('d'), $date->format('Y')) * 1000, (int) $item['count']];
+		}
+		return $result;
 	}
 
 	public function userAction()

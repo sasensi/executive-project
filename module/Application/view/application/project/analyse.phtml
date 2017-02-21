@@ -2,7 +2,8 @@
 
 /**
  * @var \Zend\View\Renderer\PhpRenderer $this
- * @var array                           $createdProjectsData
+ * @var array[]                         $createdProjectsData
+ * @var array[]                         $transactionsData
  */
 
 $this->headScript()
@@ -11,6 +12,7 @@ $this->headScript()
      ->appendFile('https://code.highcharts.com/mapdata/countries/fr/fr-all-all.js')
      ->appendScript('
         var createdProjectsData = '.json_encode($createdProjectsData).';
+        var transactionsData = '.json_encode($transactionsData).';
         ')
      ->appendFile($this->basePath('js/project/analyse.js'));
 

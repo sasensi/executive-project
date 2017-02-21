@@ -130,7 +130,7 @@ class ProjectTable extends AbstractTable
 		return $resultSet;
 	}
 
-	public function getCreationDateCountForChart()
+	public function getCreationCountByDay()
 	{
 		$stmt = $this->getAdapter()->getDriver()->createStatement();
 		$stmt->prepare('
