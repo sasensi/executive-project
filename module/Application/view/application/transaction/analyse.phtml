@@ -3,12 +3,22 @@
 /**
  * @var \Zend\View\Renderer\PhpRenderer $this
  * @var array[]                         $sexPieData
+ * @var array[]                         $ageData
+ * @var array[]                         $departmentData
  */
 
 $this->headScript()
      ->appendFile('https://code.highcharts.com/highcharts.js')
-     ->appendScript('var sexPieData = '.json_encode($sexPieData).';')
+     ->appendFile('http://code.highcharts.com/maps/modules/map.js')
+     ->appendFile('https://code.highcharts.com/mapdata/countries/fr/fr-all-all.js')
+     ->appendScript('
+        var sexPieData = '.json_encode($sexPieData).';
+        var ageData = '.json_encode($ageData).';
+        var departmentData = '.json_encode($departmentData).';
+        ')
      ->appendFile($this->basePath('js/transaction/analyse.min.js'));
+
+$this->headLink()->appendStylesheet($this->basePath('css/transaction/analyse.min.css'));
 
 ?>
 
@@ -17,3 +27,5 @@ $this->headScript()
 <div id="sexPie"></div>
 
 <div id="ageChart"></div>
+
+<div id="departmentsMap"></div>

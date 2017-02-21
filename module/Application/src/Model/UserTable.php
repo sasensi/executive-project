@@ -54,4 +54,31 @@ class UserTable extends AbstractTable
 
 		return $stmt->execute([$sexKey, $countKey, Usertype::FINANCER]);
 	}
+
+	public function getFinancersAgesForBarChart()
+	{
+		$stmt = $this->getAdapter()->getDriver()->createStatement();
+		$stmt->prepare('
+			SELECT TIMESTAMPDIFF(YEAR, birthdate, CURDATE()) AS age, count(*) AS count
+			FROM user
+			WHERE usertype_id = 1
+			GROUP BY age
+			ORDER BY age ASC 
+		');
+
+		return $stmt->execute([Usertype::FINANCER]);
+	}
+
+	public function getFinancersDepartmentsForMap()
+	{
+		$stmt = $this->getAdapter()->getDriver()->createStatement();
+		$stmt->prepare('
+			SELECT SUBSTRING(postcode, 1, 2) AS code, count(*) AS count
+			FROM user
+			WHERE usertype_id = ?
+			GROUP BY code
+		');
+
+		return $stmt->execute([Usertype::FINANCER]);
+	}
 }

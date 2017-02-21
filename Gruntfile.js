@@ -81,16 +81,7 @@ module.exports = function (grunt)
         watch: {
             less: {
                 files: [ 'public/less/**/*.less' ],
-                tasks: [ 'less' ]
-            },
-
-            styles_global  : {
-                files: [ 'public/less/*.less' ],
-                tasks: [ 'cssmin:global' ]
-            },
-            styles_specific: {
-                files: [ 'public/less/*/**/*.less' ],
-                tasks: [ 'cssmin:specific' ]
+                tasks: [ 'less', 'cssmin' ]
             },
 
             scripts_global  : {
@@ -109,5 +100,5 @@ module.exports = function (grunt)
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
-    grunt.registerTask('build', ['less', 'cssmin', 'uglify', 'watch']);
+    grunt.registerTask('build', [ 'less', 'cssmin', 'uglify', 'watch' ]);
 };

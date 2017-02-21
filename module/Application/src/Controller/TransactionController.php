@@ -7,6 +7,7 @@ use Application\Model\Paymentmethod;
 use Application\Model\Transaction;
 use Application\Model\TransactionTable;
 use Application\Model\UserTable;
+use Application\Util\FrenchDepartment;
 use Application\Util\Hashtable;
 use Application\Util\MultiArray;
 use Zend\View\Model\ViewModel;
@@ -126,18 +127,34 @@ class TransactionController extends AbstractActionCustomController
 	public function analyseAction()
 	{
 		/** @var UserTable $userTable */
-		$userTable  = $this->getTable('user');
-		$result = $userTable->getFinancersSexsForPieChart('sex', 'count');
+		$userTable        = $this->getTable('user');
+		$sexResult        = $userTable->getFinancersSexsForPieChart('sex', 'count');
+		$ageResult        = $userTable->getFinancersAgesForBarChart();
+		$departmentResult = $userTable->getFinancersDepartmentsForMap();
 
 		// convert data for display
 		$sexPieData = [];
-		foreach ($result as $item)
+		foreach ($sexResult as $item)
 		{
 			$sexPieData[] = ['name' => $item['sex'] === 'M' ? 'Hommes' : 'Femmes', 'y' => (int) $item['count']];
 		}
 
+		$ageData = [];
+		foreach ($ageResult as $item)
+		{
+			$ageData[] = [(int) $item['age'], (int) $item['count']];
+		}
+
+		$departmentData = [];
+		foreach ($departmentResult as $item)
+		{
+			$departmentData[] = ['name' => FrenchDepartment::codeToName($item['code']), 'value' => (int) $item['count']];
+		}
+
 		return new ViewModel([
-			'sexPieData' => $sexPieData
+			'sexPieData'     => $sexPieData,
+			'ageData'        => $ageData,
+			'departmentData' => $departmentData,
 		]);
 	}
 }
