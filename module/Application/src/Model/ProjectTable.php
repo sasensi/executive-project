@@ -134,7 +134,7 @@ class ProjectTable extends AbstractTable
 	{
 		$stmt = $this->getAdapter()->getDriver()->createStatement();
 		$stmt->prepare('
-			SELECT creationdate date, count(*) AS count
+			SELECT creationdate date, count(*) AS value
 			FROM project
 			GROUP BY creationdate
 		');

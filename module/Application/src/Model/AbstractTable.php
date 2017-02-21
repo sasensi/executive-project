@@ -55,5 +55,10 @@ class AbstractTable extends TableGateway
 		return $this->getLastInsertValue();
 	}
 
-
+	protected function prepareAndExecute($sql, $parameters = null)
+	{
+		$stmt = $this->getAdapter()->getDriver()->createStatement();
+		$stmt->prepare($sql);
+		return $stmt->execute($parameters);
+	}
 }

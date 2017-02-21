@@ -80,4 +80,39 @@ $(document).ready(function ()
         ],
         colors : [ Colors.primary, Colors.secondary ]
     });
+
+    //transactionsAmountData
+
+    //
+    // TRANSACTIONS AMOUNT
+    //
+    Highcharts.chart('transactionsAmount', {
+        title  : {
+            text: 'cumul des financements'
+        },
+        xAxis  : {
+            type : 'datetime',
+            title: {
+                text: 'Date'
+            },
+            max  : Date.now()
+        },
+        yAxis  : {
+            min  : 0,
+            title: {
+                text: 'Montant'
+            }
+        },
+        tooltip: {
+            headerFormat: '<strong>{point.x:%d %B %Y}</strong><br/>',
+            pointFormat : '{point.y} €'
+        },
+        series : [
+            {
+                data        : transactionsAmountData,
+                showInLegend: false
+            }
+        ],
+        colors : [ Colors.secondary ]
+    });
 });

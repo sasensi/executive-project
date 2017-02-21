@@ -4,6 +4,7 @@
  * @var \Zend\View\Renderer\PhpRenderer $this
  * @var array[]                         $createdProjectsData
  * @var array[]                         $transactionsData
+ * @var array[]                         $transactionsAmountData
  */
 
 $this->headScript()
@@ -13,6 +14,7 @@ $this->headScript()
      ->appendScript('
         var createdProjectsData = '.json_encode($createdProjectsData).';
         var transactionsData = '.json_encode($transactionsData).';
+        var transactionsAmountData = '.json_encode($transactionsAmountData).';
         ')
      ->appendFile($this->basePath('js/project/analyse.js'));
 
@@ -25,3 +27,5 @@ $this->headLink()->appendStylesheet($this->basePath('css/transaction/analyse.min
 <div id="createdProjects"></div>
 
 <div id="transactions"></div>
+
+<div id="transactionsAmount"></div>

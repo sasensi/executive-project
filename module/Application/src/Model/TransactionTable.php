@@ -20,13 +20,19 @@ class TransactionTable extends AbstractTable
 
 	public function getCountByDay()
 	{
-		$stmt = $this->getAdapter()->getDriver()->createStatement();
-		$stmt->prepare('
-			SELECT paymentdate AS date, count(*) AS count
+		return $this->prepareAndExecute('
+			SELECT paymentdate AS date, count(*) AS value
 			FROM transaction
-			GROUP BY paymentdate
+			GROUP BY date
 		');
+	}
 
-		return $stmt->execute();
+	public function getTotalAmountByDay()
+	{
+		return $this->prepareAndExecute('
+			SELECT paymentdate as date, sum(amount) AS value
+			FROM transaction
+			GROUP BY date
+		');
 	}
 }

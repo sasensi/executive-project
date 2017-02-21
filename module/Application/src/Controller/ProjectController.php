@@ -306,13 +306,24 @@ class ProjectController extends AbstractActionCustomController
 	{
 		/** @var TransactionTable $transactionTable */
 
-		$projectsResult     = $this->getProjectTable()->getCreationCountByDay();
-		$transactionTable   = $this->getTable('transaction');
-		$transactionsResult = $transactionTable->getCountByDay();
+		$projectsResult             = $this->getProjectTable()->getCreationCountByDay();
+		$transactionTable           = $this->getTable('transaction');
+		$transactionsResult         = $transactionTable->getCountByDay();
+		$transactionAmountSumResult = $transactionTable->getTotalAmountByDay();
+
+		// replace value with cumulated sum
+		$transactionsAmountData = $this->convertDbDataForClientBarChart($transactionAmountSumResult);
+		$sum                    = 0;
+		foreach ($transactionsAmountData as &$item)
+		{
+			$sum += $item[1];
+			$item[1] = $sum;
+		}
 
 		return new ViewModel([
-			'createdProjectsData' => $this->convertDbDataForClientBarChart($projectsResult),
-			'transactionsData'    => $this->convertDbDataForClientBarChart($transactionsResult),
+			'createdProjectsData'    => $this->convertDbDataForClientBarChart($projectsResult),
+			'transactionsData'       => $this->convertDbDataForClientBarChart($transactionsResult),
+			'transactionsAmountData' => $transactionsAmountData,
 		]);
 	}
 
@@ -325,7 +336,7 @@ class ProjectController extends AbstractActionCustomController
 		foreach ($data as $item)
 		{
 			$date     = \DateTime::createFromFormat(DateFormatter::FORMAT_US, $item['date'], new \DateTimeZone('UTC'));
-			$result[] = [(int) gmmktime(0, 0, 0, $date->format('m'), $date->format('d'), $date->format('Y')) * 1000, (int) $item['count']];
+			$result[] = [(int) gmmktime(0, 0, 0, $date->format('m'), $date->format('d'), $date->format('Y')) * 1000, (int) $item['value']];
 		}
 		return $result;
 	}
