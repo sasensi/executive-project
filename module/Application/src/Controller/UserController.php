@@ -15,11 +15,17 @@ use Application\Model\User;
 use Application\Model\UserTable;
 use Application\Util\DateFormatter;
 use Application\Util\DisplayableException;
+use Application\Util\Email;
 use Application\Util\MultiArray;
 use Facebook\Facebook;
 use Facebook\GraphNodes\GraphUser;
 use Zend\Crypt\BlockCipher;
 use Zend\Crypt\Symmetric\Mcrypt;
+use Zend\Mail\Message;
+use Zend\Mail\Transport\Sendmail;
+use Zend\Mail\Transport\Smtp;
+use Zend\Mail\Transport\SmtpOptions;
+use Zend\Mime\Part;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 
@@ -347,6 +353,7 @@ class UserController extends AbstractActionCustomController
 				$postedEmail = $post[ ForgotPasswordForm::EMAIL ];
 
 				// check user exists for this email
+				/** @var User $user */
 				$user = $this->getTable('user')->selectFirst(['email' => $postedEmail]);
 				if ($user === false)
 				{
@@ -359,34 +366,22 @@ class UserController extends AbstractActionCustomController
 					// store code in db
 					$this->getTable('user')->update(['passwordrecovercode' => $cryptedCode], ['id' => $user->id]);
 					// build unique usage URL
-					$changePasswordUrl = $this->url()->fromRoute('home/action', ['controller' => 'user', 'action' => 'change_password']);
+					$changePasswordUrl = $this->url()->fromRoute('home/action', ['controller' => 'user', 'action' => 'change_password'], ['force_canonical' => true]);
 					$changePasswordUrl .= '?'.http_build_query(['code' => $cryptedCode]);
 
 					$emailBody = <<<HTML
-<p>Bonjour,</p>
+<p>Bonjour {$user->firstname},</p>
 <p>Vous avez fait une demande de récupération de mot de passe.</p>
 <p>Cliquez <a href="{$changePasswordUrl}">ici</a> pour changer votre mot de passe.</p>
 HTML;
 
-					//
-					// DEBUG
-					//
-					$viewModel = new ViewModel([
-						'emailBody' => $emailBody
-					]);
-					$viewModel->setTemplate('application/user/forgot_password_email_debug.phtml');
-					return $viewModel;
-					/*$message = new Message();
-					$message->addTo($postedEmail)
-					        ->addFrom('contact@iap.com')
-					        ->setSubject('Récupération de votre mot de passe')
-					        ->setBody($emailBody);
-
-					$transport = new Sendmail();
-					$transport->send($message);*/
+					Email::send($user->email, 'Récupération de votre mot de passe', $emailBody);
 				}
 			}
 		}
+
+		$clientValidator = new ClientValidator($form);
+		$this->addJs($clientValidator->render());
 
 		return new ViewModel([
 			'form' => $form
@@ -429,6 +424,9 @@ HTML;
 				return $this->redirectToRoute('user');
 			}
 		}
+
+		$clientValidator = new ClientValidator($form);
+		$this->addJs($clientValidator->render());
 
 		return new ViewModel([
 			'form' => $form
@@ -601,8 +599,8 @@ HTML;
 	public function profileAction()
 	{
 		/** @var User $user */
-		$id       = $this->params()->fromRoute('id');
-		$user     = $this->getTable('user')->selectFirstById($id);
+		$id   = $this->params()->fromRoute('id');
+		$user = $this->getTable('user')->selectFirstById($id);
 		if (!isset($user))
 		{
 			throw new DisplayableException("Cet utilisateur n'existe pas.");

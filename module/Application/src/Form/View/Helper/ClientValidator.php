@@ -13,6 +13,7 @@ use Zend\Form\Element;
 use Zend\Form\ElementInterface;
 use Zend\Form\Form;
 use Zend\Validator\Date;
+use Zend\Validator\StringLength;
 
 class ClientValidator
 {
@@ -62,6 +63,17 @@ class ClientValidator
 					elseif ($validator instanceof PhoneValidator)
 					{
 						$fieldRules['phone'] = true;
+					}
+					elseif ($validator instanceof StringLength)
+					{
+						if (!empty($validator->getMin()))
+						{
+							$fieldRules['minlength'] = $validator->getMin();
+						}
+						if (!empty($validator->getMax()))
+						{
+							$fieldRules['maxlength'] = $validator->getMax();
+						}
 					}
 				}
 				if (!empty($fieldRules))

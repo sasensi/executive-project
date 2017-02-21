@@ -12,18 +12,19 @@ namespace Application\Form;
 use Zend\Form\Element\Email;
 use Zend\Form\Element\Submit;
 use Zend\InputFilter\InputFilter;
+use Zend\Validator\EmailAddress;
 
 class ForgotPasswordForm extends AbstractForm
 {
 	const SUBMIT = 'submit';
-	const EMAIL = 'email';
+	const EMAIL  = 'email';
 
 	public function __construct()
 	{
 		parent::__construct('forgotPasswordForm');
 
 		$email = new Email(self::EMAIL);
-		$email->setLabel('Email');
+		$email->setLabel('Email*');
 		$this->add($email);
 
 		$submit = new Submit(self::SUBMIT);
@@ -37,8 +38,10 @@ class ForgotPasswordForm extends AbstractForm
 		//
 		// VALIDATION
 		//
-		$inputFilter = new InputFilter();
-		$this->setInputFilter($inputFilter);
+
+		$this->setInputFilter((new InputFilter())
+			->add($this->createInputFilter(self::EMAIL, true, [new EmailAddress()]))
+		);
 	}
 
 }
