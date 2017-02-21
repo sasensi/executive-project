@@ -252,6 +252,9 @@ class Module
 			'project' => [
 				'analyse',
 			],
+			'transaction' => [
+				'analyse',
+			],
 		];
 
 		// if not in global black list, user is allowed

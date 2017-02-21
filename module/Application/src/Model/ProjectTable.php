@@ -129,4 +129,16 @@ class ProjectTable extends AbstractTable
 
 		return $resultSet;
 	}
+
+	public function getCreationDateCountForChart()
+	{
+		$stmt = $this->getAdapter()->getDriver()->createStatement();
+		$stmt->prepare('
+			SELECT creationdate date, count(*) AS count
+			FROM project
+			GROUP BY creationdate
+		');
+
+		return $stmt->execute();
+	}
 }

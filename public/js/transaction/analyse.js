@@ -12,7 +12,6 @@ $(document).ready(function ()
     };
 
     // global options
-    // Highcharts.chart.credits.enabled = false;
     Highcharts.setOptions({
         lang   : {
             decimalPoint: ','

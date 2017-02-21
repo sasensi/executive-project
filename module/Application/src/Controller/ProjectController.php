@@ -301,7 +301,18 @@ class ProjectController extends AbstractActionCustomController
 
 	public function analyseAction()
 	{
-		return new ViewModel();
+		$projectsResult = $this->getProjectTable()->getCreationDateCountForChart();
+
+		$createdProjectsData = [];
+		foreach ($projectsResult as $item)
+		{
+			$date                  = \DateTime::createFromFormat(DateFormatter::FORMAT_US, $item['date'], new \DateTimeZone('UTC'));
+			$createdProjectsData[] = [(int) gmmktime(0, 0, 0, $date->format('m'), $date->format('d'), $date->format('Y')) * 1000, (int) $item['count']];
+		}
+
+		return new ViewModel([
+			'createdProjectsData' => $createdProjectsData
+		]);
 	}
 
 	public function userAction()
