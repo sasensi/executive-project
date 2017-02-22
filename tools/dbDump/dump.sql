@@ -21,7 +21,7 @@
 
 DROP TABLE IF EXISTS `category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;BBCUV-UVDRC-M8C5S-CHMX7-2M3A5
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) COLLATE utf8_esperanto_ci NOT NULL,
