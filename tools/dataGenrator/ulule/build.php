@@ -6,8 +6,7 @@
 
 require_once __DIR__.'/vendor/autoload.php';
 
-$iterations = 30;
-//$iterations = 1;
+$iterations = 40;
 
 echo '<pre>';
 

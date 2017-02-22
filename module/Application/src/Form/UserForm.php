@@ -124,6 +124,10 @@ class UserForm extends AbstractForm
 		$userTypesHt = [];
 		foreach ($userTypes as $userType)
 		{
+			if ($userType->id == Usertype::ADMIN)
+			{
+				continue;
+			}
 			$userTypesHt[ $userType->id ] = $userType->name;
 		}
 		$usertype_id = new Select(self::USERTYPE_ID);

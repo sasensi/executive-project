@@ -71,6 +71,7 @@ catch (Exception $e)
 	          ->prependFile($this->basePath('vendor/intl-tel-input-7.1.0/build/js/intlTelInput.min.js'))
 	          ->prependFile($this->basePath('vendor/bootstrap-fileinput-master/js/locales/fr.js'))
 	          ->prependFile($this->basePath('vendor/bootstrap-fileinput-master/js/fileinput.min.js'))
+	          ->prependFile($this->basePath('vendor/bootstrap-datepicker/locales/bootstrap-datepicker.fr.min.js'))
 	          ->prependFile($this->basePath('vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js'))
 	          ->prependFile($this->basePath('vendor/bootstrap/dist/js/bootstrap.min.js'))
 	          ->prependFile($this->basePath('vendor/jquery.min.js'));
@@ -113,7 +114,7 @@ catch (Exception $e)
 							?>
                             <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'index']) ?>">
                                 <i class="icomoon icon_profile"></i>
-                                <span>mon compte (<?= $user->name ?> <?= $user->firstname ?> - <?= $userType ?>)</span>
+                                <span>mon compte</span>
                             </a>
 						<?php else: ?>
                             <a href="<?= $this->url('home/action', ['controller' => 'user', 'action' => 'signin']) ?>">

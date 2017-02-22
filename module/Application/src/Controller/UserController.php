@@ -376,6 +376,8 @@ class UserController extends AbstractActionCustomController
 HTML;
 
 					Email::send($user->email, 'Récupération de votre mot de passe', $emailBody);
+
+					return (new ViewModel())->setTemplate('application/user/forgot_password_mail_sent.phtml');
 				}
 			}
 		}

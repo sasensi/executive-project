@@ -1,9 +1,10 @@
 <?php
 /**
- * @var \Zend\View\Renderer\PhpRenderer  $this
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Application\Model\Project      $project
  */
 ?>
 
 <h1>Succès du paiement</h1>
 
-
+<p>Votre paiement pour le projet "<?= $project->title ?>", a été effectué avec succès.</p>

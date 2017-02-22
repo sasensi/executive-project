@@ -81,10 +81,11 @@ class TransactionController extends AbstractActionCustomController
 			'paymentmethod_id' => $paymentMethodId,
 		]);
 
+		$project = $this->getTable('project')->selectFirstById($projectId);
+
 		// paypal case
 		if ($paymentMethodId === (string) Paymentmethod::PAYPAL)
 		{
-			$project = $this->getTable('project')->selectFirstById($projectId);
 
 			// build URL
 			$data                    = [];
@@ -92,12 +93,12 @@ class TransactionController extends AbstractActionCustomController
 			$data['business']        = 'asensi.samuel-seller@gmail.com';
 			$data['amount']          = $amount;
 			$data['currency_code']   = 'EUR';
-			$data['item_name']       = 'Financement du project '.$project->title;
+			$data['item_name']       = 'Financement du project '.utf8_decode($project->title);
 			$data['lc']              = 'fr_FR';
 			$data['cbt']             = 'Revenir sur le site';
 			$data['rm']              = 2;
 			$data['notify_url']      = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'paypal_callback'], ['force_canonical' => true]);
-			$data['return']          = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'payment_success'], ['force_canonical' => true]);
+			$data['return']          = $this->url()->fromRoute('home/action/id', ['controller' => 'transaction', 'action' => 'payment_success', 'id' => $project->id], ['force_canonical' => true]);
 			$data['cancel_return']   = $this->url()->fromRoute('home/action', ['controller' => 'transaction', 'action' => 'payment_cancel'], ['force_canonical' => true]);
 			$data['projectId']       = $project->id;
 			$data['paymentMethodId'] = $paymentMethodId;
@@ -106,7 +107,7 @@ class TransactionController extends AbstractActionCustomController
 			return $this->redirect()->toUrl($url);
 		}
 
-		return $this->redirectToRoute('transaction', 'payment_success');
+		return $this->redirectToRoute('transaction', 'payment_success', $project->id);
 	}
 
 	public function paypalCallbackAction()
@@ -116,7 +117,11 @@ class TransactionController extends AbstractActionCustomController
 
 	public function paymentSuccessAction()
 	{
-		return new ViewModel();
+		$project = $this->getTable('project')->selectFirstById($this->params()->fromRoute('id'));
+
+		return new ViewModel([
+			'project' => $project
+		]);
 	}
 
 	public function paymentCancelAction()

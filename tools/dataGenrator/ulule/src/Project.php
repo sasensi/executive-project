@@ -15,6 +15,19 @@ class Project
 	 */
 	protected $xpath;
 
+	/**
+	 * @var \DateTime
+	 */
+	protected $creationDate;
+	/**
+	 * @var \DateTime
+	 */
+	protected $deadline;
+	/**
+	 * @var \DateTime
+	 */
+	protected static $nowDate;
+
 	public function __construct($url)
 	{
 		$this->url = $url;
@@ -99,23 +112,43 @@ class Project
 		$goal = $this->xpath->query("//p[@class='progress']/b")[0]->nodeValue;
 		$goal = preg_replace('/[^0-9]/', '', $goal);
 
+		$remainingTime = $this->xpath->query("/html/body/div[@id='wrapper']/main/aside/section[@id='project-status']/h2/b/text()");
+		if ($remainingTime->length > 0)
+		{
+			$text = $remainingTime[0]->nodeValue;
+			preg_match('/([0-9]+) jour/', $text, $matches);
+			if (isset($matches[1]))
+			{
+				$remainingDays  = $matches[1];
+				$this->deadline = self::getNowDate()->add(new \DateInterval("P{$remainingDays}D"));
+			}
+		}
+
+		if (!isset($this->deadline))
+		{
+			$this->deadline = self::getNowDate()->sub(new \DateInterval('P'.rand(1, 30).'D'));
+		}
+
+		$this->creationDate = clone $this->deadline;
+		$this->creationDate->sub(new \DateInterval('P'.rand(30, 60).'D'));
+
 		// insert project
 		$statement = DbFactory::getDb()->prepare('
 			INSERT INTO project
 				(user_id, title, subtitle, description, mainpicture, creationdate, deadline, goal, promotionend, transactionsum)
 			VALUES
-				(:userId, :title, :subtitle, :description, :mainpicture, now() - INTERVAL :startDateDelay DAY, now() + INTERVAL :projectTime DAY, :goal, NULL, 0)
+				(:userId, :title, :subtitle, :description, :mainpicture, :creationDate, :deadLine, :goal, NULL, 0)
 		');
 
 		$statement->execute([
-			'userId'         => $userId,
-			'title'          => $title,
-			'subtitle'       => $subtitle,
-			'description'    => $this->getDescription(),
-			'mainpicture'    => $mainPicture,
-			'startDateDelay' => rand(30, 45),
-			'projectTime'    => rand(15, 45),
-			'goal'           => $goal,
+			'userId'       => $userId,
+			'title'        => $title,
+			'subtitle'     => $subtitle,
+			'description'  => $this->getDescription(),
+			'mainpicture'  => $mainPicture,
+			'creationDate' => $this->creationDate->format('Y-m-d'),
+			'deadLine'     => $this->deadline->format('Y-m-d'),
+			'goal'         => $goal,
 		]);
 
 		return DbFactory::getDb()->lastInsertId();
@@ -184,6 +217,8 @@ class Project
 		$targetAmount = $this->xpath->query("//div[@id='project-stats']/p/strong/span")[0]->nodeValue;
 		$targetAmount = (int) preg_replace('/[^0-9]/', '', $targetAmount);
 
+		$dateDelta = $this->creationDate->diff($this->deadline);
+
 		$currentAmount = 0;
 		while ($currentAmount < $targetAmount)
 		{
@@ -191,19 +226,22 @@ class Project
 				INSERT INTO transaction
 					(amount, user_id, project_id, paymentmethod_id, paymentdate)
 				VALUES
-					(:amount, :userId, :projectId, :paymentmethodId, now() - INTERVAL :paymentDelay DAY)
+					(:amount, :userId, :projectId, :paymentmethodId, :paymentDate)
 			');
 
 			$amount = rand(5, 500);
 			$delta  = $targetAmount - $currentAmount;
 			if ($amount > $delta) $amount = $delta;
 
+			$paymentDate = clone $this->creationDate;
+			$paymentDate->add(new \DateInterval('P'.rand(1, $dateDelta->days).'D'));
+
 			$statement->execute([
 				'amount'          => $amount,
 				'userId'          => rand(1, 10),
 				'projectId'       => $projectId,
 				'paymentmethodId' => rand(1, 3),
-				'paymentDelay'    => rand(1, 29),
+				'paymentDate'     => $paymentDate->format('Y-m-d'),
 			]);
 
 			$currentAmount += $amount;
@@ -212,27 +250,24 @@ class Project
 
 	protected function buildCategories($projectId)
 	{
-		$categoriesCount = rand(1, 3);
-		$categoriesIds   = [];
+		$categoriesIds = [];
 		for ($i = 1; $i <= 13; $i++)
 		{
 			$categoriesIds[] = $i;
 		}
 		shuffle($categoriesIds);
-		for ($i = 0; $i < $categoriesCount; $i++)
-		{
-			$statement = DbFactory::getDb()->prepare('
-				INSERT INTO projectcategory
-					(project_id, category_id)
-				VALUES
-					(:projectId, :categoryId)
-			');
 
-			$statement->execute([
-				'projectId'  => $projectId,
-				'categoryId' => $categoriesIds[ $i ],
-			]);
-		}
+		$statement = DbFactory::getDb()->prepare('
+			INSERT INTO projectcategory
+				(project_id, category_id)
+			VALUES
+				(:projectId, :categoryId)
+		');
+
+		$statement->execute([
+			'projectId'  => $projectId,
+			'categoryId' => $categoriesIds[0],
+		]);
 	}
 
 	protected function buildTags($projectId)
@@ -308,7 +343,7 @@ class Project
 				{
 					continue;
 				}
-				$content = preg_replace('/\s+/', ' ', $content);
+				$content = preg_replace('/ +/', ' ', $content);
 				if (strlen($subdescription) + strlen($content) > $subdescriptionMaxLength)
 				{
 					break;
@@ -323,5 +358,14 @@ class Project
 			$result .= "<h1>{$titleText}</h1>".$subdescription;
 		}
 		return $result;
+	}
+
+	protected static function getNowDate()
+	{
+		if (!isset(self::$nowDate))
+		{
+			self::$nowDate = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+		}
+		return clone self::$nowDate;
 	}
 }

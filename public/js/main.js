@@ -14,7 +14,7 @@ $(document).ready(function ()
         var formattedItems = [];
         for (var i = 0; i < items.length; i++)
         {
-            var item = items[i];
+            var item = items[ i ];
             formattedItems.push({value: item});
         }
 
@@ -37,7 +37,7 @@ $(document).ready(function ()
             var newTag       = e.attrs.value;
             for (var i = 0; i < existingTags.length; i++)
             {
-                var existingTag = existingTags[i];
+                var existingTag = existingTags[ i ];
                 // fix bug on init
                 if (existingTag === this)
                 {
@@ -66,7 +66,8 @@ $(document).ready(function ()
     // DATE PICKER
     //
     $('.datePicker').datepicker({
-        format: 'dd/mm/yyyy'
+        format  : 'dd/mm/yyyy',
+        language: 'fr'
     });
 
     //
