@@ -72,7 +72,7 @@ HTML;
     <div class="form-group row">
         <label class="col-sm-2 control-label" for="{$descriptionName}">Description</label>
         <div class="col-sm-10">
-            <textarea class="form-control" type="text" name="{$descriptionName}" id="{$descriptionName}" value="{$gift->description}"></textarea>
+            <textarea class="form-control" name="{$descriptionName}" id="{$descriptionName}">{$gift->description}</textarea>
         </div>
     </div>
     <span class="giftDeleteButton btn btn-danger">Supprimer</span>

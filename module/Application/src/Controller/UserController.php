@@ -21,11 +21,6 @@ use Facebook\Facebook;
 use Facebook\GraphNodes\GraphUser;
 use Zend\Crypt\BlockCipher;
 use Zend\Crypt\Symmetric\Mcrypt;
-use Zend\Mail\Message;
-use Zend\Mail\Transport\Sendmail;
-use Zend\Mail\Transport\Smtp;
-use Zend\Mail\Transport\SmtpOptions;
-use Zend\Mime\Part;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 

@@ -4,7 +4,6 @@ namespace Application\Controller;
 
 use Application\Model\AbstractTable;
 use Zend\Db\Adapter\Adapter;
-use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Helper\HeadLink;
 use Zend\View\Helper\HeadScript;
@@ -89,6 +88,8 @@ abstract class AbstractActionCustomController extends AbstractActionController
 	 * @param string $controller
 	 * @param string $action
 	 * @param string $id
+	 * @param array  $queryParams
+	 * @return \Zend\Http\Response
 	 */
 	protected function redirectToRoute($controller = null, $action = null, $id = null, array $queryParams = [])
 	{
@@ -102,12 +103,12 @@ abstract class AbstractActionCustomController extends AbstractActionController
 		}
 		if (isset($action))
 		{
-			$name = 'home/action';
+			$name                  = 'home/action';
 			$parametters['action'] = $action;
 		}
 		if (isset($id))
 		{
-			$name = 'home/action/id';
+			$name              = 'home/action/id';
 			$parametters['id'] = $id;
 		}
 		if (!empty($queryParams))

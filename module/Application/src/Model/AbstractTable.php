@@ -5,7 +5,7 @@ namespace Application\Model;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
-class AbstractTable extends TableGateway
+abstract class AbstractTable extends TableGateway
 {
 	const DATE_FORMAT = 'Y-m-d';
 

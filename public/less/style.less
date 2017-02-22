@@ -47,8 +47,7 @@ div.container a.brand {
 }
 
 .horizontalSeparator {
-  border-color  : @color-primary;
-  border-width  : 2px;
+  border        : 2px @color-primary;
   margin-top    : 10px;
   margin-bottom : 0;
   width         : 90%;
@@ -235,10 +234,8 @@ form > p:last-child {
 
 /* IMAGE */
 .bg-img {
-  background-position : center;
-  background-size     : cover;
-  background-repeat   : no-repeat;
-  background-color    : rgba(0, 0, 255, .05);
+  background-size : cover;
+  background      : rgba(0, 0, 255, .05) no-repeat center;
 }
 
 .img-16-9 {

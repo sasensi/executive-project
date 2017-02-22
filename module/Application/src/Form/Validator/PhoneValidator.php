@@ -7,6 +7,7 @@
 namespace Application\Form\Validator;
 
 
+use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
 use Zend\Validator\AbstractValidator;
 use Zend\Validator\Exception;
@@ -32,7 +33,7 @@ class PhoneValidator extends AbstractValidator
 			$phoneNumber = $phoneUtil->parse($value, 'FR');
 			return $phoneUtil->isValidNumber($phoneNumber);
 		}
-		catch (\libphonenumber\NumberParseException $e)
+		catch (NumberParseException $e)
 		{
 			return false;
 		}

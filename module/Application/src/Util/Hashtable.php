@@ -13,7 +13,8 @@ class Hashtable
 {
 	/**
 	 * @param object[] $objectsArray
-	 * @param string $idKey
+	 * @param string   $idKey
+	 * @return array
 	 */
 	public static function createFromObject($objectsArray, $idKey='id')
 	{

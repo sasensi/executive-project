@@ -19,6 +19,7 @@ class UrlForwarder
 	 *
 	 * @param string $url
 	 * @param string $targetUrl
+	 * @return string
 	 */
 	public static function storeTargetInUrl($url, $targetUrl)
 	{
@@ -30,6 +31,7 @@ class UrlForwarder
 
 	/**
 	 * @param string $url
+	 * @return mixed
 	 */
 	public static function getTargetFromUrl($url)
 	{

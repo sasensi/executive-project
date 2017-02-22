@@ -50,6 +50,7 @@ class GiftsFormElement extends Element implements InputProviderInterface
 
 	/**
 	 * @param \Application\Model\Gift[] $gifts
+	 * @return $this
 	 */
 	public function setGifts($gifts)
 	{

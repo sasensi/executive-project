@@ -15,9 +15,7 @@ use Zend\Form\Element\Select;
 use Zend\Form\Element\Submit;
 use Zend\Form\Element\Text;
 use Zend\Form\Element\Textarea;
-use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
-use Zend\Validator\AbstractValidator;
 use Zend\Validator\File\Extension;
 use Zend\Validator\File\Size;
 use Zend\Validator\LessThan;
@@ -41,10 +39,10 @@ class ProjectAddForm extends AbstractForm
 	/**
 	 * ProjectAddForm constructor.
 	 *
-	 * @param null       $name
 	 * @param Category[] $categories all avaiable categories
 	 * @param Tag[]      $tags
 	 * @param Gift[]     $gifts
+	 * @internal param null $name
 	 */
 	public function __construct($categories = [], $tags = [], $gifts = [])
 	{

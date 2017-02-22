@@ -49,6 +49,7 @@ class TagPicker extends Element implements InputProviderInterface
 
 	/**
 	 * @param array $items
+	 * @return $this
 	 */
 	public function setItems($items)
 	{

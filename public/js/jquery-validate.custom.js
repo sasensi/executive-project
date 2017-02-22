@@ -21,7 +21,7 @@ $(document).ready(function(){
 //
 // METHODS
 //
-$.validator.addMethod('phone', function validatePhone(fieldValue, element, ruleValue)
+$.validator.addMethod('phone', function validatePhone(fieldValue, element)
 {
     if (!this.optional(element))
     {
@@ -39,7 +39,7 @@ $.validator.addMethod('phone', function validatePhone(fieldValue, element, ruleV
     }
     return true;
 });
-$.validator.addMethod('dateFr', function validateRegex(fieldValue, element, ruleValue)
+$.validator.addMethod('dateFr', function validateRegex(fieldValue, element)
 {
     if (!this.optional(element))
     {

@@ -29,7 +29,6 @@ use Zend\Session\Config\SessionConfig;
 use Zend\Session\Container;
 use Zend\Session\SessionManager;
 use Zend\Validator\AbstractValidator;
-use Zend\View\HelperPluginManager;
 
 class Module
 {
@@ -71,6 +70,7 @@ class Module
 			return null;
 		});
 
+		// init session
 		$this->initSession([
 			'remember_me_seconds' => 180,
 			'use_cookies'         => true,
@@ -80,9 +80,7 @@ class Module
 		// set form validation translator
 		$translator = new \Zend\I18n\Translator\Translator();
 		$translator->setLocale('FR');
-		// configure the translator...
 		$validationTranslator = new Translator($translator);
-
 		AbstractValidator::setDefaultTranslator($validationTranslator);
 	}
 
@@ -175,7 +173,7 @@ class Module
 	{
 		return [
 			'invokables' => [
-				// override zend hepers
+				// overriden zend hepers
 				'formelement'                 => FormElement::class,
 				'formrow'                     => FormRow::class,
 				// custom application helpers
@@ -193,6 +191,7 @@ class Module
 
 	/**
 	 * @param RouteMatch $routeMatch
+	 * @throws \Application\Exception\WrongUserTypeException
 	 */
 	protected function checkUserHasRouteAccess($routeMatch)
 	{

@@ -5,9 +5,7 @@ namespace Application\Form;
 use Application\Form\Element\TagPicker;
 use Application\Model\Tag;
 use Zend\Form\Element\File;
-use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
-use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\Validator\File\Extension;
 use Zend\Validator\File\Size;
 

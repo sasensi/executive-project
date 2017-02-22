@@ -28,6 +28,7 @@ abstract class AbstractForm extends Form
 	 * @param string              $fieldName
 	 * @param bool                $required
 	 * @param AbstractValidator[] $validators
+	 * @return \Zend\InputFilter\Input
 	 */
 	protected function createInputFilter($fieldName, $required = true, array $validators = [])
 	{

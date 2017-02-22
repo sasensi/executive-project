@@ -26,8 +26,6 @@ use Application\Util\ExcelTable;
 use Application\Util\Hashtable;
 use Application\Util\MultiArray;
 use Zend\Db\Adapter\Driver\ResultInterface;
-use Zend\Db\ResultSet\ResultSetInterface;
-use Zend\Db\Sql\Ddl\Column\Datetime;
 use Zend\View\Model\ViewModel;
 
 class ProjectController extends AbstractActionCustomController
@@ -337,6 +335,7 @@ class ProjectController extends AbstractActionCustomController
 
 	/**
 	 * @param ResultInterface $data
+	 * @return array
 	 */
 	protected function convertDbDataForClientBarChart($data)
 	{

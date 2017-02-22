@@ -7,7 +7,9 @@
 namespace Application\Form\View\Helper;
 
 
-class Date extends \Zend\Form\View\Helper\FormText
+use Zend\Form\View\Helper\FormText;
+
+class Date extends FormText
 {
 	public function createAttributesString(array $attributes)
 	{
