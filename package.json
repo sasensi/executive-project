@@ -1,7 +1,7 @@
 {
   "name": "iap",
   "version": "1.0.0",
-  "devDependencies": {
+  "dependencies": {
     "grunt": "^1.0.1",
     "grunt-contrib-cssmin": "^1.0.2",
     "grunt-contrib-less": "^1.4.0",

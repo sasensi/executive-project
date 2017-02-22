@@ -1,5 +1,5 @@
 {
-  "name": "IAP",
+  "name": "iap",
   "dependencies": {
 	"jquery-validate": "^1",
 	"moment": "latest",
